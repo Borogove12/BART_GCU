@@ -57,7 +57,7 @@ bool bDip_SW_Flag = FALSE;
 void SystemClock_Config(void);
 void MX_GPIO_Init(void);
 void MX_FMC_Init(void);
-void MX_SPI1_Init(void);
+void MX_SPI1_Init(void);      ///test123123132123
 void MX_TIM7_Init(void);
 word dip_sw(void);
 extern void CMD_Test(byte bVal);
