@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Drivers/STM32H7xx_HAL_Driver/Inc",
+                "/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
+                "/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+                "/Drivers/CMSIS/Include",
+                "/Core/Inc"
+            ],
+            "forcedInclude": [
+                "/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "windows-gcc-arm"
+        }
+    ],
+    "version": 4
+}
