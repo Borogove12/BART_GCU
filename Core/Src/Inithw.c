@@ -224,6 +224,9 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOF, UPS_CHK_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_SET);
 
+
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, Serial_flash_CS_Pin|BUZZ_CON_Pin, GPIO_PIN_RESET);
 
@@ -242,6 +245,13 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : nUPS_LINE_FAIL_Pin nUPS_LOW_BAT_Pin nUPS_CONN_Pin */
   GPIO_InitStruct.Pin = nUPS_LINE_FAIL_Pin|nUPS_LOW_BAT_Pin|nUPS_CONN_Pin;

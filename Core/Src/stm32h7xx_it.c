@@ -221,7 +221,6 @@ void SysTick_Handler(void)
 
 			while(IUart_RecvByte_check(COM1,&ch))
 		    	  CMD_Test(ch);
-
 			bDip_SW_Init = TRUE;
 		}
 
