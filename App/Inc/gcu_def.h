@@ -528,8 +528,8 @@ enum {
 	MASK_EMG_SIGNAL     = 0x08,				//origin
 	//MASK_EMG_SIGNAL     = 0x88,		//1000 1000 //pms_test
 	MASK_SWING_MODE     = 0xC0, // 1100 0000
-	MASK_SELF_TEST      = 0x16, // 0001 0110	//origin
-	//MASK_SELF_TEST      = 0x7E, // 0111 1110	//pms_mail0818
+	//MASK_SELF_TEST      = 0x16, // 0001 0110	//origin
+	MASK_SELF_TEST      = 0x76, // 0111 0110	//modify pms
 	MASK_JIG_TEST	    = 0x01
 };
 

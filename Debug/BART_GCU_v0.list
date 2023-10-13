@@ -3540,7 +3540,7 @@ void CheckEmergencySignal(void)
  800194e:	b2db      	uxtb	r3, r3
  8001950:	43db      	mvns	r3, r3
  8001952:	b2db      	uxtb	r3, r3
- 8001954:	f023 0377 	bic.w	r3, r3, #119	; 0x77
+ 8001954:	f003 0308 	and.w	r3, r3, #8
  8001958:	71fb      	strb	r3, [r7, #7]
     T_GCU_OP_MODE newMode;
     int nTriggerCount;
@@ -23757,7 +23757,7 @@ void SysTick_Handler(void)
 		if (gbDipSW & MASK_SELF_TEST)					//Self 테스트 모드		temp
  8009c5c:	4b24      	ldr	r3, [pc, #144]	; (8009cf0 <SysTick_Handler+0xb0>)
  8009c5e:	781b      	ldrb	r3, [r3, #0]
- 8009c60:	f003 037e 	and.w	r3, r3, #126	; 0x7e
+ 8009c60:	f003 0376 	and.w	r3, r3, #118	; 0x76
  8009c64:	2b00      	cmp	r3, #0
  8009c66:	d004      	beq.n	8009c72 <SysTick_Handler+0x32>
 		{
