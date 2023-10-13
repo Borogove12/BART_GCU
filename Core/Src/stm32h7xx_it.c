@@ -234,24 +234,11 @@ void SysTick_Handler(void)
 
 		if (!(gbDipSW & MASK_JIG_TEST) && (gbDipSW == gbOldDipSW))
 		{
-			if (gbDipSW & MASK_SWING_MODE)
-			{
-				gbBarrierType = BARRIER_SWING;
-
-				if (gbDipSW & 0x40)							//Primary BarrierRunning
-					gfMainBarrierRunning = TRUE;
-				else
-					gfMainBarrierRunning = FALSE;
-
-				if (gbDipSW & 0x80)							//Primary BarrierRunning
-					gfSubBarrierRunning = TRUE;
-				else
-					gfSubBarrierRunning = FALSE;
-
-				PassageProcessForSwing();		//   테스트 항목과는 별개로 이건 동작 하는 것 같음 WMATA deafult 딥스위치 상태 확인 필요 pms
-			}
+			gfMainBarrierRunning = TRUE;
+			gfSubBarrierRunning = TRUE;
+      gbBarrierType = BARRIER_SWING;
+      PassageProcessForSwing();
 		}
-
 	}
   /* USER CODE END SysTick_IRQn 1 */
 }
