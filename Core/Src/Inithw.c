@@ -222,7 +222,7 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOF, UPS_CHK_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_RESET);
 
 
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);

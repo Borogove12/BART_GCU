@@ -55,6 +55,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 BART_GCU_v0.list \
 
+OBJCOPY_BIN += \
+BART_GCU_v0.bin \
+
 
 # All Target
 all: main-build
@@ -78,12 +81,17 @@ BART_GCU_v0.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+BART_GCU_v0.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "BART_GCU_v0.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) BART_GCU_v0.elf BART_GCU_v0.list BART_GCU_v0.map default.size.stdout
+	-$(RM) BART_GCU_v0.bin BART_GCU_v0.elf BART_GCU_v0.list BART_GCU_v0.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
