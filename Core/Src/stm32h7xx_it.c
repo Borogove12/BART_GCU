@@ -235,9 +235,10 @@ void SysTick_Handler(void)
 		{
 			gfMainBarrierRunning = TRUE;
 			gfSubBarrierRunning = TRUE;
-      gbBarrierType = BARRIER_SWING;
-      PassageProcessForSwing();
+			gbBarrierType = BARRIER_SWING;
+			PassageProcessForSwing();
 		}
+		gbOldDipSW = gbDipSW;
 	}
   /* USER CODE END SysTick_IRQn 1 */
 }

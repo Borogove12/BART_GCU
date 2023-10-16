@@ -122,12 +122,12 @@ void Brr_OpenBarrier(BYTE direction)
 	#if BART_IO
 		switch(direction)
 		{
-		case BARRIER_OPEN_FOR_EN:
+		case BARRIER_OPEN_FOR_EX:
 			Brr_ControlBarrier_P(ENTRY_OPEN);
 			Brr_ControlBarrier_S(ENTRY_OPEN);
 			break;
 
-		case BARRIER_OPEN_FOR_EX:
+		case BARRIER_OPEN_FOR_EN:
 			Brr_ControlBarrier_P(EXIT_OPEN);
 			Brr_ControlBarrier_S(EXIT_OPEN);
 			break;

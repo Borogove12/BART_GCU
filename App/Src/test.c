@@ -848,7 +848,7 @@ void CMD_Test(byte bVal)
     switch(bVal)
     {
 	    	case 0x31:			//1
-
+	    		Brr_Inq_Status();
 	    		break;
 	    	case 0x32:			//2
 	    		TEST_LAMP_P_Cmd();

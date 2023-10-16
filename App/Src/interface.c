@@ -669,7 +669,7 @@ void CMDWriteRegister(void)
 	if (pbControl[8] == 0x33)
 	{
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET);
 	}
 	else
 	{
