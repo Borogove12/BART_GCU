@@ -100,6 +100,11 @@ void Error_Handler(void);
 #define EMG_Pin GPIO_PIN_9
 #define EMG_GPIO_Port GPIOB
 
+
+#define WDT_CONTROL_Pin GPIO_PIN_8
+#define WDT_CONTROL_GPIO_Port GPIOA
+
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

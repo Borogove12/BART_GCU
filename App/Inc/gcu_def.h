@@ -554,7 +554,7 @@ enum {
 	MASK_BUZZER_CMD	= 3
 };
 
-#define IsEMGSignalOn()		HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_15) // 1- On, 0 - Off
+#define IsEMGSignalOn()		HAL_GPIO_ReadPin(EMG_GPIO_Port,EMG_Pin) // 1- On, 0 - Off
 
 /* Bit structure - Switch 1 --------------------------------------------------*/
 typedef struct {

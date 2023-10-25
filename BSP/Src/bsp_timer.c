@@ -116,23 +116,12 @@ uint8_t bsp_GetLcdBrightness(void)
 **  시스템 전체의 Epoch 변수와 1ms 단위 Tick을 관리, fnd Out 함수 호출
 **
 */
-unsigned int scount = 0;
-
-int test_input_data = 0;
-int test_temp_add = 0;
-uint8_t bDataOld[5] = {0,};
-uint8_t bDataOld1[5] = {0,};
-
 //BYTE gbDipSW, gbOldDipSW;
 
 void bsp_TimCallback(void)
 {
     static UINT16   sCount = 0;
     static UINT32   s5Count = 0;
-	char cha;
-	char cTest;
-	char cVal_dsw5,cVal_dsw10 = 0;
-	char cVal_UPS_FAIL,cVal_UPS_BAT,cVal_UPS_CONN = 0;
 
     g_TickCount++;
     g_exTimeTick++;
@@ -159,24 +148,10 @@ void bsp_TimCallback(void)
     {
         sCount = 0;
         g_Epoch++;
-        scount++;
         //printf("%s\n",strmtime());
       //  printf("in [0x%x]\n",inb(exiAddr[0]));
-      printf("in [0x%x][0x%x][0x%x][0x%x][0x%x]\n",inb(exiAddr[0]),inb(exiAddr[1]),inb(exiAddr[2]),inb(exiAddr[3]),inb(exiAddr[4]));
+       printf("in [0x%x][0x%x][0x%x][0x%x][0x%x]\n",inb(exiAddr[0]),inb(exiAddr[1]),inb(exiAddr[2]),inb(exiAddr[3]),inb(exiAddr[4]));
 
-       // cVal_EMG   = HAL_GPIO_ReadPin(EMG_GPIO_Port,EMG_Pin);					BART_Emgergency pin
-        //cVal_sen9  = HAL_GPIO_ReadPin(PSEN_GPIO_Port,pSEN9_Pin);
-        //cVal_sen19 = HAL_GPIO_ReadPin(PSEN_GPIO_Port,pSEN19_Pin);
-      // cVal_dsw5  = HAL_GPIO_ReadPin(DipSW5_GPIO_Port,DipSW5_Pin);
-        //cVal_dsw10 = HAL_GPIO_ReadPin(D_SW_GPIO_Port,D_SW10_Pin);
-
-       // cVal_UPS_FAIL = HAL_GPIO_ReadPin(nUPS_LINE_FAIL_GPIO_Port,nUPS_LINE_FAIL_Pin);
-      //  cVal_UPS_BAT  = HAL_GPIO_ReadPin(nUPS_LOW_BAT_GPIO_Port,nUPS_LOW_BAT_Pin);
-       // cVal_UPS_CONN = HAL_GPIO_ReadPin(nUPS_CONN_GPIO_Port,nUPS_CONN_Pin);
-
-       // printf("EMG in [0x%x]sen9[0x%x]sen19[0x%x]dsw5[0x%x]dsw10[0x%x] \n",cVal_EMG,cVal_sen9,cVal_sen19,cVal_dsw5,cVal_dsw10);
-       // printf("UPS in FAIL[0x%x]BAT[0x%x]CONN[0x%x] \n",cVal_UPS_FAIL,cVal_UPS_BAT,cVal_UPS_CONN);
-        //outb(WRITE00_ADR, 0x9C);
        HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED1_Pin);
        HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED2_Pin);
        HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED3_Pin);

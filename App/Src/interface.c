@@ -668,15 +668,15 @@ void CMDWriteRegister(void)
 
 	if (pbControl[8] == 0x33)
 	{
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET);			//Default Low / Active High	 New Board
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);			//Default High / Active Low	 New Board
 	}
 	else
 	{
-		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x00: 0x01;
+		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x01: 0x00;						//CHK	High / Low
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, dwUPSCHKValue);
 
-		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;
+		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;					//SHDN	Low / High
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
 
 	}

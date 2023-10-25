@@ -215,7 +215,7 @@ void SysTick_Handler(void)
 			TestAging();
 			bDip_SW_Init = TRUE;
 		}
-
+		/*
 		if (gbDipSW & MASK_JIG_TEST)					//cmd 테스트 모드 temp
 		{
 
@@ -230,6 +230,7 @@ void SysTick_Handler(void)
 			Write_IO_init();
 		}
 
+		*/
 
 		if (!(gbDipSW & MASK_JIG_TEST) && (gbDipSW == gbOldDipSW))
 		{
