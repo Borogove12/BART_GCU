@@ -10,10 +10,6 @@ I2C_HandleTypeDef hi2c4;
 RTC_HandleTypeDef hrtc;
 
 SPI_HandleTypeDef hspi1;
-SPI_HandleTypeDef hspi2;
-SPI_HandleTypeDef hspi3;
-SPI_HandleTypeDef hspi4;
-SPI_HandleTypeDef hspi5;
 
 TIM_HandleTypeDef htim7;
 
@@ -223,7 +219,7 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOF, UPS_CHK_Pin, GPIO_PIN_RESET);									//Default Low / Active High	 New Board
 
-  HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_SET);										//Default High / Active Low	 New Board
+  HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_RESET);									//Default High / Active Low	 New Board
 
   HAL_GPIO_WritePin(WDT_CONTROL_GPIO_Port, WDT_CONTROL_Pin, GPIO_PIN_RESET);				//WDT Enalbe   New Board
 
@@ -707,16 +703,16 @@ void MX_SPI1_Init(void)
     hspi1.Instance = SPI1;
     hspi1.Init.Mode = SPI_MODE_MASTER;
     hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-    hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+    hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
     hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
     hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
     hspi1.Init.NSS = SPI_NSS_SOFT;
-    hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+    hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
     hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
     hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
     hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
     hspi1.Init.CRCPolynomial = 0x0;
-    hspi1.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+    hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
     hspi1.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
     hspi1.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
     hspi1.Init.TxCRCInitializationPattern = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
@@ -728,14 +724,19 @@ void MX_SPI1_Init(void)
     hspi1.Init.IOSwap = SPI_IO_SWAP_DISABLE;
     if (HAL_SPI_Init(&hspi1) != HAL_OK)
     {
-        Error_Handler();
+      Error_Handler();
     }
+    /* USER CODE BEGIN SPI1_Init 2 */
+
+    /* USER CODE END SPI1_Init 2 */
 #endif
 
+    /* USER CODE END SPI1_Init 1 */
+    /* SPI1 parameter configuration*/
     hspi1.Instance = SPI1;
     hspi1.Init.Mode = SPI_MODE_MASTER;
     hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-    hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
+    hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
     hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
     hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
     hspi1.Init.NSS = SPI_NSS_SOFT;
@@ -810,8 +811,7 @@ void InitPeripherals(void)
     MX_USART3_UART_Init();
     MX_UART4_Init();
     MX_UART5_Init();
-
-    MX_SPI1_Init();
+   // MX_SPI1_Init();
     //MX_CRC_Init();
 
 }

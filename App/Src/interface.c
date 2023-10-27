@@ -361,11 +361,14 @@ void CMDSetBaudRate(void)
 * Return:   void
 * comments: 
 *******************************************************************************/
+BYTE ResetCMD = 0;
 
 void CMDResetGCU(void)
 {
 	MakeResponse(NULL, 0);
 	SendResponse();
+	ResetCMD = 0x1;
+	flash_write(0x4000, (byte *)&ResetCMD, 1);
 	HAL_Delay(50);
 	NVIC_SystemReset();
 	//delay_ms(50);
@@ -669,14 +672,14 @@ void CMDWriteRegister(void)
 	if (pbControl[8] == 0x33)
 	{
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET);			//Default Low / Active High	 New Board
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);			//Default High / Active Low	 New Board
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET);		//Default High / Active Low	 New Board
 	}
 	else
 	{
 		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x01: 0x00;						//CHK	High / Low
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, dwUPSCHKValue);
 
-		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;					//SHDN	Low / High
+		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x01: 0x00;					//SHDN	Low / High
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
 
 	}
@@ -784,7 +787,10 @@ void CMDSetUPSCommand(void)
 	//PRINTL("%x", GCUCommand.d.mbOptionData[0]);
 	//PRINTL("\n");
 
-	ControlUPS(bUPSCommand);
+	if(bUPSCommand == UPS_CMD_PWR_DN)			//check temp code	20231026
+		ReverseControlUPS(bUPSCommand);			//chk active low
+	else
+		ControlUPS(bUPSCommand);				//chk active high
 }
 
 /*******************************************************************************

@@ -409,7 +409,11 @@ enum
 	UPS_CMD_PWR_DN 	= 0x02,
 };
 //#define ControlUPS(x) 		(WR_UPSCMD = (x))	changed from ms
-#define ControlUPS(x) 		HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x040),GPIO_PIN_SET)
+#define ControlUPS(x) 			HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x040),GPIO_PIN_SET)
+#define ReverseControlUPS(x) 	HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x040),GPIO_PIN_RESET)
+
+#define ControlUPSCHKOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port,UPS_CHK_Pin,GPIO_PIN_SET)
+#define ControlUPSCHKOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port,UPS_CHK_Pin,GPIO_PIN_RESET)
 
 #define ControlUPSOn(x) 		HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x080),GPIO_PIN_SET)
 #define ControlUPSOff(x) 		HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x080),GPIO_PIN_RESET)

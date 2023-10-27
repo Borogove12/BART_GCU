@@ -1244,7 +1244,7 @@ void PassageProcessForSwing()				//used barrierTest from WMATA		pms
 	UpdateSensorData();
 
 	// SCADA data
-	gGCUStatus.bSCADA = (*(BYTE*)READ03_ADR);
+	gGCUStatus.bSCADA = (*(BYTE*)READ03_ADR);				//차후 보고 pms
 
 	if ((RD_SWITCH & MASK_PUSH) == MASK_PUSH)			//RD_SWITCH1 -> RD_SWITCH
 	{

@@ -67,7 +67,7 @@
 /* main.c */
 extern 	const char Version[];
 extern 	const char MyName[];
-extern 	const char PgmDate[];
+extern 	const char GCUDate[];
 extern 	CONFIG 	config;
 word dip_sw(void);
 void CMD_Test(byte bVal); 			//temp
@@ -133,6 +133,49 @@ time_t 	SystemInitTime(void);
 #define outb(addr, data)	((*(volatile unsigned char *)(addr)) = (byte)(data))
 
 bool     uartInit(void);
+
+extern SPI_HandleTypeDef hspi1;
+
+#define SF_HANDLE       &hspi1
+#define SF_ENABLE_PORT  GPIOA
+#define SF_ENABLE_PIN   GPIO_PIN_4
+#define putch_SF    SF_RW_Byte_FLASH
+
+#define SF_ENABLE()     HAL_GPIO_WritePin(Serial_flash_CS_GPIO_Port, Serial_flash_CS_Pin, GPIO_PIN_RESET);
+#define SF_DISABLE()    HAL_GPIO_WritePin(Serial_flash_CS_GPIO_Port, Serial_flash_CS_Pin, GPIO_PIN_SET);
+
+#define AT25DF_DUMMY_BYTE           0x00
+// Read Copmmands
+#define AT25DF_READ_ARRAY_FAST      0x1B    // up to 100Mhz
+#define AT25DF_READ_ARRAY           0x0B    // up to 85Mhz
+#define AT25DF_READ_ARRAY_LOW       0x03    // up to 40Mhz
+#define AT25DF_READ_ARRAY_DUAL      0x3B    // up to 65Mhz
+// Program and Erase Commands
+#define AT25DF_BLOCK_ERASE_4KB      0x20    // Block Erase (4KB)
+#define AT25DF_BLOCK_ERASE_32KB     0x52    // Block Erase (32KB)
+#define AT25DF_BLOCK_ERASE_64KB     0xD8    // Block Erase (64KB)
+#define AT25DF_CHIP_ERASE           0x60    // Chip Erase (or 0xC7)
+#define AT25DF_BYTE_PROGRAM         0x02    // Byte/Page Program (1 to 256 bytes : 0x1 ~ 0x100)
+#define AT25DF_BYTE_PROGRAM_DUAL    0xA2    // Dual-Input Byte/Page Program (1 to 256 Bytes)
+#define AT25DF_PROGRAM_SUSPEND      0xB0    // Program/Erase Suspend
+#define AT25DF_PROGRAM_RESUME       0xD0    // Program/Erase Resume
+// Protection Commands
+#define AT25DF_WRITE_ENABLE         0x06    // Write Enable
+#define AT25DF_WRITE_DISABLE        0x04    // Write Disable
+#define AT25DF_PROTECT_SECTOR       0x36    // Protect Sector
+#define AT25DF_UNPROTECT_SECTOR     0x39    // Unprotect Sector
+#define AT25DF_RDSPR                0x3C    // Read Sector Protection Registers
+// Security Commands - Not Used
+
+// Status Register Commands
+#define AT25DF_READ_STATUS          0x05    // Read Status Register
+#define AT25DF_WRITE_STATUS_BYTE1   0x01    // Write Status Register Byte 1
+#define AT25DF_WRITE_STATUS_BYTE2   0x31    // Write Status Register Byte 2
+// Miscellaneous Commands
+#define AT25DF_RESET                0xF0    // Reset
+#define AT25DF_READ_INFO            0x9F    // Read Manufacturer and Device ID
+#define AT25DF_DEEP_POWER_DOWN      0xB9    // Deep Power-Down
+#define AT25DF_RESUME_POWER_DOWN    0xAB    // Resume from Deep Power-Down
 
 
 void Buzzer(UINT8 nBuzzerControl);

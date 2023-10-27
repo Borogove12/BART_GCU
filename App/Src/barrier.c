@@ -79,12 +79,20 @@ void Brr_ResetBarrier(bool isMain)				//not used pms
  *******************************************************************************/
 void Brr_SetEmergency(bool isActive)
 {
-
+	static	clock_t	ms;
 	BYTE cmd = isActive ? CMD_SET_EMEREGENCY : CMD_RESET_EMEREGENCY;
 	#if BART_IO
 	Brr_SetEmergency_P(isActive);
 	Brr_SetEmergency_S(isActive);
-	printf("[%d] command  \n", cmd);
+	//printf("[%d] command\n",cmd);
+
+	// 100ms 단위로 printf 발생   //너무 많은 접근으로 버퍼가 터지는 문제가 있음 해당 구문이 문제 없다면 다른 printf에도 적용 예정
+	if (!mstimeout(&ms, 100))
+		return;
+
+   // printf("[%d] command \n", cmd);
+	//printf("[%d]CMD\n", cmd);		//1ms로 printf 발생 시 문제가 안생기는 length의 길이
+    printf("%s [%d] command \n",strmtime(), cmd); //시간 체크
 	#else
 
 		MakeRequest(cmd, NULL, 0);
@@ -106,7 +114,7 @@ void Brr_SetSerialComm(bool isEnabled)			//	not used pms
 	BYTE cmd = isEnabled ? CMD_SET_SERIAL_COMM : CMD_RESET_SERIAL_COMM;
 	MakeRequest(cmd, NULL, 0);
 	//PRINTL("[%d] command", cmd);
-	printf("[%d] command  \n", cmd);
+	printf("[%d]CMD\n", cmd);
 }
 
 /*******************************************************************************
@@ -133,7 +141,7 @@ void Brr_OpenBarrier(BYTE direction)
 			break;
 		}
 
-		printf("[%d] command  \n", CMD_OPEN_BARRIER);
+		printf("[%d]CMD\n", CMD_OPEN_BARRIER);
 	#else
 		MakeRequest(CMD_OPEN_BARRIER, &direction, 1);
 		PRINTL("[%d] command", CMD_OPEN_BARRIER);
@@ -153,7 +161,7 @@ void Brr_CloseBarrier(void)
 	#if BART_IO
 		Brr_ControlBarrier_P(CLOSE);
 		Brr_ControlBarrier_S(CLOSE);
-		printf("[%d] command  \n", CMD_CLOSE_BARRIER);
+		printf("[%d]CMD\n", CMD_CLOSE_BARRIER);
 	#else
 		// if (isSentClose == FALSE)
 		{
@@ -177,7 +185,7 @@ void Brr_StopBarrier(bool isStop)
 	#if BART_IO
 		Brr_SetBreak_P(isStop);
 		Brr_SetBreak_S(isStop);
-		printf("[%d] command  \n", cmd);
+		printf("[%d]CMD\n", cmd);
 	#else
 		BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
 		MakeRequest(cmd, NULL, 0);
@@ -197,7 +205,7 @@ void Brr_Inq_Status(void)			// 현재 barrier 에서는 IO input 만 받는 상�
 {									// FAULT, ANOMALY, BRAKED, GSTATUS를 input으로 받는데 FAULT ANOMALY의 신호가 정확하
 	MakeRequest(CMD_GET_STATUS_MAIN, NULL, 0);
 	// PRINTL("[%d] command", CMD_GET_STATUS_MAIN);
-	printf("[%d] command  \n", CMD_GET_STATUS_MAIN);
+	printf("[%d]CMD\n", CMD_GET_STATUS_MAIN);
 }
 
 /*******************************************************************************

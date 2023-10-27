@@ -50,9 +50,9 @@ bool bDip_SW_Flag = FALSE;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+const char GCUDate[] __attribute__((section (".gcu_date"))) = {0x20, 0x23, 0x10, 0x26, 0x12, 0x00, 0x00};
 /* USER CODE END PV */
-
+time_t  SysInitTime;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_GPIO_Init(void);
@@ -68,6 +68,8 @@ dword extAddr[4] = {
 		WRITE00_ADR,WRITE01_ADR,WRITE02_ADR,WRITE03_ADR};
 
 uint8_t bData[5] = {0,};
+
+CONFIG  config;    //configuration
 
 /* USER CODE END PFP */
 
@@ -110,6 +112,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   bsp_InitTimer();
   bsp_InitUart();
+  bsp_InitSpiFlash();
   bDip_SW_Flag = TRUE;
   GCUInitialize();
   SerialProcess();
@@ -145,6 +148,7 @@ word dip_sw(void)
 * Return:   void
 * comments:
 *******************************************************************************/
+
 void GCUInitialize(void)
 {
 	//EcuEmergencyOff();
@@ -154,7 +158,7 @@ void GCUInitialize(void)
 	//ControlStatusLED_Ex(DIR_RED);
 	ControlIndicatorLight_En(LAMP_OFF);
 	ControlIndicatorLight_Ex(LAMP_OFF);
-	//ControlUPS(UPS_CMD_CHK);
+	ControlUPS(UPS_CMD_CHK);
 	//ok ms
 	SetDefaultOpMode();
 	SetDefaultParameter();
