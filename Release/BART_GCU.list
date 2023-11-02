@@ -1,5 +1,5 @@
 
-BART_GCU_v0.elf:     file format elf32-littlearm
+BART_GCU.elf:     file format elf32-littlearm
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
