@@ -149,8 +149,8 @@ void bsp_TimCallback(void)
         sCount = 0;
         g_Epoch++;
         //printf("%s\n",strmtime());
-      //  printf("in [0x%x]\n",inb(exiAddr[0]));
-       printf("in [0x%x][0x%x][0x%x][0x%x][0x%x]\n",inb(exiAddr[0]),inb(exiAddr[1]),inb(exiAddr[2]),inb(exiAddr[3]),inb(exiAddr[4]));
+        //printf("in [0x%x]\n",inb(exiAddr[0]));
+        //printf("in [0x%x][0x%x][0x%x][0x%x][0x%x]\n",inb(exiAddr[0]),inb(exiAddr[1]),inb(exiAddr[2]),inb(exiAddr[3]),inb(exiAddr[4]));
 
        HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED1_Pin);
        HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED2_Pin);
