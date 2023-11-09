@@ -93,21 +93,27 @@ bool CheckCritical()
 {
 	if (gisEntryPassenger)
 	{
-		if (gGCUParameter.bCriticalZone == ALARM_ZONE1)
+		if (psenNewSwing.dirEntry.passage)
 			return TRUE;
-		else if (gGCUParameter.bCriticalZone == ALARM_ZONE2 && psenNewSwing.dirEntry.passage)
-			return TRUE;
-		else if (gGCUParameter.bCriticalZone == ALARM_ZONE3 && (psenNewSwing.b.s03))
-			return TRUE;
+
+		// if (gGCUParameter.bCriticalZone == ALARM_ZONE1)
+		// 	return TRUE;
+		// else if (gGCUParameter.bCriticalZone == ALARM_ZONE2 && psenNewSwing.dirEntry.passage)
+		// 	return TRUE;
+		// else if (gGCUParameter.bCriticalZone == ALARM_ZONE3 && (psenNewSwing.b.s03))
+		// 	return TRUE;
 	}
 	else if (gisExitPassenger)
 	{
-		if (gGCUParameter.bCriticalZone == ALARM_ZONE1)
+		if (psenNewSwing.dirExit.passage)
 			return TRUE;
-		else if (gGCUParameter.bCriticalZone == ALARM_ZONE2 && psenNewSwing.dirExit.passage)
-			return TRUE;
-		else if (gGCUParameter.bCriticalZone == ALARM_ZONE3 && (psenNewSwing.b.s11))
-			return TRUE;
+
+		// if (gGCUParameter.bCriticalZone == ALARM_ZONE1)
+		// 	return TRUE;
+		// else if (gGCUParameter.bCriticalZone == ALARM_ZONE2 && psenNewSwing.dirExit.passage)
+		// 	return TRUE;
+		// else if (gGCUParameter.bCriticalZone == ALARM_ZONE3 && (psenNewSwing.b.s11))
+		// 	return TRUE;
 	}
 
 	return FALSE;
@@ -311,8 +317,10 @@ void CheckBarrierOperation(void)
 							{
 								nBarrierErrorCnt++;
 
-								if (nBarrierErrorCnt == 20) // After 4 sec, Barrier fault is generated.
+								if (nBarrierErrorCnt == 25) // After 5 sec, Barrier fault is generated.
 								{
+									printf(" [CheckBarrier] Barrier not closed!!");
+
 									if (gGCUStatus.ModuleAlarm.b.nFDoor1 == FDOOR_ALARM_NONE && gGCUStatus.ModuleAlarm.b.nFDoor2 == FDOOR_ALARM_NONE)
 									{
 										ControlBuzzer(BUZZER_NO_MAIN, BUZZER_ON, gGCUParameter.bAlarmTimeout);
