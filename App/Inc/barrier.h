@@ -84,17 +84,17 @@ typedef union
 
     struct
     {
-        int dStrength       : 4; // 0-10
-        int sStrength       : 4;   
-        int speed           : 4; // 0-15
-        int config          : 1; // 0: not set, 1: set (If not set, barrier will set automatically after initializing)
-        int barrierType     : 1; // 0: Right, 1: Left  (From free side)
-        int emgSignal       : 1; // 0: Low, 1: High
-        int aisleType       : 1; // 0: Standard, 1: ADA
-        int closeDelay1     : 8; // 0-100 (Closing shutdown delay)
-        int closeDelay2     : 8; // 0-100 (Closing braking delay)
-        int openDelay1      : 8; // 0-100 (Opening shutdown delay)
-        int openDelay2      : 8; // 0-100 (Opening braking delay)
+        UINT32 dStrength       : 4; // 0-10
+        UINT32 sStrength       : 4;   
+        UINT32 speed           : 4; // 0-15
+        UINT32 config          : 1; // 0: not set, 1: set (If not set, barrier will set automatically after initializing)
+        UINT32 barrierType     : 1; // 0: Right, 1: Left  (From free side)
+        UINT32 emgSignal       : 1; // 0: Low, 1: High
+        UINT32 aisleType       : 1; // 0: Standard, 1: ADA
+        UINT32 closeDelay1     : 8; // 0-100 (Closing shutdown delay)
+        UINT32 closeDelay2     : 8; // 0-100 (Closing braking delay)
+        UINT32 openDelay1      : 8; // 0-100 (Opening shutdown delay)
+        UINT32 openDelay2      : 8; // 0-100 (Opening braking delay)
     } param;
 
 } B_BARRIER_PARAMETER;
@@ -116,22 +116,22 @@ typedef union
 
     struct
     {
-        int senserStatus : 8; // Not used
-        int reserved1 : 8;    // Not used
-        int reserved2 : 8;    // Not used
-        int cmdMode : 1;      // 0: Close cmd, 1: Open cmd
-        int brakeMode : 1;    // 0: Normal, 1: Brake
-        int direction : 1;    // 0: Outbound, 1: Inbound
-        int commSource : 1;   // 0: IO, 1: Serial
-        int reserved3 : 2;    // Not used
-        int emergency : 2;    // 0: Normal, 1: SW emg, 2: HW emg, 3: Both
-        int posStatus : 3;    // 2: Close pos, 5: Open pos
-        int actStatus : 1;    // 0: Stop, 1: Move
-        int faultStatus : 1;  // 0: Normal, 1: Fault
-        int errStatus : 1;    // 0: Normal, 1: Error
-        int brakeStatus : 1;  // 0: Normal, 1: Brake
-        int emgStatus : 1;    // 0: Normal, 1: EMG
-        int errorCode : 8;
+        UINT32 senserStatus : 8; // Not used
+        UINT32 reserved1 : 8;    // Not used
+        UINT32 reserved2 : 8;    // Not used
+        UINT32 cmdMode : 1;      // 0: Close cmd, 1: Open cmd
+        UINT32 brakeMode : 1;    // 0: Normal, 1: Brake
+        UINT32 direction : 1;    // 0: Outbound, 1: Inbound
+        UINT32 commSource : 1;   // 0: IO, 1: Serial
+        UINT32 reserved3 : 2;    // Not used
+        UINT32 emergency : 2;    // 0: Normal, 1: SW emg, 2: HW emg, 3: Both
+        UINT32 posStatus : 3;    // 2: Close pos, 5: Open pos
+        UINT32 actStatus : 1;    // 0: Stop, 1: Move
+        UINT32 faultStatus : 1;  // 0: Normal, 1: Fault
+        UINT32 errStatus : 1;    // 0: Normal, 1: Error
+        UINT32 brakeStatus : 1;  // 0: Normal, 1: Brake
+        UINT32 emgStatus : 1;    // 0: Normal, 1: EMG
+        UINT32 errorCode : 8;
     } param;
 
 } B_BARRIER_STATUS;

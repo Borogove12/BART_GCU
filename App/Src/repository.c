@@ -14,13 +14,7 @@
 BYTE gbPrevDir = 0;
 
 // Barrier command
-BYTE gbBarrierCmd = BARRIER_CLOSE_S;
-
-// Barrier force open
-BYTE gbDoorForecedOpen = OFF;
-
-// Barrier type
-BYTE gbBarrierType = BARRIER_SWING;
+BYTE gbBarrierCmd = BARRIER_CLOSE;
 
 bool gisEntryPassenger = FALSE; // passenger detection state at enter of Entry
 bool gisExitPassenger = FALSE;  // passenger detection state at enter of Exit
@@ -47,8 +41,5 @@ T_GCU_OP_MODE gNewGCUOpMode;
 
 B_BARRIER_STATUS gMainBarrierStatus;
 B_BARRIER_STATUS gSubBarrierStatus;
-
-bool gfMainBarrierRunning;
-bool gfSubBarrierRunning;
 
 /******* COPYRIGHT �� 2022 STraffic Co., Ltd.  ********END OF FILE****/

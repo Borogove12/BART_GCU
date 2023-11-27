@@ -158,12 +158,12 @@ void GCUInitialize(void)
 	//ControlStatusLED_Ex(DIR_RED);
 	ControlIndicatorLight_En(LAMP_OFF);
 	ControlIndicatorLight_Ex(LAMP_OFF);
-	ControlUPS(UPS_CMD_CHK);
-	//ok ms
+	ControlUPS_CheckOn();
+	ControlUPS_ShutDownOff();
 	SetDefaultOpMode();
 	SetDefaultParameter();
 	SetDefaultStatus();
-	Brr_SetSerialComm(TRUE);
+	// Brr_SetSerialComm(TRUE);
 	Brr_OpenBarrier(BARRIER_OPEN_FOR_EX);
 }
 

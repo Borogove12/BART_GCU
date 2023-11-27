@@ -59,7 +59,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define UPS_CHK_Pin GPIO_PIN_6
 #define UPS_SHDN_Pin GPIO_PIN_7
-#define nUPS_LINE_FAIL_Pin GPIO_PIN_8
+#define nUPS_PWR_FAIL_Pin GPIO_PIN_8
 #define nUPS_LOW_BAT_Pin GPIO_PIN_9
 #define nUPS_CONN_Pin GPIO_PIN_10
 #define nUPS_GPIO_Port GPIOF

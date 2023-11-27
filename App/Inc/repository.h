@@ -17,8 +17,6 @@
 /* Global variables ----------------------------------------------------------*/
 extern BYTE gbPrevDir;
 extern BYTE gbBarrierCmd;
-extern BYTE gbDoorForecedOpen;
-extern BYTE gbBarrierType;
 
 extern bool gisEntryPassenger;
 extern bool gisExitPassenger;
@@ -45,9 +43,6 @@ extern T_GCU_OP_MODE gNewGCUOpMode;
 
 extern B_BARRIER_STATUS gMainBarrierStatus;
 extern B_BARRIER_STATUS gSubBarrierStatus;
-
-extern bool gfMainBarrierRunning;
-extern bool gfSubBarrierRunning;
 
 #endif  // __REPOSITORY_H_
 /******* COPYRIGHT �� 2022 STraffic Co., Ltd.  ********END OF FILE****/

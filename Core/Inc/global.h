@@ -118,12 +118,6 @@ time_t 	SystemInitTime(void);
 #define WRITE01_ADR      	(WRITE_BASE+0x100U)	// n24V_LED_CS
 #define WRITE02_ADR      	(WRITE_BASE+0x200U) // nBRR_OUT_CS
 #define WRITE03_ADR      	(WRITE_BASE+0x400U)	// nSCADA_OUT_CS
-/*
-#define wnP_LED_CS_ADDR       (*(volatile unsigned char *)(WRITE_BASE + (0x00U))) // out
-#define wnS_LED_CS_ADDR       (*(volatile unsigned char *)(WRITE_BASE + (0x100U))) // out
-#define wnBRR_OUT_CS_ADDR     (*(volatile unsigned char *)(WRITE_BASE + (0x200U))) // out
-#define wnSCADA_OUT_CS_ADDR   (*(volatile unsigned char *)(WRITE_BASE + (0x400U))) // out
-*/
 
 #define wnP_LED_CS_ADDR       (*(__IO uint8_t *)(WRITE_BASE + (0x00U))) // out
 #define wnS_LED_CS_ADDR       (*(__IO uint8_t *)(WRITE_BASE + (0x100U))) // out

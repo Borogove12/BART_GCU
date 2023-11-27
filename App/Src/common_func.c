@@ -32,20 +32,17 @@ BYTE gbOverehadCMD_EN_Cur = DIR_OFF;
 BYTE gbOverehadCMD_EX = DIR_OFF;
 BYTE gbOverehadCMD_EX_Cur = DIR_OFF;
 
-// Push button
-BYTE gbPushFlag = 0;
-
+BYTE gbPushFlag = FLG_OFF;
 BYTE gbPowerFailFlag = FLG_OFF;
 BYTE gbIndicatorFlag = FLG_OFF;
 BYTE gbEmergencyFlag = FLG_OFF;
 BYTE gbAuthDirection = FROM_NONE;
 BYTE gbPrevEmgSignal = OFF;
-BYTE gbBuzzerCMD[BUZZER_COUNT];
 
 bool gfModeChanged = FALSE; // mode change state
 bool gfisAuthTimeout = FALSE;
 
-DWORD gdwBuzzerTimeout[BUZZER_COUNT];
+DWORD gdwBuzzerTimeout;
 DWORD gdwTimeoutIndicator;
 DWORD gdwTimeoutSafety;
 DWORD gdwTimeoutLuggage;
@@ -71,16 +68,15 @@ TTIMER timerSafety;
 TTIMER timerJumping;
 TTIMER timerTailgating;
 TTIMER timerBarrierStop;
-TTIMER timerForceOpenClear;
 TTIMER timerInverseEnter;
 TTIMER timerReset;
 TTIMER timerCloseWait;
+TTIMER timerStopHolding;
 TTIMER timerTgFilter;
-TTIMER timerBuzzer[BUZZER_COUNT];
+TTIMER timerBuzzer;
+TTIMER timerBarrierCmdWait;
 
-int nBuzzerCount[BUZZER_COUNT];
-
-extern T_PASS_SEN_SWING psenNew;				// T_PASS_SEN structure does not exist		pms
+extern T_PASS_SEN_SWING psenNewSwing;
 /* Setting Functions ------------------------------------------------------*/
 void SetDefaultOpMode(void)
 {
@@ -119,14 +115,9 @@ void SetDefaultStatus(void)
     gGCUStatus.bAuthCount_EX = 0;
     gGCUStatus.PassageAlarm.bAlarm = 0;
     gGCUStatus.ModuleAlarm.bAlarm = 0;
-#if BART_IO
-    gGCUStatus.bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR);		//door mask 0xff
-#else
-    gGCUStatus.bMaintenanceDoorSw = (RD_SWITCH1 & MASK_SDOOR1) | ((RD_SWITCH2 & MASK_SDOOR2) << 4);
-#endif
+    gGCUStatus.bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR); // door mask 0xff
     gGCUStatus.bUPSStatus = 0x06;
     gGCUStatus.bDoorForcedOpen = OFF;
-    gbDoorForecedOpen = OFF;
 }
 
 void ApplyStatusMode(void)
@@ -140,6 +131,8 @@ void ApplyStatusMode(void)
 
 void SetNewOpMode(T_GCU_OP_MODE *pNewMode)
 {
+    printf(" [SetNewOpMode] Req mode EX:%02X/EN:%02X/EMG:%02X\n", pNewMode->bServiceMode_EX, pNewMode->bServiceMode_EN, pNewMode->bEmergencyMaint);
+
     if (pNewMode->bServiceMode_EN > FREE_SERVICE)
         pNewMode->bServiceMode_EN = gCurGCUOpMode.bServiceMode_EN;
 
@@ -170,11 +163,8 @@ void CheckModeChange(void)
 {
     if (gfModeChanged == TRUE && (gGCUStatus.bAuthCount_EN == 0) && (gGCUStatus.bAuthCount_EX == 0))
     {
-        //PRINTL(" [CheckModeChange] Old mode EX:%d/EN:%d", gCurGCUOpMode.bServiceMode_EX, gCurGCUOpMode.bServiceMode_EN);
-        //PRINTL(" [CheckModeChange] New mode EX:%d/EN:%d", gNewGCUOpMode.bServiceMode_EX, gNewGCUOpMode.bServiceMode_EN);
-
-        printf(" [CheckModeChange] Old mode EX:%d/EN:%d  \n", gCurGCUOpMode.bServiceMode_EX, gCurGCUOpMode.bServiceMode_EN);
-        printf(" [CheckModeChange] New mode EX:%d/EN:%d  \n", gNewGCUOpMode.bServiceMode_EX, gNewGCUOpMode.bServiceMode_EN);
+        printf(" [CheckModeChange] Old mode EX:%02X/EN:%02X \n", gCurGCUOpMode.bServiceMode_EX, gCurGCUOpMode.bServiceMode_EN);
+        printf(" [CheckModeChange] New mode EX:%02X/EN:%02X \n", gNewGCUOpMode.bServiceMode_EX, gNewGCUOpMode.bServiceMode_EN);
     	gfModeChanged = FALSE;
         memcpy(&gCurGCUOpMode, &gNewGCUOpMode, sizeof(T_GCU_OP_MODE));
         ApplyStatusMode();
@@ -209,6 +199,8 @@ void SetGCUParameter(T_GCU_PARAMETER *pNewParameter, int nLen)
     gdwTimeoutSafety = SAFETY_TIMEOUT_STD;
     gdwTimeoutLuggage = LUGGAGE_LIMIT_STD;
 
+    printf(" SetGCUParameter = %d/%d/%d/%d/%d/%d \n", pNewParameter->bAlarmMode, pNewParameter->bAlarmTimeout, pNewParameter->bAuthTimeOut, pNewParameter->bBarrierOpenTimeout, pNewParameter->bEMGTimeout, pNewParameter->bIllegalEntryTimeout);
+
     memcpy(&gGCUParameter, pNewParameter, sizeof(T_GCU_PARAMETER));
 }
 
@@ -242,32 +234,20 @@ void GetGCUStatus(T_GCU_STATUS_RES *pCurStatus)
     pCurStatus->bModuleAlarm = gGCUStatus.ModuleAlarm.bAlarm;
     pCurStatus->bBarrierSw = gGCUStatus.bBarrierSw;
 
-#if BART_IO
     pCurStatus->bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR);
-#else
-    pCurStatus->bMaintenanceDoorSw = (RD_SWITCH1 & MASK_SDOOR1) | ((RD_SWITCH2 & MASK_SDOOR2) << 4);
-#endif
     pCurStatus->bUPSStatus = gGCUStatus.bUPSStatus;
     pCurStatus->bSafetySen = gGCUStatus.bSafetyDetection;
     pCurStatus->bSCADA = gGCUStatus.bSCADA;
     pCurStatus->bDoorForcedOpen = gGCUStatus.bDoorForcedOpen;
 
-
-#if BART_IO
-
-	dwSpareSenserValue = (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN1_Pin))? 0x01: 0x00;  // Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기)
-	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN2_Pin))? 0x02: 0x00;
-
-
+    // Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기)
+    dwSpareSenserValue = (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port, SP_SEN1_Pin)) ? 0x01 : 0x00;
+    dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port, SP_SEN2_Pin)) ? 0x02 : 0x00;
 
     pCurStatus->bPassengerSensor1 = RD_PASSSEN1;
     pCurStatus->bPassengerSensor2 = RD_PASSSEN2;
     pCurStatus->bPassengerSensor3 = dwSpareSenserValue;
-#else
-    pCurStatus->bPassengerSensor1 = RD_PASSSEN1;
-    pCurStatus->bPassengerSensor2 = RD_PASSSEN2;
-    pCurStatus->bPassengerSensor3 = RD_PASSSEN3;
-#endif
+
     pCurStatus->bIllegalPass = gGCUStatus.IllegalPass.bIllegalPass;
     pCurStatus->bDipSwitchValue = ReadDipSwitch();
     pCurStatus->bPeopleCount = gGCUStatus.bPeopleCount;
@@ -282,8 +262,6 @@ void GetAuthCount(T_GCU_AUTH_COUNT *pAuthCount)
 
 void IncreaseAuthCount(BYTE bDir)
 {
-    //PRINTL(" [IncreaseAuthCount] Dir:%d", bDir);
-
     printf(" [IncreaseAuthCount] Dir:%d \n", bDir);
 
     if (bDir == FROM_ENTRY)
@@ -299,17 +277,16 @@ void IncreaseAuthCount(BYTE bDir)
 
     if (gbPrevDir != bDir)
     {
-        ClearPassageAlarm();				//used?
+        ClearPassageAlarm();
         gbPrevDir = bDir;
     }
 
     ControlBarrier(bDir);
     ResetTimer(&timerLuggageWait);
     ResetTimer(&timerSafety);
-    ControlBuzzer(BUZZER_NO_MAIN, BUZZER_OFF, 0);
+    ControlBuzzer(BUZZER_OFF, 0);
     SetAuthTimer();
 
-    //PRINTL(" [IncreaseAuthCount] auth cnt EN:%d, EX:%d", gGCUStatus.bAuthCount_EN, gGCUStatus.bAuthCount_EX);
     printf(" [IncreaseAuthCount] auth cnt EN:%d, EX:%d  \n", gGCUStatus.bAuthCount_EN, gGCUStatus.bAuthCount_EX);
 }
 
@@ -325,57 +302,44 @@ void ClearAuthCount(void)
         InitPassageMode();
 }
 
-/* Module Control Functions ------------------------------------------------------*/
 void ControlBarrier(BYTE bFDoorControl)
 {
-    //PRINTL(" [ControlBarrier] cmd:%d", bFDoorControl);
-    printf(" [ControlBarrier] cmd:%d \n", bFDoorControl);
     gbBarrierCmd = bFDoorControl;
 
-    if (gbBarrierCmd == BARRIER_OPEN_FOR_EN)
+    if (gbBarrierCmd == BARRIER_OPEN_FOR_EN || gbBarrierCmd == BARRIER_OPEN_FOR_EX)
     {
         ResetTimer(&timerSafety);
-        //OpenBarrierForSwing(gbBarrierCmd);			pms
-        Brr_OpenBarrier(gbBarrierCmd);
-
+        OpenBarrierForSwing(gbBarrierCmd);
     }
-    else if (gbBarrierCmd == BARRIER_OPEN_FOR_EX)
+    else if (gbBarrierCmd == BARRIER_CLOSE)
     {
-        ResetTimer(&timerSafety);
-        //OpenBarrierForSwing(gbBarrierCmd);			pms
-        Brr_OpenBarrier(gbBarrierCmd);
+        if (gfTestMode == TRUE)
+        {
+            CloseBarrierForSwing();
     }
-    else if (gbBarrierCmd == BARRIER_CLOSE_S)
+        else
+        {
+            if (!timerSafety.fStart)
     {
         SetTimer(&timerSafety);
     }
+        }
+    }
 }
 
-void ControlBuzzer(BYTE bBuzzerNo, BYTE bBuzzerControl, BYTE bDuration)	//main 부저 외에 다른 부저가 없기 때문에 다른 것으로 동작 변경이 필요 pms
+void ControlBuzzer(BYTE bBuzzerControl, BYTE bDuration)
 {
-    ResetTimer(&timerBuzzer[bBuzzerNo]);
-    gbBuzzerCMD[bBuzzerNo] = bBuzzerControl & MASK_BUZZER_CMD;
+    ResetTimer(&timerBuzzer);
 
     if (bBuzzerControl == BUZZER_OFF || bDuration == 0)
     {
-       // BuzzerOffEx(bBuzzerNo);      		//pms
-    	BuzzerOff();						//temp pms
+        BuzzerOff();
     }
     else
     {
-        if (gbBuzzerCMD[bBuzzerNo] == BUZZER_PERIODIC)
-            nBuzzerCount[bBuzzerNo] = 1;
-        else
-            nBuzzerCount[bBuzzerNo] = 0;
-
-        if (gbBuzzerCMD[bBuzzerNo])
-        {
-           //BuzzerOnEx(bBuzzerNo);		//pms
-        	BuzzerOn();					//temp pms
-
-            gdwBuzzerTimeout[bBuzzerNo] = bDuration * TICK_COUNT_1SEC;
-            SetTimer(&timerBuzzer[bBuzzerNo]);
-        }
+        BuzzerOn();
+        gdwBuzzerTimeout = bDuration * TICK_COUNT_1SEC;
+        SetTimer(&timerBuzzer);
     }
 }
 
@@ -387,7 +351,7 @@ void ControlDirectionLED(BYTE bLEDControl_EN, BYTE bLEDControl_EX)
         gbLampCMD_EX = bLEDControl_EX;
 
     ControlStatusLED_En(gbLampCMD_EN);
-    ControlStatusLED_Ex(gbLampCMD_EX);    
+    ControlStatusLED_Ex(gbLampCMD_EX);
     ControlOverHeadDisplay_En(gbLampCMD_EN);
     ControlOverHeadDisplay_Ex(gbLampCMD_EX);
 }
@@ -444,7 +408,7 @@ void ControlIndicator(BYTE bLEDControl_EN, BYTE bLEDControl_EX, BYTE bDuration, 
 void ControlIndicator4Test(BYTE bLEDControl_EN, BYTE bLEDControl_EX)
 {
     ControlIndicatorLight_En(bLEDControl_EN);
-    ControlIndicatorLight_Ex(bLEDControl_EN);
+    ControlIndicatorLight_Ex(bLEDControl_EX);
 }
 
 void ControlIndicatorBlink(BYTE isSet)
@@ -468,13 +432,16 @@ void ControlIndicatorBlink(BYTE isSet)
 
 void CheckUPSStatus(void)
 {
-    BYTE bUPSStatus = RD_UPSSTAT & MASK_POWER_CHK;
+    BYTE bUPSStatus = 0;
+
+    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;       // Connection Failure, High active
+    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_PWR_FAIL_Pin)) ? 0x02 : 0x00; // Power Failure, Low active
+    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;   // Low battery, Low active
 
     switch (bUPSStatus)
     {
     case 0x01:
         gGCUStatus.bUPSStatus = bUPSStatus;
-        // PRINTL(" [CheckUPSStatus] UPS Comm failure");
         printf(" [CheckUPSStatus] UPS Comm failure  \n");
         break;
     case 0x00:
@@ -487,10 +454,9 @@ void CheckUPSStatus(void)
                 {
                     ResetTimer(&timerPowerFailureCheck);
                     gbPowerFailFlag = FLG_SET;
-                    ControlBarrier(BARRIER_OPEN_FOR_EX);                
+                    ControlBarrier(BARRIER_OPEN_FOR_EX);
                     gGCUStatus.bUPSStatus = bUPSStatus;
                     ControlDirectionLED(DIR_RED, DIR_RED);
-                   // PRINTL(" [CheckUPSStatus] Power failure");
                     printf(" [CheckUPSStatus] Power failure  \n");
                 }
             }
@@ -530,7 +496,6 @@ void CheckUPSStatus(void)
                     gbPowerFailFlag = FLG_OFF;
                     gGCUStatus.bUPSStatus = bUPSStatus;
                     ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
-                    //PRINTL(" [CheckUPSStatus] Power recovered");
                     printf(" [CheckUPSStatus] Power recovered  \n");
                 }
             }
@@ -564,19 +529,27 @@ void CheckEmergencySignal(void)
     if (bDipSwitch4)
         bNewEmergencySignal = OFF;
     else
-        bNewEmergencySignal = (BYTE)IsEMGSignalOn();
+        bNewEmergencySignal = (BYTE)IsEMGSignalOn();     //dip4가 low 일때 bNewEmergencySignal 가 1인지 0인지 판단. active high 이므로 emg가 들어올때 1로 들어옴
 
-    
-    if (bNewEmergencySignal) // TODO: EMG signal must be checked in BART Fare Gate by Joseph 20231002
-        gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
-    else
-        gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
+    // TODO: EMG signal must be checked with Prod board by Joseph 20231002
+    // Oakland Board - Low active (EMG)
+    //if (bNewEmergencySignal)
+    //    gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
+    //else
+    //    gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
 
-     
-    if (gbPrevEmgSignal != bNewEmergencySignal)
+    // Prod Board - High active (EMG) - Should check whether the board itself convert signal.
+     //if (!bNewEmergencySignal)
+    if (bNewEmergencySignal)								// cross check 가 필요해 보입니다. 20231127 pms
+         gGCUStatus.ModeStatus.b.nEmergencyMode = ON;		//nEmergencyMode -> EmergencyMode 로 이름 변경이 여부 체크
+     else
+         gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
+
+    if (gbPrevEmgSignal != bNewEmergencySignal)		//gbPrevEmgSignal의 초기 상태는 0. //bNewEmergencySignal의 상태가 1이라면 해당 루트 진입
     {
         gnSignalCount = 1;
         gbPrevEmgSignal = bNewEmergencySignal;
+        printf(" [CheckEmergencySignal] bNewEmergencySignal: %d \n", bNewEmergencySignal);
     }
     else
     {
@@ -594,11 +567,10 @@ void CheckEmergencySignal(void)
             {
                 gnSignalCount = 0;
 
-                if (bNewEmergencySignal)
+                if (gGCUStatus.ModeStatus.b.nEmergencyMode == ON)
                 {
                     if (gGCUStatus.ModuleAlarm.b.nEMGSignal == OFF)
                     {
-                        //PRINTL(" [CheckEmergencySignal] EMG on!");
                     	 printf(" [CheckEmergencySignal] EMG on!  \n");
                         gGCUStatus.ModuleAlarm.b.nEMGSignal = ON;
                         newMode.bServiceMode_EN = NO_SERVICE;
@@ -612,7 +584,6 @@ void CheckEmergencySignal(void)
                 {
                     if (gGCUStatus.ModuleAlarm.b.nEMGSignal == ON)
                     {
-                       // PRINTL(" [CheckEmergencySignal] EMG off!");
                     	printf(" [CheckEmergencySignal] EMG off!  \n");
                         gGCUStatus.ModuleAlarm.b.nEMGSignal = OFF;
                         newMode.bServiceMode_EN = gCurGCUOpMode.bServiceMode_EN;
@@ -632,37 +603,13 @@ void CheckEmergencySignal(void)
 
 void CheckBuzzerTimer(void)
 {
-    int i;
-
-    for (i = 0; i < BUZZER_COUNT; i++) // BUZZER_NO_MAIN, BUZZER_NO_DIRB, BUZZER_NO_DIRA
-    {
-        if (timerBuzzer[i].fStart)
+    if (timerBuzzer.fStart)
         {
-            if (IsTimeout(&timerBuzzer[i], gdwBuzzerTimeout[i]))
+        if (IsTimeout(&timerBuzzer, gdwBuzzerTimeout))
             {
-                nBuzzerCount[i] = 0;
-                ResetTimer(&timerBuzzer[i]);
-               // BuzzerOffEx(i);					//부저 한종류 밖에 없음 pms
-                BuzzerOff();						//temp pms
-            }
-        }
-
-        if (nBuzzerCount[i])
-        {
-            nBuzzerCount[i]++;
-
-            if (nBuzzerCount[i] == 10)
-            {
-               // BuzzerOffEx(i);					//부저 한종류 밖에 없음 pms
+            ResetTimer(&timerBuzzer);
             	 BuzzerOff();
             }
-            else if (nBuzzerCount[i] == 20)
-            {
-                nBuzzerCount[i] = 1;
-                //BuzzerOnEx(i);					//부저 한종류 밖에 없음 pms
-                BuzzerOn();
-            }
-        }
     }
 }
 
@@ -672,6 +619,7 @@ void CheckIndicatorTimer(void)
     {
         if (IsTimeout(&timerIndicator, gdwTimeoutIndicator))
         {
+            printf(" [CheckIndicatorTimer] Indicator time out!!  \n");
             ResetTimer(&timerIndicator);
             ControlIndicator(LAMP_OFF, LAMP_OFF, 0, FALSE);
         }
@@ -687,7 +635,7 @@ void CheckPushTimer(BYTE command)
             gbPushFlag = 0;
             ResetTimer(&timerPush);
             ControlIndicator(LAMP_OFF, LAMP_OFF, 0, FALSE);
-            ControlBarrier(BARRIER_CLOSE_S);
+            ControlBarrier(BARRIER_CLOSE);
         }
     }
 }
@@ -743,7 +691,6 @@ void CheckPassSenError(bool isSwing)
                 psenError.B.bSen1 &= ~(1 << i);
             else if (i >= 8 && i < 16)
                 psenError.B.bSen2 &= ~(1 << (i - 8));
-
         }
     }
 
@@ -766,7 +713,7 @@ void CheckPassSenError(bool isSwing)
 void InhibitPass(int nDir)
 {
 	printf(" [InhibitPass] Dir:%d  \n", nDir);
-    ControlBuzzer(BUZZER_NO_MAIN, BUZZER_ON, gGCUParameter.bAlarmTimeout);
+    ControlBuzzer(BUZZER_ON, gGCUParameter.bAlarmTimeout);
     ControlDirectionLED(DIR_RED, DIR_RED);
 
     if (nDir == FROM_ENTRY)
@@ -798,12 +745,12 @@ void ClearPassageAlarm()
         gGCUStatus.PassageAlarm.b.nPassOverFromEX = OFF;
     }
 
-    if (!psenNew.side.entry && (0 == gGCUStatus.bAuthCount_EN))
+    if (!psenNewSwing.side.entry && (0 == gGCUStatus.bAuthCount_EN))
     {
         gisEntryPassenger = FALSE;
     }
 
-    if (!psenNew.side.exit && (0 == gGCUStatus.bAuthCount_EX))
+    if (!psenNewSwing.side.exit && (0 == gGCUStatus.bAuthCount_EX))
     {
         gisExitPassenger = FALSE;
     }
@@ -817,22 +764,19 @@ void ClearIllegalPass(void)
 {
     if (gGCUStatus.PassageAlarm.b.nFromEN)
     {
-        if (!psenNew.side.entry)
+        if (!psenNewSwing.side.entry)
         {
             gGCUStatus.PassageAlarm.b.nFromEN = PASS_ALARM_NONE;
-            gisEntryPassenger = FALSE;
 
             if (gGCUStatus.IllegalPass.b.nCounter_EN == FLG_SET)
             {
                 gGCUStatus.IllegalPass.b.nCounter_EN = FLG_OFF;
-               // PRINTL(" [EN] Clear Counter Enter");
                 printf(" [EN] Clear Counter Enter  \n");
             }
 
             if (gGCUStatus.IllegalPass.b.nIllegal_EN == FLG_SET)
             {
                 gGCUStatus.IllegalPass.b.nIllegal_EN = FLG_OFF;
-                //PRINTL(" [EN] Clear Illegal Enter");
                 printf(" [EN] Clear Illegal Enter  \n");
             }
             ResetTimer(&timerIllegalEnterEN);
@@ -840,7 +784,6 @@ void ClearIllegalPass(void)
             if (timerJumping.fStart == FALSE && timerTailgating.fStart == FALSE)
             {
                 InitPassageMode();
-                //PRINTL(" [EN] ClearIllegalPass - InitPassageMode");
                 printf(" [EN] ClearIllegalPass - InitPassageMode  \n");
             }
         }
@@ -848,22 +791,19 @@ void ClearIllegalPass(void)
 
     if (gGCUStatus.PassageAlarm.b.nFromEX)
     {
-        if (!psenNew.side.exit)
+        if (!psenNewSwing.side.exit)
         {
             gGCUStatus.PassageAlarm.b.nFromEX = PASS_ALARM_NONE;
-            gisExitPassenger = FALSE;
 
             if (gGCUStatus.IllegalPass.b.nCounter_EX == FLG_SET)
             {
                 gGCUStatus.IllegalPass.b.nCounter_EX = FLG_OFF;
-               // PRINTL(" [EX] Clear Counter Enter");
                 printf(" [EX] Clear Counter Enter  \n");
             }
 
             if (gGCUStatus.IllegalPass.b.nIllegal_EX == FLG_SET)
             {
                 gGCUStatus.IllegalPass.b.nIllegal_EX = FLG_OFF;
-                //PRINTL(" [EX] Clear Illegal Enter");
                 printf(" [EX] Clear Illegal Enter  \n");
             }
             ResetTimer(&timerIllegalEnterEX);
@@ -871,8 +811,6 @@ void ClearIllegalPass(void)
             if (timerJumping.fStart == FALSE && timerTailgating.fStart == FALSE)
             {
                 InitPassageMode();
-               // PRINTL(" [EX] ClearIllegalPass - InitPassageMode");
-
                 printf(" [EX] ClearIllegalPass - InitPassageMode  \n");
             }
         }
@@ -885,9 +823,8 @@ void CheckAuthTimeout(void)
     {
         if (IsTimeout(&timerAuthorize, (gdwTimeoutAuthorize * TICK_COUNT_1SEC)))
         {
-           // PRINTL(" [CheckAuthTimeout] ElapsedTime:%d", gdwTimeoutAuthorize);
         	printf(" [CheckAuthTimeout] ElapsedTime:%d  \n", gdwTimeoutAuthorize);
-            ResetTimer(&timerAuthorize);            
+            ResetTimer(&timerAuthorize);
             gGCUStatus.bAuthCount_EN = 0;
             gGCUStatus.bAuthCount_EX = 0;
             gfisAuthTimeout = TRUE;
@@ -915,7 +852,7 @@ void CheckIllegalAlarmTimer(void)
             gGCUStatus.PassageAlarm.b.nFromEX = PASS_ALARM_NONE;
             ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
             ControlIndicatorBlink(FLG_OFF);
-            ControlBuzzer(BUZZER_NO_MAIN, BUZZER_OFF, 0);
+            ControlBuzzer(BUZZER_OFF, 0);
             ResetTimer(&timerJumping);
         }
     }
@@ -930,7 +867,7 @@ void CheckIllegalAlarmTimer(void)
             gGCUStatus.PassageAlarm.b.nFromEX = PASS_ALARM_NONE;
             ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
             ControlIndicatorBlink(FLG_OFF);
-            ControlBuzzer(BUZZER_NO_MAIN, BUZZER_OFF, 0);
+            ControlBuzzer(BUZZER_OFF, 0);
             ResetTimer(&timerTailgating);
         }
     }
@@ -973,7 +910,6 @@ void CheckIllegalEnterTimer(BYTE dir)
                 gGCUStatus.IllegalPass.b.nIllegal_EN = FLG_SET;
                 gGCUStatus.PassageAlarm.b.nFromEN = PASS_ALARM_ILLEGAL_ENTER;
                 InhibitPass(FROM_ENTRY);
-               // PRINTL(" [EN] Inhibit Pass - Illegal Enter");
                 printf(" [EN] Inhibit Pass - Illegal Enter  \n");
             }
         }
@@ -999,7 +935,6 @@ void CheckIllegalEnterTimer(BYTE dir)
                 gGCUStatus.IllegalPass.b.nIllegal_EX = FLG_SET;
                 gGCUStatus.PassageAlarm.b.nFromEX = PASS_ALARM_ILLEGAL_ENTER;
                 InhibitPass(FROM_EXIT);
-                //PRINTL(" [EX] Inhibit Pass - Illegal Enter");
                 printf(" [EX] Inhibit Pass - Illegal Enter  \n");
             }
         }

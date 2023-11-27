@@ -26,6 +26,7 @@
 #include "bsp.h"
 #include "test.h"
 #include "passsvc_swing.h"
+#include "userlib.h"
 /* Private includes -------
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -69,6 +70,8 @@ extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
+extern volatile DWORD gdwTick;
+
 /* USER CODE BEGIN EV */
 extern bool bDip_SW_Flag;
 bool bDip_SW_Init = FALSE;
@@ -204,7 +207,7 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
-
+  gdwTick = HAL_GetTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 	if(bDip_SW_Flag == TRUE)			//The hal tick works immediately after SystemClock_Config is enabled.
 	{									// The dipswitch should work after the FMC initialization.		pms
@@ -216,7 +219,7 @@ void SysTick_Handler(void)
 			TestAging();
 			bDip_SW_Init = TRUE;
 		}
-		/*
+		/*  //활성화 여부 확인 필요 20231127_pms
 		if (gbDipSW & MASK_JIG_TEST)					//cmd 테스트 모드 temp
 		{
 
@@ -235,9 +238,6 @@ void SysTick_Handler(void)
 
 		if (!(gbDipSW & MASK_JIG_TEST) && (gbDipSW == gbOldDipSW))
 		{
-			gfMainBarrierRunning = TRUE;
-			gfSubBarrierRunning = TRUE;
-			gbBarrierType = BARRIER_SWING;
 			PassageProcessForSwing();
 		}
 		gbOldDipSW = gbDipSW;

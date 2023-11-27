@@ -25,6 +25,8 @@ B_PROTOCOL_FRAME req;
 
 BYTE gbLastMainSeq_Swing;
 BYTE gbLastHostCMD_Swing;
+BOOL gIsOpenCmdIssued;
+BOOL gIsCloseCmdIssued;
 
 extern IUART_T 	iUartTable[IUART_MAXPORT];
 extern uint8_t Add_200_Value;
@@ -81,24 +83,13 @@ void Brr_SetEmergency(bool isActive)
 {
 	static	clock_t	ms;
 	BYTE cmd = isActive ? CMD_SET_EMEREGENCY : CMD_RESET_EMEREGENCY;
-	#if BART_IO
 	Brr_SetEmergency_P(isActive);
 	Brr_SetEmergency_S(isActive);
-	//printf("[%d] command\n",cmd);
+    printf(" [%02X] command\n",cmd);
 
 	// 100ms 단위로 printf 발생   //너무 많은 접근으로 버퍼가 터지는 문제가 있음 해당 구문이 문제 없다면 다른 printf에도 적용 예정
 	if (!mstimeout(&ms, 100))
 		return;
-
-   // printf("[%d] command \n", cmd);
-	//printf("[%d]CMD\n", cmd);		//1ms로 printf 발생 시 문제가 안생기는 length의 길이
-    printf("%s [%d] command \n",strmtime(), cmd); //시간 체크
-	#else
-
-		MakeRequest(cmd, NULL, 0);
-		PRINTL("[%d] command", cmd);
-
-	#endif
 }
 
 /*******************************************************************************
@@ -113,8 +104,7 @@ void Brr_SetSerialComm(bool isEnabled)			//	not used pms
 {
 	BYTE cmd = isEnabled ? CMD_SET_SERIAL_COMM : CMD_RESET_SERIAL_COMM;
 	MakeRequest(cmd, NULL, 0);
-	//PRINTL("[%d] command", cmd);
-	printf("[%d]CMD\n", cmd);
+    printf(" [%02X] command\n", cmd);
 }
 
 /*******************************************************************************
@@ -127,8 +117,7 @@ void Brr_SetSerialComm(bool isEnabled)			//	not used pms
  *******************************************************************************/
 void Brr_OpenBarrier(BYTE direction)
 {
-	#if BART_IO
-		switch(direction)
+    switch (direction)
 		{
 		case BARRIER_OPEN_FOR_EX:
 			Brr_ControlBarrier_P(ENTRY_OPEN);
@@ -141,11 +130,12 @@ void Brr_OpenBarrier(BYTE direction)
 			break;
 		}
 
-		printf("[%d]CMD\n", CMD_OPEN_BARRIER);
-	#else
-		MakeRequest(CMD_OPEN_BARRIER, &direction, 1);
-		PRINTL("[%d] command", CMD_OPEN_BARRIER);
-	#endif
+    if (gIsOpenCmdIssued == FALSE)
+    {
+        printf(" [%02X] command\n", CMD_OPEN_BARRIER);
+        gIsOpenCmdIssued = TRUE;
+        gIsCloseCmdIssued = FALSE;
+    }
 }
 
 /*******************************************************************************
@@ -158,17 +148,14 @@ void Brr_OpenBarrier(BYTE direction)
  *******************************************************************************/
 void Brr_CloseBarrier(void)
 {
-	#if BART_IO
 		Brr_ControlBarrier_P(CLOSE);
 		Brr_ControlBarrier_S(CLOSE);
-		printf("[%d]CMD\n", CMD_CLOSE_BARRIER);
-	#else
-		// if (isSentClose == FALSE)
+    if (gIsCloseCmdIssued == FALSE)
 		{
-			MakeRequest(CMD_CLOSE_BARRIER, NULL, 0);
-			PRINTL("[%d] command", CMD_CLOSE_BARRIER);
+        printf(" [%02X] command\n", CMD_CLOSE_BARRIER);
+        gIsOpenCmdIssued = FALSE;
+        gIsCloseCmdIssued = TRUE;
 		}
-	#endif
 }
 
 /*******************************************************************************
@@ -182,15 +169,9 @@ void Brr_CloseBarrier(void)
 void Brr_StopBarrier(bool isStop)
 {
 	BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
-	#if BART_IO
 		Brr_SetBreak_P(isStop);
 		Brr_SetBreak_S(isStop);
-		printf("[%d]CMD\n", cmd);
-	#else
-		BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
-		MakeRequest(cmd, NULL, 0);
-		PRINTL("[%d] command", cmd);
-	#endif
+    printf(" [%02X] command\n", cmd);
 }
 
 /*******************************************************************************
@@ -201,11 +182,9 @@ void Brr_StopBarrier(bool isStop)
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_Inq_Status(void)			// 현재 barrier 에서는 IO input 만 받는 상태이므로 해당 통신은 하지 않음
-{									// FAULT, ANOMALY, BRAKED, GSTATUS를 input으로 받는데 FAULT ANOMALY의 신호가 정확하
+void Brr_Inq_Status(void)
+{
 	MakeRequest(CMD_GET_STATUS_MAIN, NULL, 0);
-	// PRINTL("[%d] command", CMD_GET_STATUS_MAIN);
-	printf("[%d]CMD\n", CMD_GET_STATUS_MAIN);
 }
 
 /*******************************************************************************
@@ -216,24 +195,19 @@ void Brr_Inq_Status(void)			// 현재 barrier 에서는 IO input 만 받는 상�
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_Res_Status(bool isMain)			//isMain : TRUE - UART1 / FALSE - UART3
+void Brr_Res_Status(bool isMain) // isMain : TRUE - UART1 / FALSE - UART3
 {
-    if (isMain) 		//UART4
+    if (isMain) // UART4
     {
         memcpy(&gMainBarrierStatus, (B_BARRIER_STATUS *)rsp_U4.d.data, sizeof(B_BARRIER_STATUS));
-        // PRINTL(" Receive Main Status %d/%d/%d", gMainBarrierStatus.B.status0, gMainBarrierStatus.B.status3, gMainBarrierStatus.B.status4);
-        printf(" Receive Main Status %d/%d/%d  \n", gMainBarrierStatus.B.status0, gMainBarrierStatus.B.status3, gMainBarrierStatus.B.status4);
+        // printf(" Receive Main Status %d/%d/%d  \n", gMainBarrierStatus.B.status0, gMainBarrierStatus.B.status3, gMainBarrierStatus.B.status4);
     }
-    else				//UART5
+    else // UART5
     {
         memcpy(&gSubBarrierStatus, (B_BARRIER_STATUS *)rsp_U5.d.data, sizeof(B_BARRIER_STATUS));
-        // PRINTL(" Receive Sub Status %d/%d/%d", gSubBarrierStatus.B.status0, gSubBarrierStatus.B.status3, gSubBarrierStatus.B.status4);
-
-        printf(" Receive Sub Status %d/%d/%d  \n", gSubBarrierStatus.B.status0, gSubBarrierStatus.B.status3, gSubBarrierStatus.B.status4);
+        // printf(" Receive Sub Status %d/%d/%d  \n", gSubBarrierStatus.B.status0, gSubBarrierStatus.B.status3, gSubBarrierStatus.B.status4);
     }
 }
-
-
 
 /*******************************************************************************
  * Name:     Brr_Status_IO
@@ -273,45 +247,22 @@ void Brr_Status_IO(void)				//pms
 
 void WaitTX(void)
 {
-    if (gfSubBarrierRunning == TRUE)
-    {
         U5_TxWait();
-    }
-
-    if (gfMainBarrierRunning == TRUE)
-    {
         U4_TxWait();
-    }
 }
 
 void SendSTX(void)
 {
     WaitTX();
-
-    if (gfSubBarrierRunning == TRUE)
-    {
         U5_Putch(0xAA);
-    }
-
-    if (gfMainBarrierRunning == TRUE)
-    {
         U4_Putch(0xAA);
-    }
 }
 
 void SendBCC(BYTE bBCC)
 {
     WaitTX();
-
-    if (gfSubBarrierRunning == TRUE)
-    {
         U5_Putch(bBCC);
-    }
-
-    if (gfMainBarrierRunning == TRUE)
-    {
         U4_Putch(bBCC);
-    }
 }
 
 BYTE SendData(void)
@@ -327,15 +278,8 @@ BYTE SendData(void)
     while (nReqLen--)
     {
         WaitTX();
-        if (gfSubBarrierRunning == TRUE)
-        {
             U5_Putch(*pbReqBuff);
-        }
-
-        if (gfMainBarrierRunning == TRUE)
-        {
             U4_Putch(*pbReqBuff);
-        }
 
         bBCC ^= *pbReqBuff; // BCC calculation
         pbReqBuff++;
@@ -368,7 +312,6 @@ void MakeRequest(BYTE command, BYTE *data, int nOptionLen)
     if (nOptionLen)
         memcpy(req.d.data, data, nOptionLen);
 
-
     SendSTX();
     bBCC = SendData();
     SendBCC(bBCC);
@@ -388,12 +331,10 @@ void SendRequest(void)
     BYTE *pbReqBuff;
     int nReqLen;
 
+    // Secondary barrier first
     bBCC = 0;
     pbReqBuff = req.Buff;
     nReqLen = req.d.dataLen + FRAME_HEADER_LEN;
-    // Secondary Barrier First
-    if (gfSubBarrierRunning == TRUE)
-    {
         // send STX
         U5_Putch(0xAA);
 
@@ -408,13 +349,11 @@ void SendRequest(void)
 
         // send BCC
         U5_Putch(bBCC);
-    }
 
+    // Primary barrier last
     bBCC = 0;
     pbReqBuff = req.Buff;
     nReqLen = req.d.dataLen + FRAME_HEADER_LEN;
-    if (gfMainBarrierRunning == TRUE)
-    {
         // send STX
         U4_Putch(0xAA);
 
@@ -429,7 +368,6 @@ void SendRequest(void)
 
         // send BCC
         U4_Putch(bBCC);
-    }
 }
 
 /*******************************************************************************
@@ -499,7 +437,6 @@ int CheckProtocol_UART4(void)
                 {
                     if (rsp_U4.d.dataLen != (BYTE)(packetLen_U4 - FRAME_HEADER_LEN))
                     {
-                       // PRINTL("U4 LENGTH ERR: %d - %d", rsp_U4.d.dataLen, (packetLen_U4 - FRAME_HEADER_LEN));
                     	 printf("U4 LENGTH ERR: %d - %d  \n", rsp_U4.d.dataLen, (packetLen_U4 - FRAME_HEADER_LEN));
                         return ERR_WRONG_CMD_LEN;
                     }
@@ -509,15 +446,16 @@ int CheckProtocol_UART4(void)
                     }
                 }
                 else
+                {   if (rsp_U4.d.command != 6)
                 {
-                    //PRINTL("U1 BCC ERR. len: %d, BCC: %d, rcv: %d", rsp_U4.d.dataLen, BCC_U4, rcvData);
-                	 printf("U4 BCC ERR. len: %d, BCC: %d, rcv: %d  \n", rsp_U4.d.dataLen, BCC_U4, rcvData);
+                        printf("U4 BCC ERR. len: %02X, BCC: %02X, cmd: %02X  \n", rsp_U4.d.dataLen, BCC_U4, rsp_U4.d.command);
                     Print2Hex("", rsp_U4.Buff, packetLen_U4);
-                    return ERR_BCC;
+                    }
+
+                    return ERR_BCC;                    
                 }
             }
         }
-        
     }
 
     return FAIL;
@@ -541,9 +479,7 @@ int CheckProtocol_UART5(void)
     static int packetLen_U5 = 0;
     BYTE rcvData;
 
-   // while (U3_Getch(&rcvData))
-
-	while (IUart_RecvByte_check(COM5,&rcvData))
+    while (IUart_RecvByte_check(COM5, &rcvData))
     {
         if (rcvData == 0xAA)
         {
@@ -588,7 +524,6 @@ int CheckProtocol_UART5(void)
                 {
                     if (rsp_U5.d.dataLen != (BYTE)(packetLen_U5 - FRAME_HEADER_LEN))
                     {
-                        //PRINTL("U3 LENGTH ERR: %d - %d", rsp_U5.d.dataLen, (packetLen_U5 - FRAME_HEADER_LEN));
                     	 printf("U5 LENGTH ERR: %d - %d  \n", rsp_U5.d.dataLen, (packetLen_U5 - FRAME_HEADER_LEN));
                         return ERR_WRONG_CMD_LEN;
                     }
@@ -599,9 +534,12 @@ int CheckProtocol_UART5(void)
                 }
                 else
                 {
-                   // PRINTL("U3 BCC ERR. len: %d, BCC: %d, rcv: %d", rsp_U5.d.dataLen, BCC_U5, rcvData);
-                	 printf("U5 BCC ERR. len: %d, BCC: %d, rcv: %d  \n", rsp_U5.d.dataLen, BCC_U5, rcvData);
+                    if (rsp_U5.d.command != 6)
+                    {
+                        printf("U5 BCC ERR. len: %02X, BCC: %02X, cmd: %02X  \n", rsp_U5.d.dataLen, BCC_U5, rsp_U5.d.command);
                     Print2Hex("", rsp_U5.Buff, packetLen_U5);
+                    }
+
                     return ERR_BCC;
                 }
             }
@@ -698,9 +636,8 @@ void ProcessComm_Barrier(void)
     {
         if (ProcessCommand_Barrier(FALSE) != SUCCESS)
         {
-            //PRINTL("UART3 ERR");
         	printf("UART5 ERR  \n");
-        }        
+        }
     }
 
     nError = CheckProtocol_UART4();
@@ -713,8 +650,6 @@ void ProcessComm_Barrier(void)
         }
     }
 }
-
-
 
 /*
 void U4_TxWait(void)
@@ -745,13 +680,11 @@ void U5_Putch(BYTE c)
 }
 */
 
-
 void U4_TxWait(void)
 {
 	while ((iUartTable[COM4].hUart->Instance->ISR & UART_FLAG_TXE) == RESET)
 		;
 }
-
 
 void U5_TxWait(void)
 {
@@ -768,8 +701,5 @@ void U5_Putch(BYTE c)
 {
 	IUart_SendByte(COM5, (uint8_t)c);
 }
-
-
-
 
 /*****END OF FILE****/

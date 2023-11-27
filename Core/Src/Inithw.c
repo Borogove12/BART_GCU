@@ -219,20 +219,14 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOF, UPS_CHK_Pin, GPIO_PIN_RESET);									//Default Low / Active High	 New Board
 
-  HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_RESET);									//Default High / Active Low	 New Board
+  HAL_GPIO_WritePin(GPIOF, UPS_SHDN_Pin, GPIO_PIN_SET);										//Default High / Active Low	 New Board
 
   HAL_GPIO_WritePin(WDT_CONTROL_GPIO_Port, WDT_CONTROL_Pin, GPIO_PIN_RESET);				//WDT Enalbe   New Board
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, Serial_flash_CS_Pin|BUZZ_CON_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, STS_LED1_Pin|STS_LED2_Pin|STS_LED3_Pin|STS_LED4_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(EMG_GPIO_Port, EMG_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(WDT_GPIO_Port, WDT_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pins : UPS_CHK_Pin UPS_SHDN_Pin */
@@ -249,8 +243,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(WDT_CONTROL_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : nUPS_LINE_FAIL_Pin nUPS_LOW_BAT_Pin nUPS_CONN_Pin */
-  GPIO_InitStruct.Pin = nUPS_LINE_FAIL_Pin|nUPS_LOW_BAT_Pin|nUPS_CONN_Pin;
+  /*Configure GPIO pins : nUPS_PWR_FAIL_Pin nUPS_LOW_BAT_Pin nUPS_CONN_Pin */
+  GPIO_InitStruct.Pin = nUPS_PWR_FAIL_Pin|nUPS_LOW_BAT_Pin|nUPS_CONN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);

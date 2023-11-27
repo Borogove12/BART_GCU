@@ -21,7 +21,7 @@ enum {	// command code			//WMATA GCU Interface Specification_20200403.doc 참고
 	CMD_SET_PARAMETER		= 0x32,
 	CMD_GET_PARAMETER		= 0x33,
 	CMD_GET_VERSION			= 0x34,
-	CMD_SET_BAUD			= 0x35,
+	CMD_SET_SCADA_OUT		= 0x35,
 	CMD_SW_RESET			= 0x38,
 	CMD_AUTHORIZE			= 0x40,
 	CMD_CLEAR_AUTH			= 0x41,

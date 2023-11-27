@@ -14,9 +14,6 @@
 #include "gcu_def.h"
 #include "global.h"
 
-//#define DEBUG_UART		UART0
-//#define CIC_UART		UART3			//HYD
-//#define DELAY_TIM		TIM3
 #define DELAY_PRESCALER	192
 
 typedef struct {

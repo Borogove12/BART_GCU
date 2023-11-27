@@ -12,7 +12,7 @@
 
 #include "global.h"
 /* FW Version String ---------------------------------------------------------*/
-#define GCU_FW_VERSION "0.0.0.1"
+#define GCU_FW_VERSION "0.0.11.20"
 #define TG_TIMER 2		// 2 s
 #define SWING_BARRIER
 
@@ -112,53 +112,9 @@ enum
 
 enum
 {
-	BARRIER_SWING = 0,
-	BARRIER_RET = 1,
-	BARRIER_OTHER = 2,
-};
-
-enum
-{
 	PASS_PATN_NONE = 0,
-
-	// Dir Entry Admin (Approaching) (bit: xxxx x#3#2#1)
-	PASS_PATN_ADMA_HIGH = 0x01,															  // sen 1
-	PASS_PATN_ADMA_LOW1 = 0x02,															  // sen 2
-	PASS_PATN_ADMA_LOW2 = 0x04,															  // sen 3
-	PASS_PATN_ADMA_ALL = PASS_PATN_ADMA_HIGH | PASS_PATN_ADMA_LOW1 | PASS_PATN_ADMA_LOW2, // sen 1,2,3
-	PASS_PATN_ADMA_HLOW1 = PASS_PATN_ADMA_LOW1 | PASS_PATN_ADMA_HIGH,					  // sen 1,2
-	PASS_PATN_ADMA_HLOW2 = PASS_PATN_ADMA_HIGH | PASS_PATN_ADMA_LOW2,					  // sen 1,3
-	PASS_PATN_ADMA_LOW = PASS_PATN_ADMA_LOW1 | PASS_PATN_ADMA_LOW2,						  // sen 2,3
-
-	// Dir Exit Admin (Approaching) (bit: xxxx x#19#18#17)
-	PASS_PATN_ADMB_HIGH = 0x04,															  // sen 19
-	PASS_PATN_ADMB_LOW1 = 0x02,															  // sen 18
-	PASS_PATN_ADMB_LOW2 = 0x01,															  // sen 17
-	PASS_PATN_ADMB_ALL = PASS_PATN_ADMB_HIGH | PASS_PATN_ADMB_LOW1 | PASS_PATN_ADMB_LOW2, // sen 17,18,19
-	PASS_PATN_ADMB_HLOW1 = PASS_PATN_ADMB_HIGH | PASS_PATN_ADMB_LOW1,					  // sen 18,19
-	PASS_PATN_ADMB_HLOW2 = PASS_PATN_ADMB_HIGH | PASS_PATN_ADMB_LOW2,					  // sen 17,19
-	PASS_PATN_ADMB_LOW = PASS_PATN_ADMB_LOW1 | PASS_PATN_ADMB_LOW2,						  // sen 17,18
-
-	// Safety
-	PASS_PATN_HIGH_EN = 0x01, // sen 8
-	PASS_PATN_LOW_EN = 0x02,  // sen 9
-	PASS_PATN_LOW_EX = 0x08,  // sen 11
-	PASS_PATN_HIGH_EX = 0x10, // sen 12
-
-	PASS_PATN_ALL = PASS_PATN_HIGH_EN | PASS_PATN_LOW_EN | PASS_PATN_HIGH_EX | PASS_PATN_LOW_EX, // sen 8,9,11,12
-	PASS_PATN_HIGH = PASS_PATN_HIGH_EX | PASS_PATN_HIGH_EN,										 // sen 8,12,
-	PASS_PATN_LOW = PASS_PATN_LOW_EN | PASS_PATN_LOW_EX,										 // sen 9,11,
-	PASS_PATN_HIGH_LOW_EN = PASS_PATN_HIGH_EN | PASS_PATN_HIGH_EX | PASS_PATN_LOW_EN,			 // sen 8,12,11
-	PASS_PATN_HIGH_LOW_EX = PASS_PATN_HIGH_EN | PASS_PATN_HIGH_EX | PASS_PATN_LOW_EX,			 // sen 8,12,9
-	PASS_PATN_ALL_EN = PASS_PATN_HIGH_EN | PASS_PATN_LOW_EN,									 // sen 11,12
-	PASS_PATN_ALL_EX = PASS_PATN_HIGH_EX | PASS_PATN_LOW_EX,									 // sen 8, 9
-
-	// For the swing barrier
-	PASS_PATN_ENTER = 0x03,		 // EN: #1#2 / EX: #1#2
-	PASS_PATN_FORCE_OPEN = 0x04, // EN: #3 / EX: #3
-	PASS_PATN_PASS_READY = 0x04, // EN: #6 / EX: #16
-	PASS_PATN_PASS = 0x12,		 // sen #11,12,13,14
-	PASS_PATN_PASS_OVER = 0x13,	 // sen #17
+	PASS_PATN_ENTER = 0x02,		 // EN: #2 / EX: #10
+	PASS_PATN_PASS_READY = 0x12, // EN: #4,7 / EX: #12,15
 };
 
 /* GPIO0 PIN Definitions -----------------------------------------------------*/
@@ -385,12 +341,9 @@ enum
 #define RD_FDOORSW		0	//(*(VBYTE*)(ADDR_RD_FDOOR))			// SectorDoor
 #define RD_ECUOUT		0	//(*(VBYTE*)(ADDR_RD_ECUOUT))
 #define RD_EXTIRQ		0	//(*(VBYTE*)(ADDR_RD_EXTIRQ))
-#define RD_UPSSTAT 		0	//(*(VBYTE*)(ADDR_RD_UPSSTAT))
 #define RD_CPLDVER		0	//(*(VBYTE*)(ADDR_RD_CPLDVER))
 
 #define WR_FDOOR		(*(VBYTE*)(ADDR_WR_FDOOR))
-//#define WR_SOLSIG		(*(VBYTE*)(ADDR_WR_SOLSIG)) 				// (WMATA not used)
-//#define WR_SOLPWM		(*(VBYTE*)(ADDR_WR_SOLPWM)) 				// (WMATA not used)
 #define WR_MDIR			(*(VBYTE*)(ADDR_WR_MDIR))
 #define WR_SDIR			(*(VBYTE*)(ADDR_WR_SDIR))
 #define WR_DDIR			(*(VBYTE*)(ADDR_WR_DDIR))
@@ -405,27 +358,32 @@ enum
 
 enum
 {
-	UPS_CMD_CHK 	= 0x01,
-	UPS_CMD_PWR_DN 	= 0x02,
+	UPS_CMD_CHECK_ON 	= 0x01,
+	UPS_CMD_SHUTDOWN 	= 0x02,
 };
-//#define ControlUPS(x) 		(WR_UPSCMD = (x))	changed from ms
-#define ControlUPS(x) 			HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x040),GPIO_PIN_SET)
-#define ReverseControlUPS(x) 	HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x040),GPIO_PIN_RESET)
 
-#define ControlUPSCHKOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port,UPS_CHK_Pin,GPIO_PIN_SET)
-#define ControlUPSCHKOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port,UPS_CHK_Pin,GPIO_PIN_RESET)
+// TODO: Must be changed for Prod board
+// Oak Board: Low active
+// #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
+// #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
+// Prod Board: High active
+ #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
+ #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
 
-#define ControlUPSOn(x) 		HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x080),GPIO_PIN_SET)
-#define ControlUPSOff(x) 		HAL_GPIO_WritePin(nUPS_GPIO_Port,((x) * 0x080),GPIO_PIN_RESET)
+// TODO: Must be changed for Prod board
+// Oak Board: High active
+// #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
+// #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
+// Prod Board: Low active
+ #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
+ #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
 
 enum {	
 	BARRIER_FREE	= 0x00,
-	BARRIER_OPEN_FOR_EX	= 0x01,
-	BARRIER_OPEN_FOR_EN	= 0x02,
+	BARRIER_OPEN_FOR_EX	= 0x02,
+	BARRIER_OPEN_FOR_EN	= 0x01,
 	BARRIER_OPEN	= 0x66,
-	BARRIER_CLOSE_S = 0x03,
-	BARRIER_CLOSE	= 0x77,
-	
+	BARRIER_CLOSE 	= 0x03,
 
 	FDOOR1_SW_OPEN	= 0x01,
 	FDOOR1_SW_CLOSE	= 0x02,
@@ -447,36 +405,6 @@ enum {
 	MASK_SDOOR		= 0xFF,
 	MASK_POWER_CHK	= 0x07,
 };
-#define ControlFlapDoor(x)	(WR_FDOOR = (x))
-
-enum {
-	TSOL_NONE		= 0x00,
-	TSOL_SHUTTER	= 0x01,
-	TSOL_STOPPER	= 0x02,
-	TSOL_ERRPATH	= 0x04,
-	TSOL_SELPATH	= 0x08,
-
-	TSOL_RET_PATH	= 0x06,
-	TSOL_BOX1_PATH  = 0x02,
-	TSOL_BOX2_PATH  = 0x0A,  
-	TSOL_JAM_PATH	= 0x0E
-};
-
-enum {
-	TSEN_INLET1		= 0x01,
-	TSEN_INLET2		= 0x02,
-	TSEN_INLET		= 0x03,
-	TSEN_ANTENNA	= 0x04,
-	TSEN_RET_PATH	= 0x08,
-	TSEN_BOX2_PATH	= 0x20,
-	TSEN_BOX1_PATH	= 0x10,
-	TSEN_RETURNCUP1 = 0x40,
-	TSEN_RETURNCUP2 = 0x80,
-	TSEN_RETURNCUP	= 0xC0,
-	
-	MASK_JAMSENSOR	= 0x3C,
-	MASK_ENDSENSOR	= 0x03
-};
 
 enum
 {
@@ -497,7 +425,6 @@ enum
 	MASK_LAMP_CMD = 0x07
 };
 
-
 enum
 {
 	STATE_OFF = 0x00,
@@ -510,10 +437,9 @@ enum
 {
 	LAMP_OFF = 0x00,
 	LAMP_RED_ON = 0x01,
-	LAMP_GREEN_ON = 0x02,		//origin LAMP_BLUE_ON
-	LAMP_BLUE_ON = 0x04,		//origin LAMP_GREEN_ON
+	LAMP_GREEN_ON = 0x02,
+	LAMP_BLUE_ON = 0x04,
 };
-
 
 enum
 {
@@ -531,9 +457,7 @@ enum {
 	MASK_NOMAL_MODE		= 0X00,					//add 		pms
 	MASK_TEST_CAPTURE	= 0xC0,
 	MASK_EMG_SIGNAL     = 0x08,				//origin
-	//MASK_EMG_SIGNAL     = 0x88,		//1000 1000 //pms_test
 	MASK_SWING_MODE     = 0xC0, // 1100 0000
-	//MASK_SELF_TEST      = 0x16, // 0001 0110	//origin
 	MASK_SELF_TEST      = 0x76, // 0111 0110	//modify pms
 	MASK_JIG_TEST	    = 0x01
 };
@@ -546,42 +470,12 @@ enum {
 
 enum {
 	BUZZER_NO_MAIN	= 0,
-	BUZZER_NO_DIRB	= 1,
-	BUZZER_NO_DIRA	= 2,
-
-	BUZZER_COUNT	= 3,
 
 	BUZZER_OFF		= 0,
 	BUZZER_ON		= 1,
-	BUZZER_PERIODIC = 2,
-
-	MASK_BUZZER_CMD	= 3
 };
 
 #define IsEMGSignalOn()		HAL_GPIO_ReadPin(EMG_GPIO_Port,EMG_Pin) // 1- On, 0 - Off
-
-/* Bit structure - Switch 1 --------------------------------------------------*/
-typedef struct {
-	int Door1:		1;
-	int	Door2:		1;
-	int Door3:		1;
-	int Door4:		1;
-	int Door5:		1;
-	int Door6:		1;
-	int Door7:		1;
-	int Reserve:	1;
-} T_SWITCH1;
-
-/* Bit structure - Switch 2  -------------------------------------------------*/
-typedef struct {
-	int Door8:		1;
-	int	TokenBox:	1;
-	int EnModule:	1;
-	int ExModule:	1;
-	int Spare1:		1;
-	int Spare2:		1;
-	int Reserve:	2;
-} T_SWITCH2;
 
 /* Bit structure - Passenger sensors for the swing faregate ------------------------------------*/
 typedef union
@@ -594,56 +488,56 @@ typedef union
 
 	struct
 	{
-		int s01 : 1; // Port 1
-		int s02 : 1; // Port 2
-		int s03 : 1; // Port 3
-		int s04 : 1; // Port 4
-		int s05 : 1; // Port 5
-		int s06 : 1; // Port 6
-		int s07 : 1; // Port 7
-		int s08 : 1; // Port 8
-		int s09 : 1; // Port 9
-		int s10 : 1; // Port 10
-		int s11 : 1; // Port 11
-		int s12 : 1; // Port 12
-		int s13 : 1; // Port 13
-		int s14 : 1; // Port 14
-		int s15 : 1; // Port 15
-		int s16 : 1; // Port 16
+		UINT32 s01 : 1; // Port 1
+		UINT32 s02 : 1; // Port 2
+		UINT32 s03 : 1; // Port 3
+		UINT32 s04 : 1; // Port 4
+		UINT32 s05 : 1; // Port 5
+		UINT32 s06 : 1; // Port 6
+		UINT32 s07 : 1; // Port 7
+		UINT32 s08 : 1; // Port 8
+		UINT32 s09 : 1; // Port 9
+		UINT32 s10 : 1; // Port 10
+		UINT32 s11 : 1; // Port 11
+		UINT32 s12 : 1; // Port 12
+		UINT32 s13 : 1; // Port 13
+		UINT32 s14 : 1; // Port 14
+		UINT32 s15 : 1; // Port 15
+		UINT32 s16 : 1; // Port 16
 	} b;
 
 	struct
 	{
-		int enter : 2;	 // 1,2
-		int passage : 6; // 3,4,5,6,7,8
-		int end : 2;	 // 9,10
-		int upper : 2;	 // 11,12
-		int lower : 4;	 // 13,14,15,16
+		UINT32 enter : 2;	 // 1,2
+		UINT32 passage : 6; // 3,4,5,6,7,8
+		UINT32 end : 2;	 // 9,10
+		UINT32 upper : 2;	 // 11,12
+		UINT32 lower : 4;	 // 13,14,15,16
 	} dirEntry;
 
 	struct
 	{
-		int end : 2;	 // 1,2
-		int upper : 2;	 // 3,4
-		int lower : 4;	 // 5,6,7,8
-		int enter : 2;	 // 9,10
-		int passage : 6; // 11,12,13,14,15,16
+		UINT32 end : 2;	 // 1,2
+		UINT32 upper : 2;	 // 3,4
+		UINT32 lower : 4;	 // 5,6,7,8
+		UINT32 enter : 2;	 // 9,10
+		UINT32 passage : 6; // 11,12,13,14,15,16
 	} dirExit;
 
 	struct
 	{
-		int enter_EN : 2; // 1,2
-		int upper_EN : 2; // 3,4
-		int lower_EN : 4; // 5,6,7,8
-		int enter_EX : 2; // 9,10
-		int upper_EX : 2; // 11,12
-		int lower_EX : 4; // 13,14,15,16
+		UINT32 enter_EN : 2; // 1,2
+		UINT32 upper_EN : 2; // 3,4
+		UINT32 lower_EN : 4; // 5,6,7,8
+		UINT32 enter_EX : 2; // 9,10
+		UINT32 upper_EX : 2; // 11,12
+		UINT32 lower_EX : 4; // 13,14,15,16
 	} section;
 
 	struct
 	{
-		int entry : 8; // 1,2
-		int exit : 8; // 3,4
+		UINT32 entry : 8; // 1-8
+		UINT32 exit : 8; // 9-16
 	} side;
 } T_PASS_SEN_SWING;
 
@@ -657,30 +551,30 @@ typedef union
 
 	struct
 	{
-		int s01 : 1;
-		int s02 : 1;
-		int s03 : 1;
-		int s04 : 1;
-		int s05 : 1;
-		int s06 : 1;
-		int s07 : 1;
-		int s08 : 1;
-		int s09 : 1;
-		int s10 : 1;
-		int s11 : 1;
-		int s12 : 1;
-		int s13 : 1;
-		int s14 : 1;
-		int s15 : 1;
-		int s16 : 1;
+		UINT32 s01 : 1;
+		UINT32 s02 : 1;
+		UINT32 s03 : 1;
+		UINT32 s04 : 1;
+		UINT32 s05 : 1;
+		UINT32 s06 : 1;
+		UINT32 s07 : 1;
+		UINT32 s08 : 1;
+		UINT32 s09 : 1;
+		UINT32 s10 : 1;
+		UINT32 s11 : 1;
+		UINT32 s12 : 1;
+		UINT32 s13 : 1;
+		UINT32 s14 : 1;
+		UINT32 s15 : 1;
+		UINT32 s16 : 1;
 	} b;
 
 	struct
 	{
-		int dummy_EN : 4;  // 1,2,3,4,
-		int safety_EN : 4; // 5,6,7,8
-		int dummy_EX : 4;  // 9,10,11,12
-		int safety_EX : 4; // 13,14,15,16
+		UINT32 dummy_EN : 4;  // 1,2,3,4,
+		UINT32 safety_EN : 4; // 5,6,7,8
+		UINT32 dummy_EX : 4;  // 9,10,11,12
+		UINT32 safety_EX : 4; // 13,14,15,16
 	} swing;
 
 } T_PASS_SEN_ERROR;
@@ -780,9 +674,9 @@ enum
 	DEFAULT_TAILGATING_TIMEOUT = 2,		// sec
 
 	// time unit conversion factor to tick count
-	TICK_COUNT_10SEC = 1000, // 1 sec <- 100 * TICK(10ms)
-	TICK_COUNT_1SEC = 100,	 // 1 sec <- 100 * TICK(10ms)
-	TICK_COUNT_100MS = 10,	 // 0.1 sec <- 10 * TICK(10ms)
+	TICK_COUNT_10SEC = 10000, // 1 sec <- 100 * TICK(10ms)
+	TICK_COUNT_1SEC = 1000,	 // 1 sec <- 100 * TICK(10ms)
+	TICK_COUNT_100MS = 100,	 // 0.1 sec <- 10 * TICK(10ms)
 
 	// Alarm Zone
 	ALARM_ZONE_NONE = 0, // default
@@ -887,11 +781,11 @@ typedef union {
 	BYTE bMode;
 
 	struct {
-		int nServiceMode_EN		: 2;
-		int nServiceMode_EX		: 2;
-		int nEmergencyMode		: 2;
-		int nMaintenanceMode	: 1;
-		int nFlapDoorMode		: 1;
+		UINT32 nServiceMode_EN		: 2;
+		UINT32 nServiceMode_EX		: 2;
+		UINT32 nEmergencyMode		: 2;
+		UINT32 nMaintenanceMode		: 1;
+		UINT32 nFlapDoorMode		: 1;
 	} b;
 } T_MODE_STATUS;
 
@@ -899,10 +793,10 @@ typedef union {
 	BYTE bAlarm;
 
 	struct {
-		int nFromEN			: 3;
-		int nPassOverFromEN	: 1;
-		int nFromEX			: 3;
-		int nPassOverFromEX	: 1;
+		UINT32 nFromEN			: 3;
+		UINT32 nPassOverFromEN	: 1;
+		UINT32 nFromEX			: 3;
+		UINT32 nPassOverFromEX	: 1;
 	} b;
 } T_PASSAGE_ALARM;
 
@@ -910,12 +804,12 @@ typedef union {
 	BYTE bAlarm;
 
 	struct {
-		int nFDoor1		: 2;
-		int nFDoor2		: 2;
-		int nEMGSignal	: 1;
-		int nSideDoor	: 1;
-		int nPSensor	: 1;
-		int nSafetyErr	: 1;
+		UINT32 nFDoor1		: 2;
+		UINT32 nFDoor2		: 2;
+		UINT32 nEMGSignal	: 1;
+		UINT32 nSideDoor	: 1;
+		UINT32 nPSensor		: 1;
+		UINT32 nSafetyErr	: 1;
 	} b;
 } T_MODULE_ALARM;
 
@@ -924,14 +818,14 @@ typedef union {
 
 	struct
 	{
-		int nTailgating_EN 	: 1;
-		int nJumping_EN 	: 1;
-		int nIllegal_EN 	: 1;
-		int nCounter_EN 	: 1;
-		int nTailgating_EX 	: 1;
-		int nJumping_EX 	: 1;
-		int nIllegal_EX		: 1;
-		int nCounter_EX 	: 1;
+		UINT32 nTailgating_EN 	: 1;
+		UINT32 nJumping_EN 	: 1;
+		UINT32 nIllegal_EN 	: 1;
+		UINT32 nCounter_EN 	: 1;
+		UINT32 nTailgating_EX 	: 1;
+		UINT32 nJumping_EX 	: 1;
+		UINT32 nIllegal_EX		: 1;
+		UINT32 nCounter_EX 	: 1;
 	} b;
 } T_ILLEGAL_PASS;
 
@@ -1012,6 +906,10 @@ typedef struct {
 typedef struct {
 	BYTE bSafety;
 } T_CMD_SAFETY_STOP;
+
+typedef struct {
+	BYTE bSCADA_Out;
+} T_CMD_SCADA_OUT;
 
 enum  {
 	MASK_TEST_BUZZER_MAIN = 1,
