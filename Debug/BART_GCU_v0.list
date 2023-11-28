@@ -33,13 +33,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_macro  000426e5  00000000  00000000  00067d10  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_line   00030663  00000000  00000000  000aa3f5  2**0
+ 15 .debug_line   00030665  00000000  00000000  000aa3f5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_str    0017d9a7  00000000  00000000  000daa58  2**0
+ 16 .debug_str    0017d9a7  00000000  00000000  000daa5a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .comment      00000050  00000000  00000000  002583ff  2**0
+ 17 .comment      00000050  00000000  00000000  00258401  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00009930  00000000  00000000  00258450  2**2
+ 18 .debug_frame  00009930  00000000  00000000  00258454  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -6404,6 +6404,7 @@ void CMDWriteRegister(void)
  8022c1a:	7abb      	ldrb	r3, [r7, #10]
  8022c1c:	7013      	strb	r3, [r2, #0]
 
+
 	if (pbControl[8] == 0x33)
  8022c1e:	68fb      	ldr	r3, [r7, #12]
  8022c20:	3308      	adds	r3, #8
@@ -6453,7 +6454,7 @@ void CMDWriteRegister(void)
  8022c6a:	2180      	movs	r1, #128	; 0x80
  8022c6c:	4809      	ldr	r0, [pc, #36]	; (8022c94 <CMDWriteRegister+0x3a4>)
  8022c6e:	f008 f923 	bl	802aeb8 <HAL_GPIO_WritePin>
-
+*/
 	//pbControl[5] =  0;						// Control dummy direction display (WMATA not used)
 	//pbControl[8] => UPS Shuddown On [0x00], UPS Shuddown Off [0x01] / UPS Check On [0x02], UPS Check Off [0x00] 
 	//pbControl[8] =  0;						// UPS Command - BART도 UPS I/F 사용 (Out: 2EA) - 현재 SHDN 1EA만 구현되어 있으나 CHK신호 추가예정 -> Jig Program 에서는 UPS Write 시그널 줌. 20231002 by Joseph

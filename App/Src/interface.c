@@ -624,6 +624,7 @@ void CMDWriteRegister(void)
 
 	outb(WRITE01_ADR, dwSecondaryLEDValue);	
 
+
 	if (pbControl[8] == 0x33)
 	{
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET);			//Default Low / Active High	 New Board
@@ -639,7 +640,23 @@ void CMDWriteRegister(void)
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
 
 	}
+/*
+	if (pbControl[8] == 0x33)
+	{
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET);			//Default Low / Active High	 New Board
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);		//Default High / Active Low	 New Board
+		//add comment Shut down 이 Default High 이므로 처음부터 jig 프로그램 기준 low 입력(즉 Shutdown 동작 상태)로 맞춘 코트. 어느 것으로 선택 할 것인가는 최총 결정자 확인 필요	20231127_pms
+	}
+	else
+	{
+		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x01: 0x00;						//CHK	High / Low
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, dwUPSCHKValue);
 
+		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;					//SHDN	Low / High
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
+
+	}
+*/
 	//pbControl[5] =  0;						// Control dummy direction display (WMATA not used)
 	//pbControl[8] => UPS Shuddown On [0x00], UPS Shuddown Off [0x01] / UPS Check On [0x02], UPS Check Off [0x00] 
 	//pbControl[8] =  0;						// UPS Command - BART도 UPS I/F 사용 (Out: 2EA) - 현재 SHDN 1EA만 구현되어 있으나 CHK신호 추가예정 -> Jig Program 에서는 UPS Write 시그널 줌. 20231002 by Joseph
