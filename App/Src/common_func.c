@@ -165,7 +165,7 @@ void CheckModeChange(void)
     {
         printf(" [CheckModeChange] Old mode EX:%02X/EN:%02X \n", gCurGCUOpMode.bServiceMode_EX, gCurGCUOpMode.bServiceMode_EN);
         printf(" [CheckModeChange] New mode EX:%02X/EN:%02X \n", gNewGCUOpMode.bServiceMode_EX, gNewGCUOpMode.bServiceMode_EN);
-    	gfModeChanged = FALSE;
+        gfModeChanged = FALSE;
         memcpy(&gCurGCUOpMode, &gNewGCUOpMode, sizeof(T_GCU_OP_MODE));
         ApplyStatusMode();
         InitPassageMode();
@@ -212,7 +212,7 @@ void GetGCUParameter(T_GCU_PARAMETER *pCurParameter)
 void GetGCUStatus(T_GCU_STATUS_RES *pCurStatus)
 {
     T_MODE_STATUS ModeStatus;
-	DWORD	dwSpareSenserValue  = 0;
+    DWORD dwSpareSenserValue = 0;
 
     // mode status
     ModeStatus.b.nServiceMode_EN = (int)gCurGCUOpMode.bServiceMode_EN;
@@ -316,13 +316,13 @@ void ControlBarrier(BYTE bFDoorControl)
         if (gfTestMode == TRUE)
         {
             CloseBarrierForSwing();
-    }
+        }
         else
         {
             if (!timerSafety.fStart)
-    {
-        SetTimer(&timerSafety);
-    }
+            {
+                SetTimer(&timerSafety);
+            }
         }
     }
 }
@@ -434,9 +434,9 @@ void CheckUPSStatus(void)
 {
     BYTE bUPSStatus = 0;
 
-    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;       // Connection Failure, High active
+    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;      // Connection Failure, High active
     bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_PWR_FAIL_Pin)) ? 0x02 : 0x00; // Power Failure, Low active
-    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;   // Low battery, Low active
+    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;  // Low battery, Low active
 
     switch (bUPSStatus)
     {
@@ -529,23 +529,15 @@ void CheckEmergencySignal(void)
     if (bDipSwitch4)
         bNewEmergencySignal = OFF;
     else
-        bNewEmergencySignal = (BYTE)IsEMGSignalOn();     //dip4가 low 일때 bNewEmergencySignal 가 1인지 0인지 판단. active high 이므로 emg가 들어올때 1로 들어옴
+        bNewEmergencySignal = (BYTE)IsEMGSignalOn(); // dip4가 low 일때 bNewEmergencySignal 가 1인지 0인지 판단. active high 이므로 emg가 들어올때 1로 들어옴
 
     // TODO: EMG signal must be checked with Prod board by Joseph 20231002
-    // Oakland Board - Low active (EMG)
-    //if (bNewEmergencySignal)
-    //    gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
-    //else
-    //    gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
+    if (bNewEmergencySignal)
+        gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
+    else
+        gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
 
-    // Prod Board - High active (EMG) - Should check whether the board itself convert signal.
-     //if (!bNewEmergencySignal)
-    if (bNewEmergencySignal)								// cross check 가 필요해 보입니다. 20231127 pms
-         gGCUStatus.ModeStatus.b.nEmergencyMode = ON;		//nEmergencyMode -> EmergencyMode 로 이름 변경이 여부 체크
-     else
-         gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
-
-    if (gbPrevEmgSignal != bNewEmergencySignal)		//gbPrevEmgSignal의 초기 상태는 0. //bNewEmergencySignal의 상태가 1이라면 해당 루트 진입
+    if (gbPrevEmgSignal != bNewEmergencySignal) // gbPrevEmgSignal의 초기 상태는 0. //bNewEmergencySignal의 상태가 1이라면 해당 루트 진입
     {
         gnSignalCount = 1;
         gbPrevEmgSignal = bNewEmergencySignal;
@@ -571,7 +563,7 @@ void CheckEmergencySignal(void)
                 {
                     if (gGCUStatus.ModuleAlarm.b.nEMGSignal == OFF)
                     {
-                    	 printf(" [CheckEmergencySignal] EMG on!  \n");
+                        printf(" [CheckEmergencySignal] EMG on!  \n");
                         gGCUStatus.ModuleAlarm.b.nEMGSignal = ON;
                         newMode.bServiceMode_EN = NO_SERVICE;
                         newMode.bServiceMode_EX = NO_SERVICE;
@@ -584,7 +576,7 @@ void CheckEmergencySignal(void)
                 {
                     if (gGCUStatus.ModuleAlarm.b.nEMGSignal == ON)
                     {
-                    	printf(" [CheckEmergencySignal] EMG off!  \n");
+                        printf(" [CheckEmergencySignal] EMG off!  \n");
                         gGCUStatus.ModuleAlarm.b.nEMGSignal = OFF;
                         newMode.bServiceMode_EN = gCurGCUOpMode.bServiceMode_EN;
                         newMode.bServiceMode_EX = gCurGCUOpMode.bServiceMode_EN;
@@ -604,12 +596,12 @@ void CheckEmergencySignal(void)
 void CheckBuzzerTimer(void)
 {
     if (timerBuzzer.fStart)
-        {
+    {
         if (IsTimeout(&timerBuzzer, gdwBuzzerTimeout))
-            {
+        {
             ResetTimer(&timerBuzzer);
-            	 BuzzerOff();
-            }
+            BuzzerOff();
+        }
     }
 }
 
@@ -712,7 +704,7 @@ void CheckPassSenError(bool isSwing)
 }
 void InhibitPass(int nDir)
 {
-	printf(" [InhibitPass] Dir:%d  \n", nDir);
+    printf(" [InhibitPass] Dir:%d  \n", nDir);
     ControlBuzzer(BUZZER_ON, gGCUParameter.bAlarmTimeout);
     ControlDirectionLED(DIR_RED, DIR_RED);
 
@@ -823,7 +815,7 @@ void CheckAuthTimeout(void)
     {
         if (IsTimeout(&timerAuthorize, (gdwTimeoutAuthorize * TICK_COUNT_1SEC)))
         {
-        	printf(" [CheckAuthTimeout] ElapsedTime:%d  \n", gdwTimeoutAuthorize);
+            printf(" [CheckAuthTimeout] ElapsedTime:%d  \n", gdwTimeoutAuthorize);
             ResetTimer(&timerAuthorize);
             gGCUStatus.bAuthCount_EN = 0;
             gGCUStatus.bAuthCount_EX = 0;
@@ -973,4 +965,4 @@ void InitPassageMode(void)
     InitPassageModeForSwing();
 }
 
-/******* COPYRIGHT �� 2022 STraffic Co., Ltd.  ********END OF FILE****/
+/******* COPYRIGHT �� 2023 STraffic Co., Ltd.  ********END OF FILE****/
