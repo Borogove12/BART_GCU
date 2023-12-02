@@ -66,8 +66,8 @@ all: main-build
 main-build: BART_GCU.elf secondary-outputs
 
 # Tool invocations
-BART_GCU.elf BART_GCU.map: $(OBJS) $(USER_OBJS) C:\Users\Moo\OneDrive\Documents\GitHub\BART_GCU\STM32H743ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "BART_GCU.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\Moo\OneDrive\Documents\GitHub\BART_GCU\STM32H743ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BART_GCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+BART_GCU.elf BART_GCU.map: $(OBJS) $(USER_OBJS) C:\Users\djsep\Projects\01.AFC\01.USA\03.BART\04.GCU\02.FW\03.1st\ Prod\BART_GCU_FW_20231120\BART_GCU\STM32H743ZGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "BART_GCU.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\djsep\Projects\01.AFC\01.USA\03.BART\04.GCU\02.FW\03.1st Prod\BART_GCU_FW_20231120\BART_GCU\STM32H743ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BART_GCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

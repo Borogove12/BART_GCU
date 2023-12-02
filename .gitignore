@@ -37,6 +37,7 @@
 *.hex
 *.bin
 *.axf
+Release/
 
 # Debug files
 *.dSYM/
@@ -44,6 +45,7 @@
 *.idb
 *.pdb
 *.mk
+Debug/
 
 # Kernel Module Compile Results
 *.mod*
