@@ -2867,16 +2867,16 @@ Disassembly of section .text:
  8021e2a:	f004 f925 	bl	8026078 <printf_>
  8021e2e:	2c02      	cmp	r4, #2
  8021e30:	d00b      	beq.n	8021e4a <CMDSetUPSCommand+0x2a>
- 8021e32:	2200      	movs	r2, #0
+ 8021e32:	2201      	movs	r2, #1
  8021e34:	2140      	movs	r1, #64	; 0x40
  8021e36:	4808      	ldr	r0, [pc, #32]	; (8021e58 <CMDSetUPSCommand+0x38>)
  8021e38:	f005 f858 	bl	8026eec <HAL_GPIO_WritePin>
- 8021e3c:	2200      	movs	r2, #0
+ 8021e3c:	2201      	movs	r2, #1
  8021e3e:	2180      	movs	r1, #128	; 0x80
  8021e40:	4805      	ldr	r0, [pc, #20]	; (8021e58 <CMDSetUPSCommand+0x38>)
  8021e42:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  8021e46:	f005 b851 	b.w	8026eec <HAL_GPIO_WritePin>
- 8021e4a:	2201      	movs	r2, #1
+ 8021e4a:	2200      	movs	r2, #0
  8021e4c:	e7f7      	b.n	8021e3e <CMDSetUPSCommand+0x1e>
  8021e4e:	bf00      	nop
  8021e50:	24000254 	.word	0x24000254
@@ -8173,11 +8173,11 @@ Disassembly of section .text:
  8025224:	2000      	movs	r0, #0
  8025226:	f7fe fc41 	bl	8023aac <ControlIndicatorLight_Ex>
  802522a:	480a      	ldr	r0, [pc, #40]	; (8025254 <GCUInitialize+0x3c>)
- 802522c:	2200      	movs	r2, #0
+ 802522c:	2201      	movs	r2, #1
  802522e:	2140      	movs	r1, #64	; 0x40
  8025230:	f001 fe5c 	bl	8026eec <HAL_GPIO_WritePin>
  8025234:	4807      	ldr	r0, [pc, #28]	; (8025254 <GCUInitialize+0x3c>)
- 8025236:	2200      	movs	r2, #0
+ 8025236:	2201      	movs	r2, #1
  8025238:	2180      	movs	r1, #128	; 0x80
  802523a:	f001 fe57 	bl	8026eec <HAL_GPIO_WritePin>
  802523e:	f7fb fc2d 	bl	8020a9c <SetDefaultOpMode>
