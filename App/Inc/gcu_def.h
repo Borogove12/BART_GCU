@@ -176,19 +176,19 @@ enum
 
 // TODO: Must be changed for Prod board
 // Oak Board: Low active
-#define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
-#define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
+// #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
+// #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
 // Prod Board: High active
-// #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
-// #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
+#define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
+#define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
 
 // TODO: Must be changed for Prod board
 // Oak Board: High active
-#define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
-#define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
+// #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
+// #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
 // Prod Board: Low active
-// #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
-// #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
+#define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
+#define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
 
 enum {	
 	BARRIER_FREE	= 0x00,
