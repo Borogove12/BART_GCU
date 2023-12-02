@@ -90,19 +90,11 @@ void SetDefaultOpMode(void)
 
 void SetDefaultParameter(void)
 {
-    gGCUParameter.bPassageType = PASSAGE_TYPE_S;
-    gGCUParameter.bPassageMode = PASS_MODE_EASY;
-    gGCUParameter.bAlarmMode = ALARM_MODE_POLL;
-    gGCUParameter.bAuthType = AUTH_TYPE_TTL;
     gGCUParameter.bAuthTimeOut = DEFAULT_AUTH_TIMEOUT;
-    gGCUParameter.bCriticalZone = ALARM_ZONE_NONE;
-    gGCUParameter.bCounterZone = ALARM_ZONE_NONE;
     gGCUParameter.bEMGTimeout = DEFAULT_EMG_TIMEOUT;
     gGCUParameter.bSensorBlockTimeout = DEFAULT_SENSOR_BLOCK_TIMEOUT;
-    gGCUParameter.bBarrierOpenTimeout = DEFAULT_BARRIER_OPEN_TIMEOUT;
-    gGCUParameter.bAutoEmergency = ON;
-    gGCUParameter.bCheckChild = ON;
     gGCUParameter.bAlarmTimeout = DEFAULT_ALARM_TIMEOUT;
+    gGCUParameter.bIllegalEntryTimeout = DEFAULT_ILLEGAL_ENTRY_TIMEOUT;
     gGCUParameter.bGateType = STANDARD;
 
     gdwTimeoutSafety = SAFETY_TIMEOUT_STD;
@@ -179,27 +171,10 @@ void GetCurrentOpMode(T_GCU_OP_MODE *pCurMode)
 
 void SetGCUParameter(T_GCU_PARAMETER *pNewParameter, int nLen)
 {
-    pNewParameter->bPassageType = PASSAGE_TYPE_S;
-
-    if (pNewParameter->bPassageMode > PASS_MODE_EASY)
-        pNewParameter->bPassageMode = gGCUParameter.bPassageMode;
-
-    if (pNewParameter->bAlarmMode > ALARM_MODE_ACTIVE)
-        pNewParameter->bAlarmMode = gGCUParameter.bAlarmMode;
-
-    if (pNewParameter->bAuthType > AUTH_TYPE_TTL)
-        pNewParameter->bAuthType = gGCUParameter.bAuthType;
-
-    if (pNewParameter->bCriticalZone > ALARM_ZONE3)
-        pNewParameter->bCriticalZone = gGCUParameter.bCriticalZone;
-
-    if (pNewParameter->bCounterZone > ALARM_ZONE3)
-        pNewParameter->bCounterZone = gGCUParameter.bCounterZone;
-
     gdwTimeoutSafety = SAFETY_TIMEOUT_STD;
     gdwTimeoutLuggage = LUGGAGE_LIMIT_STD;
 
-    printf(" SetGCUParameter = %d/%d/%d/%d/%d/%d \n", pNewParameter->bAlarmMode, pNewParameter->bAlarmTimeout, pNewParameter->bAuthTimeOut, pNewParameter->bBarrierOpenTimeout, pNewParameter->bEMGTimeout, pNewParameter->bIllegalEntryTimeout);
+    printf(" SetGCUParameter = %d/%d/%d/%d/%d \n", pNewParameter->bAlarmTimeout, pNewParameter->bAuthTimeOut, pNewParameter->bEMGTimeout, pNewParameter->bIllegalEntryTimeout);
 
     memcpy(&gGCUParameter, pNewParameter, sizeof(T_GCU_PARAMETER));
 }
@@ -434,9 +409,9 @@ void CheckUPSStatus(void)
 {
     BYTE bUPSStatus = 0;
 
-    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;      // Connection Failure, High active
+    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;       // Connection Failure, High active
     bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_PWR_FAIL_Pin)) ? 0x02 : 0x00; // Power Failure, Low active
-    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;  // Low battery, Low active
+    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;   // Low battery, Low active
 
     switch (bUPSStatus)
     {
@@ -529,15 +504,24 @@ void CheckEmergencySignal(void)
     if (bDipSwitch4)
         bNewEmergencySignal = OFF;
     else
-        bNewEmergencySignal = (BYTE)IsEMGSignalOn(); // dip4가 low 일때 bNewEmergencySignal 가 1인지 0인지 판단. active high 이므로 emg가 들어올때 1로 들어옴
+    {
+        bNewEmergencySignal = (BYTE)IsEMGSignalOn();        
+    }
 
     // TODO: EMG signal must be checked with Prod board by Joseph 20231002
-    if (bNewEmergencySignal)
+    // Oakland Board - Low active (EMG)
+    if (bNewEmergencySignal) 
         gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
     else
         gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
 
-    if (gbPrevEmgSignal != bNewEmergencySignal) // gbPrevEmgSignal의 초기 상태는 0. //bNewEmergencySignal의 상태가 1이라면 해당 루트 진입
+    // Prod Board - High active (EMG) - Should check whether the board itself convert signal.
+    // if (!bNewEmergencySignal) 
+    //     gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
+    // else
+    //     gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
+
+    if (gbPrevEmgSignal != bNewEmergencySignal)
     {
         gnSignalCount = 1;
         gbPrevEmgSignal = bNewEmergencySignal;
@@ -965,4 +949,4 @@ void InitPassageMode(void)
     InitPassageModeForSwing();
 }
 
-/******* COPYRIGHT �� 2023 STraffic Co., Ltd.  ********END OF FILE****/
+/******* COPYRIGHT �� 2022 STraffic Co., Ltd.  ********END OF FILE****/

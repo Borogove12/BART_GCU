@@ -14,10 +14,7 @@
 /* FW Version String ---------------------------------------------------------*/
 #define GCU_FW_VERSION "0.0.12.1"
 #define TG_TIMER 2		// 2 s
-#define SWING_BARRIER
-
 #define GCU_BAUD		57600
-#define WDG_TOGGLE_PERIOD 	25
 
 #define BART_IO		1
 
@@ -58,9 +55,6 @@ typedef volatile unsigned int	VUINT;
 typedef volatile unsigned short	VUSHORT;
 typedef volatile unsigned char	VUCHAR;
 
-/* GCU Constant Definitions --------------------------------------------------*/
-//typedef enum { SUCCESS = 0, FAIL  = !SUCCESS} FunctionResult;
-
 /* GPIO PIN Definitions ------------------------------------------------------*/
 typedef enum { 
 	GPIO_PIN0	= 0x0001,
@@ -90,18 +84,6 @@ enum {
 	BIT6	= 0x20,
 	BIT7	= 0x40,
 	BIT8	= 0x80
-};
-#if 0
-enum {
-	OFF = 0,
-	ON	= 1
-};
-#endif
-
-enum {
-	CHK_OFF		= 0,
-	CHK_ALL		= 1,
-	CHK_ONE		= 2,
 };
 
 enum
@@ -166,182 +148,12 @@ enum
 #define RFID2_SEL_PIN	GPIO_PIN13	// P2.13
 #define RFID1_PWR_PIN	GPIO_PIN14	// P2.14
 #define RFID2_PWR_PIN	GPIO_PIN15	// P2.15
-#if 0
-/* GCU IO (EXTMEM 2) Address Definitions -------------------------------------*/
-#define ADDR_RD_SW1		0x64000001	// Door/Module switch 1
-#define ADDR_RD_SW2		0x64000002	// Door/Module switch 2
-#define ADDR_RD_TSEN	0x64000003	// Token capture unit sensor
-#define ADDR_RD_PSEN1	0x64000004	// Passenger sensor 1
-#define ADDR_RD_PSEN2	0x64000005	// Passenger sensor 2
-#define ADDR_RD_PSEN3	0x64000006	// Passenger sensor 3
-#define ADDR_RD_SPSEN	0x64000007	// Spare sensor (WMATA not used)
-#define ADDR_RD_FDOOR	0x64000008	// Sector door switch
-#define ADDR_RD_ECUOUT	0x64000009	// ECU Output
-#define ADDR_RD_EXTIRQ	0x6400000A	// External IRQ source
-#define ADDR_RD_UPSSTAT	0x6400000B  // UPS Status
-#define ADDR_RD_CPLDVER 0x6400000F  // CPLD Version
 
-#define ADDR_WR_FDOOR	0x64000011	// Control Flap door
-#define ADDR_WR_SOLSIG	0x64000012	// Control solenoids of token capture unit (WMATA not used)
-#define ADDR_WR_SOLPWM  0x64000013	// Control solenoids of token capture unit by PWM mode (WMATA not used)
-#define ADDR_WR_MDIR	0x64000014	// Control master direction display
-#define ADDR_WR_SDIR	0x64000015	// Control slave direction display
-#define ADDR_WR_DDIR	0x64000016	// Control dummy direction display (WMATA not used)
-#define ADDR_WR_MLAMP	0x64000017	// Control master lamp
-#define ADDR_WR_SLAMP	0x64000018	// Control slave lamp
-#define ADDR_WR_UPSCMD 	0x64000019	// UPS Command
-////////////////////////////////////////////////////////////////////////////////////
-/* GPIO1 PIN Definitions -----------------------------------------------------*/
-
-#define DIP_SW_PIN		0xFF
-
-#define DIP_SW1_PIN		GPIO_PIN0// P1.0  -BART DIP SW1
-
-#define DIP_SW2_PIN		GPIO_PIN1// P1.1  -BART DIP SW2
-
-#define DIP_SW3_PIN		GPIO_PIN2// P1.2  -BART DIP SW3
-
-#define DIP_SW4_PIN		GPIO_PIN3// P1.3  -BART DIP SW4
-
-#define DIP_SW5_PIN		GPIO_PIN4// P1.4  -BART DIP SW5
-
-#define DIP_SW6_PIN		GPIO_PIN5// P1.5  -BART DIP SW6
-
-#define DIP_SW7_PIN		GPIO_PIN6// P1.6  -BART DIP SW7
-
-#define DIP_SW8_PIN		GPIO_PIN7// P1.7  -BART DIP SW8
-
-#define GCU_OUT5_PIN	GPIO_PIN8// P1.8   (회로상 미연결)
-
-#define GCU_OUT6_PIN	GPIO_PIN9// P1.9   (회로상 미연결)
-
-// P1.8~11
-
-#define DIRA_ACK_PIN	GPIO_PIN12// P1.12   (회로상 미연결)
-
-#define DIRB_ACK_PING	PIO_PIN13// P1.13   (회로상 미연결)
-
-#define EMERGENCY_PIN	GPIO_PIN14// P1.14   (회로상 미연결)
-
-#define TCU_INLET_PIN	GPIO_PIN15// P1.15   (회로상 미연결)
-
-​
-
-/* GPIO2 PIN Definitions -----------------------------------------------------*/
-
-#define GPIO_CS2_PIN GPIO_PIN2// P2.2
-
-#define GPIO_CS3_PIN GPIO_PIN3// P2.3
-
-#define RETURN_LED_PIN GPIO_PIN4// P2.4   (회로상 미연결)
-
-#define BUZZER_PIN GPIO_PIN5// P2.5   - BART는 부저 1개만 사용 (기존 Main 부저 아니면 Entry부저로 추정됨)
-
-#define EN_BUZZER_PIN GPIO_PIN6// P2.6  - BART는 부저 1개만 사용 (기존 Main 부저 아니면 Entry부저로 추정됨)
-
-#define EX_BUZZER_PIN GPIO_PIN7// P2.7  - BART는 부저 1개만 사용
-
-#define EXT_INT2_PIN GPIO_PIN8// P2.8 - 인터럽트 신호 BART에서 사용여부는 첨부 GCU_IO Specification 참조
-
-#define EXT_INT3_PIN GPIO_PIN9// P2.9 - 인터럽트 신호 BART에서 사용여부는 첨부 GCU_IO Specification 참조
-
-#define RFID1_SEL_PIN GPIO_PIN12// P2.12 - Token box 없음
-
-#define RFID2_SEL_PIN GPIO_PIN13// P2.13 - Token box 없음
-
-#define RFID1_PWR_PIN GPIO_PIN14// P2.14 - Token box 없음
-
-#define RFID2_PWR_PIN GPIO_PIN15// P2.15 - Token box 없음
-
-​
-//CMDReadRegister 매치
-/* GCU IO (EXTMEM 2) Address Definitions -------------------------------------*/
-
-#define ADDR_RD_SW1		0x64000001// Door/Module switch 1 - BART는 Door Switch 1~4만 사용
-
-#define ADDR_RD_SW2		0x64000002// Door/Module switch 2 - BART는 Door Switch 5~8만 사용
-
-#define ADDR_RD_TSEN	0x64000003// Token capture unit sensor - Token box 없음
-
-#define ADDR_RD_PSEN1	0x64000004// Passenger sensor 1 - BART는 Passenger sensor 1~8사용
-
-#define ADDR_RD_PSEN2	0x64000005// Passenger sensor 2 - BART는 Passenger sensor 9~16사용(회로상엔 11~18로 표기)
-
-#define ADDR_RD_PSEN3	0x64000006// Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기)
-
-#define ADDR_RD_SPSEN	0x64000007// Spare sensor (WMATA not used)
-
-#define ADDR_RD_FDOOR	0x64000008// Sector door switch - BART에서는 Swing barrier 사용, Switch 없음
-
-#define ADDR_RD_ECUOUT	0x64000009// ECU Output - BART에서는 SCADA모듈과 IO인터페이스 함 (IN:5EA, OUT:5EA), 해당 어드레스를 사용해야하는지 신규로 할당해야할지는 확인 필요
-
-#define ADDR_RD_EXTIRQ	0x6400000A// External IRQ source  - 인터럽트 신호 BART에서 사용여부는 첨부 GCU_IO Specification 참조
-
-#define ADDR_RD_UPSSTAT	0x6400000B  // UPS Status - BART도 UPS I/F 사용 (In: 3EA)
-
-#define ADDR_RD_CPLDVER 0x6400000F  // CPLD Version - BART는 CPLD 없음
-
-​
-
-#define ADDR_WR_FDOOR	0x64000011// Control Flap door - BART는 Swing barrier와 IO 인터페이스 (IN: FAULT, ANOMALY, BRAKED, GSTATUS / OUT: EMG, DIR, BRAKE, OPEN/CLOSE)
-
-#define ADDR_WR_SOLSIG	0x64000012// Control solenoids of token capture unit (WMATA not used)
-
-#define ADDR_WR_SOLPWM  0x64000013// Control solenoids of token capture unit by PWM mode (WMATA not used)
-
-#define ADDR_WR_MDIR	0x64000014// Control master direction display - BART는 Primary 측 Status Display를 의미함 (RED, GREEN)- Yellow제어하지 않음
-
-#define ADDR_WR_SDIR	0x64000015// Control slave direction display - BART는 Secondary 측 Status Display를 의미함 (RED, GREEN)- Yellow제어하지 않음
-
-#define ADDR_WR_DDIR	0x64000016// Control dummy direction display (WMATA not used)
-
-#define ADDR_WR_MLAMP	0x64000017// Control master lamp - BART는 Primary 측 Indicator Ligit를 의미함 (RED, BLUE, GREEN)
-
-#define ADDR_WR_SLAMP	0x64000018// Control slave lamp - BART는 Secondary 측 Indicator Ligit를 의미함 (RED, BLUE, GREEN)
-
-#define ADDR_WR_UPSCMD 	0x64000019// UPS Command - BART도 UPS I/F 사용 (Out: 2EA) - 현재 SHDN 1EA만 구현되어 있으나 CHK신호 추가예정
-
-#endif
 ////////////////////////////////////////////////////////////////////////////////////
 /* GCU IO Address Access definition ------------------------------------------*/
-
-#if 0
-#define RD_SWITCH1		(*(VBYTE*)(ADDR_RD_SW1))
-#define RD_SWITCH2		(*(VBYTE*)(ADDR_RD_SW2))
-#define RD_TCUSEN		(*(VBYTE*)(ADDR_RD_TSEN)) // (WMATA not used)
-#define RD_PASSSEN1		(*(VBYTE*)(ADDR_RD_PSEN1))
-#define RD_PASSSEN2		(*(VBYTE*)(ADDR_RD_PSEN2))
-#define RD_PASSSEN3		(*(VBYTE*)(ADDR_RD_PSEN3))
-#define RD_SPARESEN		(*(VBYTE*)(ADDR_RD_SPSEN)) // (WMATA not used)
-#define RD_FDOORSW		(*(VBYTE*)(ADDR_RD_FDOOR))
-#define RD_ECUOUT		(*(VBYTE*)(ADDR_RD_ECUOUT))
-#define RD_EXTIRQ		(*(VBYTE*)(ADDR_RD_EXTIRQ))
-#define RD_UPSSTAT 		(*(VBYTE*)(ADDR_RD_UPSSTAT))
-#define RD_CPLDVER		(*(VBYTE*)(ADDR_RD_CPLDVER))
-
-#define WR_FDOOR		(*(VBYTE*)(ADDR_WR_FDOOR))
-#define WR_SOLSIG		(*(VBYTE*)(ADDR_WR_SOLSIG)) // (WMATA not used)
-#define WR_SOLPWM		(*(VBYTE*)(ADDR_WR_SOLPWM)) // (WMATA not used)
-#define WR_MDIR			(*(VBYTE*)(ADDR_WR_MDIR))
-#define WR_SDIR			(*(VBYTE*)(ADDR_WR_SDIR))
-#define WR_DDIR			(*(VBYTE*)(ADDR_WR_DDIR))
-#define WR_MLAMP		(*(VBYTE*)(ADDR_WR_MLAMP))
-#define WR_SLAMP		(*(VBYTE*)(ADDR_WR_SLAMP))
-#define WR_UPSCMD 		(*(VBYTE*)(ADDR_WR_UPSCMD))
-#endif
-
-
 #define RD_SWITCH		(*(VBYTE*)(READ02_ADR))						// global.h
-//#define RD_SWITCH2	(*(VBYTE*)(ADDR_RD_SW2))
-//#define RD_TCUSEN		(*(VBYTE*)(ADDR_RD_TSEN)) 					// (WMATA not used)
 #define RD_PASSSEN1		(*(VBYTE*)(READ00_ADR))						// global.h
 #define RD_PASSSEN2		(*(VBYTE*)(READ01_ADR))						// global.h
-//#define RD_PASSSEN3		(*(VBYTE*)(ADDR_RD_PSEN3))
-//#define RD_SPARESEN		(*(VBYTE*)(ADDR_RD_SPSEN)) 				// (WMATA not used)
-#define RD_FDOORSW		0	//(*(VBYTE*)(ADDR_RD_FDOOR))			// SectorDoor
-#define RD_ECUOUT		0	//(*(VBYTE*)(ADDR_RD_ECUOUT))
-#define RD_EXTIRQ		0	//(*(VBYTE*)(ADDR_RD_EXTIRQ))
-#define RD_CPLDVER		0	//(*(VBYTE*)(ADDR_RD_CPLDVER))
 
 #define WR_FDOOR		(*(VBYTE*)(ADDR_WR_FDOOR))
 #define WR_MDIR			(*(VBYTE*)(ADDR_WR_MDIR))
@@ -364,19 +176,19 @@ enum
 
 // TODO: Must be changed for Prod board
 // Oak Board: Low active
-// #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
-// #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
+#define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
+#define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
 // Prod Board: High active
- #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
- #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
+// #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET)
+// #define ControlUPS_CheckOff() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
 
 // TODO: Must be changed for Prod board
 // Oak Board: High active
-// #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
-// #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
+#define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
+#define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
 // Prod Board: Low active
- #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
- #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
+// #define ControlUPS_ShutDownOn() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET)
+// #define ControlUPS_ShutDownOff() 	HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET)
 
 enum {	
 	BARRIER_FREE	= 0x00,
@@ -579,32 +391,6 @@ typedef union
 
 } T_PASS_SEN_ERROR;
 
-/* Bit structure - Spare sensors ---------------------------------------------*/
-typedef struct {
-	int End1:		1;
-	int End2:		1;
-	int Spare1:		1;
-	int Spare2:		1;
-	int dummy:		4;
-} T_SPARE_SEN;
-
-/* Bit structure - Sensors of flap door --------------------------------------*/
-typedef struct {
-	int Door1:		3;
-	int dummy1:		1;
-	int Door2:		3;
-	int dummy2:		1;
-} T_FDOOR_SEN;
-
-/* Bit structure - ECU out signal --------------------------------------------*/
-typedef struct {
-	int AuthDirA:	1;
-	int AuthDirB:	1;
-	int rfu1:		1;
-	int rfu2:		1;
-	int dummy:		4;
-} T_ECUOUT;
-
 /* Operation mode ------------------------------------------------------------*/
 enum {
 	// Direction Service Mode
@@ -628,7 +414,7 @@ enum {
 typedef struct {
 	BYTE	bServiceMode_EN;	// NO_SERVICE(0), IN_SERVICE(1), FREE_SERVICE(2)
 	BYTE	bServiceMode_EX;	// NO_SERVICE(0), IN_SERVICE(1), FREE_SERVICE(2)
-	BYTE 	bEmergencyMaint;		// MODE_NONE(0x00), EMERGENCY_MODE(0x01), MAINTENANCE_MODE(0x10), FREE_MODE(0x20)
+	BYTE 	bEmergencyMaint;	// MODE_NONE(0x00), EMERGENCY_MODE(0x01), MAINTENANCE_MODE(0x10), FREE_MODE(0x20)
 	BYTE	bFlapDoorMode;		// FD_MODE_CLOSE(0), FD_MODE_OPEN(1)
 } T_GCU_OP_MODE;
 
@@ -638,8 +424,7 @@ enum
 	// Passage Type
 	PASSAGE_TYPE_NONE = 0,
 	PASSAGE_TYPE_W = 'W', // 18 sets sensor type for WMATA (Washington D.C)
-	PASSAGE_TYPE_S = 'S', // 16 sets sensor type for swing gate (WMATA, BART)
-
+	PASSAGE_TYPE_S = 'S', // 16 sets sensor type for BART (Bay Area, SF/OAK )
 	// Passage Control Mode
 	PASS_MODE_MANUAL = 0, // default
 	PASS_MODE_EASY = 1,
@@ -672,6 +457,7 @@ enum
 	DEFAULT_ALARM_TIMEOUT = 5,			// sec
 	DEFAULT_JUMPING_TIMEOUT = 3,		// sec
 	DEFAULT_TAILGATING_TIMEOUT = 2,		// sec
+	DEFAULT_ILLEGAL_ENTRY_TIMEOUT = 10,	// sec
 
 	// time unit conversion factor to tick count
 	TICK_COUNT_10SEC = 10000, // 1 sec <- 100 * TICK(10ms)
@@ -698,20 +484,11 @@ enum
 };
 
 typedef struct {
-	BYTE bPassageType;			// PASSAGE_TYPE_G, PASSAGE_TYPE_B
-	BYTE bPassageMode;			// PASS_MODE_MANUAL, PASS_MODE_EASY
-	BYTE bAlarmMode;			// ALARM_MODE_POLL, ALARM_MODE_ACTIVE
-	BYTE bAuthType;				// AUTH_TYPE_SERIAL, AUTH_TYPE_TTL
 	BYTE bAuthTimeOut;			// 0(No Timeout) ~ 255 (unit: sec)
-	BYTE bCriticalZone;			// ALARM_ZONE_NONE, ALARM_ZONE1, ALARM_ZONE2, ALARM_ZONE3
-	BYTE bCounterZone;			// ALARM_ZONE_NONE, ALARM_ZONE1, ALARM_ZONE2, ALARM_ZONE3
 	BYTE bEMGTimeout;			// 0(No Timeout) ~ 255 (unit: sec)
-	BYTE bSensorBlockTimeout;	// 0(No Timeout(check)) ~ 255 (unit: sec)
-	BYTE bBarrierOpenTimeout;	// 0(No Timeout) ~ 255 (unit: sec)
+	BYTE bSensorBlockTimeout;	// 0(No Timeout) ~ 255 (unit: sec)
 	BYTE bAlarmTimeout;			// 0(No Timeout) ~ 255 (unit: sec)
 	BYTE bIllegalEntryTimeout;	// 0(No Timeout) ~ 255 (unit: sec)
-	BYTE bAutoEmergency;		// 0(Disable), 1 or else(Enable)
-	BYTE bCheckChild;			// ON: Check child, OFF: Not Check Child
 	BYTE bGateType;				// 0: Standard, 1: Wide	
 } T_GCU_PARAMETER;
 
@@ -754,8 +531,6 @@ typedef struct {
 	BYTE	bAuthCount;		// 1 ~ 255
 	BYTE    bLamp; 			// LAMP_OFF, LAMP_RED_ON, LAMP_BLUE_ON, LAMP_GREEN_ON
 	BYTE	bLampBar;		// DIR_OFF, DIR_BLUE, DIR_YELLOW
-	BYTE	bDuration;		// 0 (Permanent) ~ 255 (unit: 0.1sec)
-	BYTE	bTokenPath;		// TOKEN_PATH_NONE, TOKEN_PATH_BOX1, TOKEN_PATH_BOX2, TOKEN_PATH_RETURN
 } T_CMD_AUTH_PASS;
 
 enum

@@ -24,7 +24,7 @@ BYTE bCountPattern_EN = PASS_PATN_NONE;
 BYTE bCountPattern_EX = PASS_PATN_NONE;
 
 // Setting time for Timer
-DWORD dwCloseWaitTime = 4;		 // unit: 100 ms
+DWORD dwCloseWaitTime = 1;		 // unit: 100 ms
 DWORD dwResetTime = 30;			 // unit: 100 ms
 DWORD dwTgFilterTime = 2;		 // unit: 100 ms
 DWORD dwTgDetectionTime = 10;	 // unit: 100 ms
@@ -86,12 +86,11 @@ bool CheckCritical()
 {
 	if (gisEntryPassenger && psenNewSwing.b.s05)
 	{
-			return TRUE;
+		return TRUE;
 	}
-	
-        if (gisExitPassenger && psenNewSwing.b.s13)
+	else if (gisExitPassenger && psenNewSwing.b.s13)
 	{
-			return TRUE;
+		return TRUE;
 	}
 
 	return FALSE;
@@ -101,25 +100,6 @@ void UpdateSensorData()
 {
 	psenNewSwing.B.bSen1 = RD_PASSSEN1 & (~psenError.B.bSen1);
 	psenNewSwing.B.bSen2 = RD_PASSSEN2 & (~psenError.B.bSen2);
-}
-
-void StopBarrierForSwing(bool isStop)
-{
-	if (isBarrierStop != isStop)
-	{
-	isBarrierStop = isStop;
-
-		if (isBarrierStop == TRUE)
-		{
-			SetTimer(&timerStopHolding);
-		}
-		else
-		{
-			ResetTimer(&timerStopHolding);
-		}
-
-	Brr_StopBarrier(isStop);
-	}
 }
 
 void InitPassageModeForSwing(void)
@@ -222,6 +202,25 @@ void InitPassageModeForSwing(void)
 				ResetTimer(&timerAuthorize);
 			}
 		}
+	}
+}
+
+void StopBarrierForSwing(bool isStop)
+{
+	if (isBarrierStop != isStop)
+	{
+		isBarrierStop = isStop;
+
+		if (isBarrierStop == TRUE)
+		{
+			SetTimer(&timerStopHolding);
+		}
+		else
+		{
+			ResetTimer(&timerStopHolding);
+		}
+
+		Brr_StopBarrier(isStop);
 	}
 }
 
@@ -339,7 +338,6 @@ void CheckBarrierOperation(void)
 
 									nBarrierErrorCnt = 0;
 									StopBarrierForSwing(FALSE);
-									ControlBarrier(BARRIER_CLOSE);
 								}
 							}
 						}
@@ -371,22 +369,22 @@ void CheckBarrierOperation(void)
 								if (!psenNewSwing.dirExit.lower && !psenNewSwing.dirEntry.lower)
 								{
 									StopBarrierForSwing(FALSE);
-					}
+								}
 								else
 								{
 									printf(" [CheckBarrier] Total Locking - 1!!! \n");
 									StopBarrierForSwing(TRUE);
-				}
-			}
-			else
-			{
+								}
+							}
+							else
+							{
 								// Total Locking 20230823
 								if (!psenNewSwing.dirExit.lower && !psenNewSwing.dirEntry.lower)
-						{
+								{
 									StopBarrierForSwing(FALSE);
 								}
 								else
-							{
+								{
 									printf(" [CheckBarrier] Total Locking - 2!!! \n");
 									StopBarrierForSwing(TRUE);
 								}
@@ -502,7 +500,7 @@ void CheckEntranceSwing(void)
 			if (!psenNewSwing.section.enter_EN && !psenNewSwing.section.lower_EN)
 			{
 				ResetTimer(&timerIllegalEnterEN);
-				isPassReady_EN = FALSE;
+				// isPassReady_EN = FALSE;
 				bEnterPattern_EN = PASS_PATN_NONE;
 				gGCUStatus.PassageAlarm.b.nPassOverFromEX = OFF;
 				isCounterEnter = FALSE;
@@ -516,7 +514,7 @@ void CheckEntranceSwing(void)
 			if (!psenNewSwing.side.entry)
 			{
 				ResetTimer(&timerIllegalEnterEN);
-				isPassReady_EN = FALSE;
+				// isPassReady_EN = FALSE;
 				bEnterPattern_EN = PASS_PATN_NONE;
 				gGCUStatus.PassageAlarm.b.nPassOverFromEX = OFF;
 				isCounterEnter = FALSE;
@@ -551,7 +549,7 @@ void CheckEntranceSwing(void)
 			if (!psenNewSwing.section.enter_EX && !psenNewSwing.section.lower_EX)
 			{
 				ResetTimer(&timerIllegalEnterEX);
-				isPassReady_EX = FALSE;
+				// isPassReady_EX = FALSE;
 				bEnterPattern_EX = PASS_PATN_NONE;
 				gGCUStatus.PassageAlarm.b.nPassOverFromEN = OFF;
 				isCounterEnter = FALSE;
@@ -565,7 +563,7 @@ void CheckEntranceSwing(void)
 			if (!psenNewSwing.side.exit)
 			{
 				ResetTimer(&timerIllegalEnterEX);
-				isPassReady_EX = FALSE;
+				// isPassReady_EX = FALSE;
 				bEnterPattern_EX = PASS_PATN_NONE;
 				gGCUStatus.PassageAlarm.b.nPassOverFromEN = OFF;
 				isCounterEnter = FALSE;
@@ -604,8 +602,8 @@ void CheckPassReadySwing(void)
 			{
 				printf(" [EX] Pass Ready \n");
 				isPassReady_EX = TRUE;
-					gisExitPassenger = FALSE;
-				}
+				gisExitPassenger = FALSE;
+			}
 		}
 
 		// Luggage check (Stroller, Bicycle, Luggage)
@@ -624,7 +622,7 @@ void CheckPassReadySwing(void)
 			{
 				printf(" [EN] Pass Ready \n");
 				isPassReady_EN = TRUE;
-					gisEntryPassenger = FALSE;
+				gisEntryPassenger = FALSE;
 			}
 		}
 
@@ -644,7 +642,7 @@ void CheckPassingSwing(void)
 	{
 		if (isPassOver_EN)
 		{
-			if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
+			if (psenNewSwing.b.s10 && !psenNewSwing.b.s13)
 			{
 				printf(" [EN] Pass over [%d]\n", gGCUStatus.bAuthCount_EN);
 				isPassReady_EN = FALSE;
@@ -668,7 +666,8 @@ void CheckPassingSwing(void)
 					else
 					{
 						gGCUStatus.bAuthCount_EN--;
-						SetTimer(&timerCloseWait);
+                        ControlBarrier(BARRIER_CLOSE);
+						// SetTimer(&timerCloseWait);
 						ResetTimer(&timerAuthorize);
 						printf(" [EN] Barrier close \n");
 					}
@@ -701,7 +700,7 @@ void CheckPassingSwing(void)
 	{
 		if (isPassOver_EX)
 		{
-			if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
+			if (psenNewSwing.b.s02 && !psenNewSwing.b.s05)
 			{
 				printf(" [EX] Pass over [%d]\n", gGCUStatus.bAuthCount_EX);
 				isPassReady_EX = FALSE;
@@ -725,7 +724,8 @@ void CheckPassingSwing(void)
 					else
 					{
 						gGCUStatus.bAuthCount_EX--;
-						SetTimer(&timerCloseWait);
+                		ControlBarrier(BARRIER_CLOSE);
+						// SetTimer(&timerCloseWait);
 						ResetTimer(&timerAuthorize);
 						printf(" [EX] Barrier close \n");
 					}
@@ -817,9 +817,9 @@ void CheckIllegalEnter(void)
 		}
 		else if (!gGCUStatus.bAuthCount_EN)
 		{
-				CheckIllegalEnterTimer(FROM_ENTRY);
-			}
+			CheckIllegalEnterTimer(FROM_ENTRY);
 		}
+	}
 
 	if (gisExitPassenger && gGCUStatus.PassageAlarm.b.nPassOverFromEN != ON)
 	{
@@ -841,9 +841,9 @@ void CheckIllegalEnter(void)
 		}
 		else if (!gGCUStatus.bAuthCount_EX)
 		{
-				CheckIllegalEnterTimer(FROM_EXIT);
-			}
+			CheckIllegalEnterTimer(FROM_EXIT);
 		}
+	}
 }
 
 void CheckTGTimerForSwing(void)
@@ -915,7 +915,8 @@ void CheckSafetyTimerForSwing(void)
 				{
 					gGCUStatus.bSafetyDetection = FLG_SET;
 
-					if (psenNewSwing.section.lower_EX || psenNewSwing.b.s04 || psenNewSwing.b.s08)
+					// if ((!psenNewSwing.b.s13 && psenNewSwing.section.lower_EX) || psenNewSwing.b.s04 || psenNewSwing.b.s08)
+                    if (psenNewSwing.section.lower_EX || psenNewSwing.b.s04 || psenNewSwing.b.s08)
 					{
 						printf(" [EN] Safety Activation [%02X/%02X/%02X] \n", psenNewSwing.section.lower_EX, psenNewSwing.b.s04, psenNewSwing.b.s08);
 						StopBarrierForSwing(TRUE);
@@ -925,17 +926,18 @@ void CheckSafetyTimerForSwing(void)
 						isSentClose = FALSE;
 					}
 					else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
-						{
-							gGCUStatus.bSafetyDetection = FLG_OFF;
-							isSentClose = TRUE;
-							CloseBarrierForSwing();
-						}
+					{
+						gGCUStatus.bSafetyDetection = FLG_OFF;
+						isSentClose = TRUE;
+						CloseBarrierForSwing();
 					}
+				}
 				else if (gbAuthDirection == FROM_EXIT)
 				{
 					gGCUStatus.bSafetyDetection = FLG_SET;
 
-					if (psenNewSwing.section.lower_EN || psenNewSwing.b.s12 || psenNewSwing.b.s16)
+					// if ((!psenNewSwing.b.s05 && psenNewSwing.section.lower_EN) || psenNewSwing.b.s12 || psenNewSwing.b.s16)
+                    if (psenNewSwing.section.lower_EN || psenNewSwing.b.s12 || psenNewSwing.b.s16)
 					{
 						printf(" [EX] Safety Activation [%02X/%02X/%02X] \n", psenNewSwing.section.lower_EN, psenNewSwing.b.s12, psenNewSwing.b.s16);
 						StopBarrierForSwing(TRUE);
@@ -945,12 +947,12 @@ void CheckSafetyTimerForSwing(void)
 						isSentClose = FALSE;
 					}
 					else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
-						{
-							gGCUStatus.bSafetyDetection = FLG_OFF;
-							isSentClose = TRUE;
-							CloseBarrierForSwing();
-						}
+					{
+						gGCUStatus.bSafetyDetection = FLG_OFF;
+						isSentClose = TRUE;
+						CloseBarrierForSwing();
 					}
+				}
 				else
 				{
 					// For barrier initialization

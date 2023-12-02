@@ -558,7 +558,7 @@ void CMDWriteRegister(void)
 	BYTE	dwUPSCHKValue 			= 0;
 	BYTE	dwUPSSHDNKValue 		= 0;
 
-	printf("pbControl[0] = [%d] \n",pbControl[0]);        //Barrier, S_EMG = [0x80], S_DIR = [0x40], S_BRAKE = [0x20], S_OPEN = [0x10], P_EMG = [0x08], P_DIR = [0x04], P_BRAKE = [0x02], P_OPEN = [0x01]
+	printf("pbControl[0] = [%d] \n",pbControl[0]);      //Barrier, S_EMG = [0x80], S_DIR = [0x40], S_BRAKE = [0x20], S_OPEN = [0x10], P_EMG = [0x08], P_DIR = [0x04], P_BRAKE = [0x02], P_OPEN = [0x01]
 	printf("pbControl[1] = [%d] \n",pbControl[1]);		//SCADA OUT, NXO = [0x8], TDO = [0x4], EBO = [0x2], OOS = [0x1]
 	printf("pbControl[2] = [%d] \n",pbControl[2]);
 	printf("pbControl[3] = [%d] \n",pbControl[3]);		//jig master dir green = [0x4], red = [0x2], yellow = [0x1]
@@ -624,39 +624,21 @@ void CMDWriteRegister(void)
 
 	outb(WRITE01_ADR, dwSecondaryLEDValue);	
 
-
 	if (pbControl[8] == 0x33)
 	{
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET);			//Default Low / Active High	 New Board
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_RESET);		//Default High / Active Low	 New Board
-		//add comment Shut down 이 Default High 이므로 GPIO_PIN_RESET -> GPIO_PIN_SET 이어야 하나 jig 프로그램 check box 가 불이 꺼진 상황이라 동일하게 동작되게 설정		20231127_pms
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);
 	}
 	else
 	{
-		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x01: 0x00;						//CHK	High / Low
+		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x00: 0x01;
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, dwUPSCHKValue);
 
-		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x01: 0x00;					//SHDN	Low / High
+		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
 
 	}
-/*
-	if (pbControl[8] == 0x33)
-	{
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET);			//Default Low / Active High	 New Board
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);		//Default High / Active Low	 New Board
-		//add comment Shut down 이 Default High 이므로 처음부터 jig 프로그램 기준 low 입력(즉 Shutdown 동작 상태)로 맞춘 코트. 어느 것으로 선택 할 것인가는 최총 결정자 확인 필요	20231127_pms
-	}
-	else
-	{
-		dwUPSCHKValue  = (pbControl[8] & 0x02)? 0x01: 0x00;						//CHK	High / Low
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, dwUPSCHKValue);
 
-		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;					//SHDN	Low / High
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
-
-	}
-*/
 	//pbControl[5] =  0;						// Control dummy direction display (WMATA not used)
 	//pbControl[8] => UPS Shuddown On [0x00], UPS Shuddown Off [0x01] / UPS Check On [0x02], UPS Check Off [0x00] 
 	//pbControl[8] =  0;						// UPS Command - BART도 UPS I/F 사용 (Out: 2EA) - 현재 SHDN 1EA만 구현되어 있으나 CHK신호 추가예정 -> Jig Program 에서는 UPS Write 시그널 줌. 20231002 by Joseph
@@ -717,7 +699,7 @@ void CMDReadRegister(void)			//pms		이 함수 모두 확인 필요
 *******************************************************************************/
 void CMDGetCPLDVersion(void)
 {
-	BYTE	bCPLDVersion = RD_CPLDVER;
+	BYTE	bCPLDVersion = 0;
 
 	MakeResponse(&bCPLDVersion, sizeof(bCPLDVersion));
 }

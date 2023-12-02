@@ -1,11 +1,11 @@
 /*******************************************************************************
-*       COPYRIGHT �� 2023 STraffic Co., Ltd. All rights reserved
-********************************************************************************
-* File Name    : test.c
-* Author       : Joseph Yosep Choi
-* Date Created : 01/17/2020
-* Description  : 
-*******************************************************************************/
+ *       COPYRIGHT �� 2023 STraffic Co., Ltd. All rights reserved
+ ********************************************************************************
+ * File Name    : test.c
+ * Author       : Joseph Yosep Choi
+ * Date Created : 01/17/2020
+ * Description  :
+ *******************************************************************************/
 
 #include <string.h>
 #include "userlib.h"
@@ -339,17 +339,17 @@ void Write_IO_init(void)
 		break;
 	}
 
-	nBuzzOpSeq 	= 0;
+	nBuzzOpSeq = 0;
 	nSDoorOpSeq = 0;
 	nPDoorOpSeq = 0;
-	nLampOpSeq 	= 0;
-	nDirOpSeq 	= 0;
-	nOverOpSeq 	= 0;
+	nLampOpSeq = 0;
+	nDirOpSeq = 0;
+	nOverOpSeq = 0;
 }
 
 void TestAging(void)
 {
-	static DWORD loop = 0;	// 1 loop = 10ms
+	static DWORD loop = 0; // 1 loop = 10ms
 
 	// Every 2 seconds, the test function will run.
 	if (!loop)
@@ -803,92 +803,91 @@ void CMD_Test(byte bVal)
 {
 
 	switch (bVal)
-    {
-	    	case 0x31:			//1
-	    		Brr_Inq_Status();
-	    		break;
+	{
+	case 0x31: // 1
+		break;
 	case 0x32: // 2
-	    		TEST_LAMP_P_Cmd();
-	    		TEST_LAMP_S_Cmd();
-	    		break;
+		TEST_LAMP_P_Cmd();
+		TEST_LAMP_S_Cmd();
+		break;
 	case 0x33: // 3
-	    		TEST_Direction_Cmd();
-	    		break;
+		TEST_Direction_Cmd();
+		break;
 	case 0x34: // 4
-	    		TEST_OverHeadDirection_Cmd();
-	    		break;
+		TEST_OverHeadDirection_Cmd();
+		break;
 	case 0x35: // 5
-	    		TEST_Barrier_P_Cmd();
-	    		break;
+		TEST_Barrier_P_Cmd();
+		break;
 	case 0x36: // 6
-	    		TEST_Barrier_S_Cmd();
-	    		break;
+		TEST_Barrier_S_Cmd();
+		break;
 	case 0x37: // 7
-	    		TEST_Buzzer_Cmd();
-	    		break;
+		TEST_Buzzer_Cmd();
+		break;
 	case 0x42: // B break s
 	case 0x62: // b break s
-	    		TEST_Barrier_S_B_Cmd();
-	    		TEST_Barrier_P_B_Cmd();
-	    		break;
+		TEST_Barrier_S_B_Cmd();
+		TEST_Barrier_P_B_Cmd();
+		break;
 	case 0x45: // E	Emergency s
 	case 0x65: // e	Emergency s
-	    		TEST_Barrier_S_E_Cmd();
-	    		TEST_Barrier_P_E_Cmd();
-	    		break;
+		TEST_Barrier_S_E_Cmd();
+		TEST_Barrier_P_E_Cmd();
+		break;
 	case 0x43: // C	close
 	case 0x63: // c	close
 		if (Add_200_Value & 0x88)
-		    		{
-		         		printf("Setting break \n");
-		    		}
+		{
+			printf("Setting break \n");
+		}
 		else if (Add_200_Value & 0x22)
-		    		{
-			    		printf("Setting Emergency \n");
-		    		}
-		    		else
-		    		{
-		    			Brr_ControlBarrier_All_OPnC_Dir(CLOSE);
-		    		}
-	    		break;
+		{
+			printf("Setting Emergency \n");
+		}
+		else
+		{
+			Brr_ControlBarrier_All_OPnC_Dir(CLOSE);
+		}
+		break;
 	case 0x4E: // N	entry
 	case 0x6E: // n	entry
 		if (Add_200_Value & 0x88)
-	    		{
-	         		printf("Setting break \n");
-	    		}
+		{
+			printf("Setting break \n");
+		}
 		else if (Add_200_Value & 0x22)
-	    		{
-		    		printf("Setting Emergency \n");
-	    		}
-	    		else
-	    		{
-					Brr_ControlBarrier_All_OPnC_Dir(OPEN);
-					Brr_ControlBarrier_All_Dir(ENTRY);
-					printf("Setting ENTRY Direction Open\n");
-	    		}
-	    		break;
+		{
+			printf("Setting Emergency \n");
+		}
+		else
+		{
+			Brr_ControlBarrier_All_OPnC_Dir(OPEN);
+			Brr_ControlBarrier_All_Dir(ENTRY);
+			printf("Setting ENTRY Direction Open\n");
+		}
+		break;
 	case 0x58: // X	exit
 	case 0x78: // x	exit
 		if (Add_200_Value & 0x88)
-	    		{
-	         		printf("Setting break \n");
-	    		}
+		{
+			printf("Setting break \n");
+		}
 		else if (Add_200_Value & 0x22)
-	    		{
-		    		printf("Setting Emergency \n");
-	    		}
-	    		else
-	    		{
-					Brr_ControlBarrier_All_OPnC_Dir(OPEN);
-					Brr_ControlBarrier_All_Dir(EXIT);
-					printf("Setting EXIT Direction Open\n");
-	    		}
-	    		break;
+		{
+			printf("Setting Emergency \n");
+		}
+		else
+		{
+			Brr_ControlBarrier_All_OPnC_Dir(OPEN);
+			Brr_ControlBarrier_All_Dir(EXIT);
+			printf("Setting EXIT Direction Open\n");
+		}
+		break;
 	case 0x30: // Barrier_Value
-	    		Barrier_Val();
-	    		break;
-    }
+		Barrier_Val();
+		break;
+	}
 }
 
 /*****END OF FILE****/
