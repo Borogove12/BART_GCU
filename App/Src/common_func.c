@@ -38,6 +38,7 @@ BYTE gbIndicatorFlag = FLG_OFF;
 BYTE gbEmergencyFlag = FLG_OFF;
 BYTE gbAuthDirection = FROM_NONE;
 BYTE gbPrevEmgSignal = OFF;
+BYTE gbPrevUPSStatus = 0;
 
 bool gfModeChanged = FALSE; // mode change state
 bool gfisAuthTimeout = FALSE;
@@ -409,89 +410,94 @@ void CheckUPSStatus(void)
 {
     BYTE bUPSStatus = 0;
 
-    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;       // Connection Failure, High active
+    bUPSStatus = (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_CONN_Pin)) ? 0x01 : 0x00;      // Connection Failure, High active
     bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_PWR_FAIL_Pin)) ? 0x02 : 0x00; // Power Failure, Low active
-    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;   // Low battery, Low active
+    bUPSStatus |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port, nUPS_LOW_BAT_Pin)) ? 0x04 : 0x00;  // Low battery, Low active
 
-    switch (bUPSStatus)
+    if (bUPSStatus != gbPrevUPSStatus)
     {
-    case 0x01:
-        gGCUStatus.bUPSStatus = bUPSStatus;
-        printf(" [CheckUPSStatus] UPS Comm failure  \n");
-        break;
-    case 0x00:
-    case 0x04:
-        if (gbPowerFailFlag == FLG_OFF)
+        switch (bUPSStatus)
         {
-            if (timerPowerFailureCheck.fStart)
+        case 0x01:
+            gGCUStatus.bUPSStatus = bUPSStatus;
+            printf(" [CheckUPSStatus] UPS Comm failure  \n");
+            break;
+        case 0x00:
+        case 0x04:
+            if (gbPowerFailFlag == FLG_OFF)
             {
-                if (IsTimeout(&timerPowerFailureCheck, DEFAULT_POWER_FAIL_TIMEOUT * TICK_COUNT_1SEC))
+                if (timerPowerFailureCheck.fStart)
+                {
+                    if (IsTimeout(&timerPowerFailureCheck, DEFAULT_POWER_FAIL_TIMEOUT * TICK_COUNT_1SEC))
+                    {
+                        ResetTimer(&timerPowerFailureCheck);
+                        gbPowerFailFlag = FLG_SET;
+                        ControlBarrier(BARRIER_OPEN_FOR_EX);
+                        gGCUStatus.bUPSStatus = bUPSStatus;
+                        ControlDirectionLED(DIR_RED, DIR_RED);
+                        printf(" [CheckUPSStatus] Power failure  \n");
+                    }
+                }
+                else
+                {
+                    SetTimer(&timerPowerFailureCheck);
+                    ResetTimer(&timerPowerRecoveryCheck);
+                }
+            }
+            else
+            {
+                if (timerPowerRecoveryCheck.fStart)
+                {
+                    ResetTimer(&timerPowerRecoveryCheck);
+                }
+            }
+            break;
+        case 0x06:
+            if (gbPowerFailFlag == FLG_SET)
+            {
+                if (timerPowerRecoveryCheck.fStart)
+                {
+                    if (IsTimeout(&timerPowerRecoveryCheck, DEFAULT_POWER_FAIL_TIMEOUT * TICK_COUNT_1SEC))
+                    {
+                        if ((gCurGCUOpMode.bServiceMode_EN == NO_SERVICE) ||
+                            (gGCUStatus.bAuthCount_EX && (gCurGCUOpMode.bServiceMode_EN == IN_SERVICE)))
+                            gbLampCMD_EN = DIR_RED;
+                        else
+                            gbLampCMD_EN = DIR_GREEN;
+
+                        if ((gCurGCUOpMode.bServiceMode_EX == NO_SERVICE) ||
+                            (gGCUStatus.bAuthCount_EN && (gCurGCUOpMode.bServiceMode_EX == IN_SERVICE)))
+                            gbLampCMD_EX = DIR_RED;
+                        else
+                            gbLampCMD_EX = DIR_GREEN;
+
+                        gbPowerFailFlag = FLG_OFF;
+                        gGCUStatus.bUPSStatus = bUPSStatus;
+                        ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
+                        printf(" [CheckUPSStatus] Power recovered  \n");
+                    }
+                }
+                else
+                {
+                    SetTimer(&timerPowerRecoveryCheck);
+                    ResetTimer(&timerPowerFailureCheck);
+                }
+            }
+            else
+            {
+                gGCUStatus.bUPSStatus = bUPSStatus;
+
+                if (timerPowerFailureCheck.fStart)
                 {
                     ResetTimer(&timerPowerFailureCheck);
-                    gbPowerFailFlag = FLG_SET;
-                    ControlBarrier(BARRIER_OPEN_FOR_EX);
-                    gGCUStatus.bUPSStatus = bUPSStatus;
-                    ControlDirectionLED(DIR_RED, DIR_RED);
-                    printf(" [CheckUPSStatus] Power failure  \n");
                 }
             }
-            else
-            {
-                SetTimer(&timerPowerFailureCheck);
-                ResetTimer(&timerPowerRecoveryCheck);
-            }
-        }
-        else
-        {
-            if (timerPowerRecoveryCheck.fStart)
-            {
-                ResetTimer(&timerPowerRecoveryCheck);
-            }
-        }
-        break;
-    case 0x06:
-        if (gbPowerFailFlag == FLG_SET)
-        {
-            if (timerPowerRecoveryCheck.fStart)
-            {
-                if (IsTimeout(&timerPowerRecoveryCheck, DEFAULT_POWER_FAIL_TIMEOUT * TICK_COUNT_1SEC))
-                {
-                    if ((gCurGCUOpMode.bServiceMode_EN == NO_SERVICE) ||
-                        (gGCUStatus.bAuthCount_EX && (gCurGCUOpMode.bServiceMode_EN == IN_SERVICE)))
-                        gbLampCMD_EN = DIR_RED;
-                    else
-                        gbLampCMD_EN = DIR_GREEN;
 
-                    if ((gCurGCUOpMode.bServiceMode_EX == NO_SERVICE) ||
-                        (gGCUStatus.bAuthCount_EN && (gCurGCUOpMode.bServiceMode_EX == IN_SERVICE)))
-                        gbLampCMD_EX = DIR_RED;
-                    else
-                        gbLampCMD_EX = DIR_GREEN;
-
-                    gbPowerFailFlag = FLG_OFF;
-                    gGCUStatus.bUPSStatus = bUPSStatus;
-                    ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
-                    printf(" [CheckUPSStatus] Power recovered  \n");
-                }
-            }
-            else
-            {
-                SetTimer(&timerPowerRecoveryCheck);
-                ResetTimer(&timerPowerFailureCheck);
-            }
+            break;
         }
-        else
-        {
-            gGCUStatus.bUPSStatus = bUPSStatus;
-
-            if (timerPowerFailureCheck.fStart)
-            {
-                ResetTimer(&timerPowerFailureCheck);
-            }
-        }
-
-        break;
     }
+
+    gbPrevUPSStatus = bUPSStatus;
 }
 
 void CheckEmergencySignal(void)
@@ -505,18 +511,18 @@ void CheckEmergencySignal(void)
         bNewEmergencySignal = OFF;
     else
     {
-        bNewEmergencySignal = (BYTE)IsEMGSignalOn();        
+        bNewEmergencySignal = (BYTE)IsEMGSignalOn();
     }
 
     // TODO: EMG signal must be checked with Prod board by Joseph 20231002
     // Oakland Board - Low active (EMG)
-    if (bNewEmergencySignal) 
+    if (bNewEmergencySignal)
         gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
     else
         gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
 
     // Prod Board - High active (EMG) - Should check whether the board itself convert signal.
-    // if (!bNewEmergencySignal) 
+    // if (!bNewEmergencySignal)
     //     gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
     // else
     //     gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
