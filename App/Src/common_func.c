@@ -260,7 +260,6 @@ void IncreaseAuthCount(BYTE bDir)
     ControlBarrier(bDir);
     ResetTimer(&timerLuggageWait);
     ResetTimer(&timerSafety);
-    ControlBuzzer(BUZZER_OFF, 0);
     SetAuthTimer();
 
     printf(" [IncreaseAuthCount] auth cnt EN:%d, EX:%d  \n", gGCUStatus.bAuthCount_EN, gGCUStatus.bAuthCount_EX);
@@ -305,17 +304,19 @@ void ControlBarrier(BYTE bFDoorControl)
 
 void ControlBuzzer(BYTE bBuzzerControl, BYTE bDuration)
 {
-    ResetTimer(&timerBuzzer);
-
     if (bBuzzerControl == BUZZER_OFF || bDuration == 0)
     {
+        ResetTimer(&timerBuzzer);
         BuzzerOff();
     }
     else
     {
-        BuzzerOn();
-        gdwBuzzerTimeout = bDuration * TICK_COUNT_1SEC;
-        SetTimer(&timerBuzzer);
+        if (!timerBuzzer.fStart)
+        {
+            BuzzerOn();
+            gdwBuzzerTimeout = bDuration * TICK_COUNT_1SEC;
+            SetTimer(&timerBuzzer);
+        }
     }
 }
 
@@ -419,7 +420,6 @@ void CheckUPSStatus(void)
         switch (bUPSStatus)
         {
         case 0x01:
-            gGCUStatus.bUPSStatus = bUPSStatus;
             printf(" [CheckUPSStatus] UPS Comm failure  \n");
             break;
         case 0x00:
@@ -433,7 +433,6 @@ void CheckUPSStatus(void)
                         ResetTimer(&timerPowerFailureCheck);
                         gbPowerFailFlag = FLG_SET;
                         ControlBarrier(BARRIER_OPEN_FOR_EX);
-                        gGCUStatus.bUPSStatus = bUPSStatus;
                         ControlDirectionLED(DIR_RED, DIR_RED);
                         printf(" [CheckUPSStatus] Power failure  \n");
                     }
@@ -472,7 +471,6 @@ void CheckUPSStatus(void)
                             gbLampCMD_EX = DIR_GREEN;
 
                         gbPowerFailFlag = FLG_OFF;
-                        gGCUStatus.bUPSStatus = bUPSStatus;
                         ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
                         printf(" [CheckUPSStatus] Power recovered  \n");
                     }
@@ -485,8 +483,6 @@ void CheckUPSStatus(void)
             }
             else
             {
-                gGCUStatus.bUPSStatus = bUPSStatus;
-
                 if (timerPowerFailureCheck.fStart)
                 {
                     ResetTimer(&timerPowerFailureCheck);
@@ -497,6 +493,7 @@ void CheckUPSStatus(void)
         }
     }
 
+    gGCUStatus.bUPSStatus = bUPSStatus;
     gbPrevUPSStatus = bUPSStatus;
 }
 
@@ -834,7 +831,6 @@ void CheckIllegalAlarmTimer(void)
             gGCUStatus.PassageAlarm.b.nFromEX = PASS_ALARM_NONE;
             ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
             ControlIndicatorBlink(FLG_OFF);
-            ControlBuzzer(BUZZER_OFF, 0);
             ResetTimer(&timerJumping);
         }
     }
@@ -849,7 +845,6 @@ void CheckIllegalAlarmTimer(void)
             gGCUStatus.PassageAlarm.b.nFromEX = PASS_ALARM_NONE;
             ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
             ControlIndicatorBlink(FLG_OFF);
-            ControlBuzzer(BUZZER_OFF, 0);
             ResetTimer(&timerTailgating);
         }
     }
