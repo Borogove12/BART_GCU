@@ -19,6 +19,7 @@ void ClearPassHistory(void);
 void CheckEntranceSwing(void);
 void CheckPassReadySwing(void);
 void CheckPassingSwing(void);
+bool CheckPassOverSensor(void);
 void CheckCounterEnterTimer(void); 
 void CheckIllegalEnter(void);
 void CheckTGTimerForSwing(void);

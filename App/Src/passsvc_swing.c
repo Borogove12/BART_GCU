@@ -192,7 +192,6 @@ void InitPassageModeForSwing(void)
             else
                 gbLampCMD_EX = DIR_GREEN;
 
-            ControlBuzzer(BUZZER_OFF, 0);
             ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
             ControlIndicator(gbIndicatorCMD_EN, gbIndicatorCMD_EX, 0, FALSE);
 
@@ -484,7 +483,6 @@ void ClearPassHistory(void)
             gbIndicatorCMD_EN = LAMP_OFF;
         }
 
-        ControlBuzzer(BUZZER_OFF, 0);
         ControlDirectionLED(gbLampCMD_EN, gbLampCMD_EX);
         ControlIndicator(gbIndicatorCMD_EN, gbIndicatorCMD_EX, 0, FALSE);
     }
@@ -641,7 +639,8 @@ void CheckPassingSwing(void)
     {
         if (isPassOver_EN)
         {
-            if (psenNewSwing.b.s10 && !psenNewSwing.b.s13)
+            // if (psenNewSwing.b.s10 && !psenNewSwing.b.s13)
+            if (CheckPassOverSensor())
             {
                 printf(" [EN] Pass over [%d]\n", gGCUStatus.bAuthCount_EN);
                 isPassReady_EN = FALSE;
@@ -699,7 +698,8 @@ void CheckPassingSwing(void)
     {
         if (isPassOver_EX)
         {
-            if (psenNewSwing.b.s02 && !psenNewSwing.b.s05)
+            // if (psenNewSwing.b.s02 && !psenNewSwing.b.s05)
+            if (CheckPassOverSensor())
             {
                 printf(" [EX] Pass over [%d]\n", gGCUStatus.bAuthCount_EX);
                 isPassReady_EX = FALSE;
@@ -752,6 +752,50 @@ void CheckPassingSwing(void)
             }
         }
     }
+}
+
+bool CheckPassOverSensor(void)
+{
+    if (gGCUParameter.bGateType == WIDE)
+    {
+        if (isPassOver_EN)
+        {
+            if (psenNewSwing.b.s10 && !psenNewSwing.b.s13)
+            {
+                printf(" [EN] Check PassOver - WIDE\n");
+                return  TRUE;
+            }
+        }
+        else if (isPassOver_EX)
+        {
+            if (psenNewSwing.b.s02 && !psenNewSwing.b.s05)
+            {
+                printf(" [EX] Check PassOver - WIDE\n");
+                return  TRUE;
+            }
+        }
+    }
+    else
+    {
+        if (isPassOver_EN)
+        {
+            if ((psenNewSwing.b.s10 || psenNewSwing.b.s13) && !psenNewSwing.b.s11 && !psenNewSwing.b.s14)
+            {
+                printf(" [EN] Check PassOver - STANDARD\n");
+                return  TRUE;
+            }
+        }
+        else if (isPassOver_EX)
+        {
+            if ((psenNewSwing.b.s02 || psenNewSwing.b.s05) && !psenNewSwing.b.s03 && !psenNewSwing.b.s06) 
+            {
+                printf(" [EX] Check PassOver - STANDARD\n");
+                return  TRUE;
+            }
+        }
+    }
+
+    return FALSE;
 }
 
 void CheckCounterEnterTimer(void)
