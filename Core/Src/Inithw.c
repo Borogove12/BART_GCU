@@ -225,7 +225,7 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, Serial_flash_CS_Pin|BUZZ_CON_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOC, STS_LED1_Pin|STS_LED2_Pin|STS_LED3_Pin|STS_LED4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, STS_LED1_Pin|STS_LED2_Pin|STS_LED3_Pin|STS_LED4_Pin, GPIO_PIN_SET);
   HAL_GPIO_WritePin(EMG_GPIO_Port, EMG_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(WDT_GPIO_Port, WDT_Pin, GPIO_PIN_SET);
 
