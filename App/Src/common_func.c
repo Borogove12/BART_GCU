@@ -210,7 +210,16 @@ void GetGCUStatus(T_GCU_STATUS_RES *pCurStatus)
     pCurStatus->bModuleAlarm = gGCUStatus.ModuleAlarm.bAlarm;
     pCurStatus->bBarrierSw = gGCUStatus.bBarrierSw;
 
-    pCurStatus->bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR);
+    // TODO: Temp logic. Should be rollbacked 20231205
+    if (dip_sw() & 0x80)
+    {
+        // Ignore door switch #7
+        pCurStatus->bMaintenanceDoorSw = (RD_SWITCH & 0xBF) + 0x40;
+    }
+    else
+    {
+        pCurStatus->bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR);
+    }
     pCurStatus->bUPSStatus = gGCUStatus.bUPSStatus;
     pCurStatus->bSafetySen = gGCUStatus.bSafetyDetection;
     pCurStatus->bSCADA = gGCUStatus.bSCADA;
