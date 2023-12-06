@@ -142,7 +142,8 @@ void bsp_TimCallback(void)
     if (sCount % 500 == 0)  // per 0.5 sec : WDT & STS Led toggle
     {
  		HAL_GPIO_TogglePin(WDT_GPIO_Port, WDT_Pin);
- 		HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED1_Pin);
+        // STS LED On
+ 		// HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED1_Pin);
     }
     if (sCount >= 1000)     // per 1sec
     {
@@ -152,14 +153,13 @@ void bsp_TimCallback(void)
         //printf("in [0x%x]\n",inb(exiAddr[0]));
         //printf("in [0x%x][0x%x][0x%x][0x%x][0x%x]\n",inb(exiAddr[0]),inb(exiAddr[1]),inb(exiAddr[2]),inb(exiAddr[3]),inb(exiAddr[4]));
 
-       HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED1_Pin);
-       HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED2_Pin);
-       HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED3_Pin);
-       HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED4_Pin);
+        // STS LED On
+        // HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED1_Pin);
+        // HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED2_Pin);
+        // HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED3_Pin);
+        // HAL_GPIO_TogglePin(STSLED_GPIO_Port, STS_LED4_Pin);
 
-
-
-       //outb(WRITE00_ADR,test2);
+        //outb(WRITE00_ADR,test2);
 
         if (s_Per1SecCallBack != NULL)
             s_Per1SecCallBack();
