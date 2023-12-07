@@ -154,17 +154,16 @@ void GCUInitialize(void)
 	//EcuEmergencyOff();
 	BuzzerOff();
 
-	//ControlStatusLED_En(DIR_RED);
-	//ControlStatusLED_Ex(DIR_RED);
-	ControlIndicatorLight_En(LAMP_OFF);
-	ControlIndicatorLight_Ex(LAMP_OFF);
+	ControlIndicatorLight_En(DIR_RED);
+	ControlIndicatorLight_En(DIR_RED);
+	ControlOverHeadDisplay_En(DIR_RED);
+	ControlOverHeadDisplay_En(DIR_RED);
 	ControlUPS_CheckOn();
 	ControlUPS_ShutDownOff();
 	SetDefaultOpMode();
 	SetDefaultParameter();
 	SetDefaultStatus();
-	// Brr_SetSerialComm(TRUE);
-	Brr_OpenBarrier(BARRIER_OPEN_FOR_EX);
+	ControlBarrier(BARRIER_OPEN_FOR_EX);
 }
 
 
