@@ -12,7 +12,7 @@
 
 #include "global.h"
 /* FW Version String ---------------------------------------------------------*/
-#define GCU_FW_VERSION "1.0.12.5"
+#define GCU_FW_VERSION "1.0.12.7"
 #define TG_TIMER 2		// 2 s
 #define GCU_BAUD		57600
 
@@ -270,7 +270,7 @@ enum {
 	MASK_TEST_CAPTURE	= 0xC0,
 	MASK_EMG_SIGNAL     = 0x08,				//origin
 	MASK_SWING_MODE     = 0xC0, // 1100 0000
-	MASK_SELF_TEST      = 0x76, // 0111 0110	//modify pms
+	MASK_SELF_TEST      = 0x36, // 0011 0110
 	MASK_JIG_TEST	    = 0x01
 };
 

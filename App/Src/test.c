@@ -52,12 +52,16 @@ void TestDirection(void)
 			case 1:
 				bColor = STATE_ALLOW;
 				nDirOpSeq++;
-				break;
-			case 2:
-				bColor = STATE_STOP;
+				break;            
+            case 2:
+				bColor = DIR_OFF;
 				nDirOpSeq++;
 				break;
 			case 3:
+				bColor = STATE_STOP;
+				nDirOpSeq++;
+				break;
+			case 4:
 				bColor = DIR_OFF;
 				nDirOpSeq = 1;
 				break;
@@ -90,12 +94,16 @@ void TestOverHeadDirection(void)
 			case 1:
 				bColor = STATE_ALLOW;
 				nOverOpSeq++;
-				break;
-			case 2:
-				bColor = STATE_STOP;
+				break;            
+            case 2:
+				bColor = DIR_OFF;
 				nOverOpSeq++;
 				break;
 			case 3:
+				bColor = STATE_STOP;
+				nOverOpSeq++;
+				break;
+			case 4:
 				bColor = DIR_OFF;
 				nOverOpSeq = 1;
 				break;

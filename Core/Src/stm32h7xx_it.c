@@ -213,13 +213,12 @@ void SysTick_Handler(void)
     {                         // The dipswitch should work after the FMC initialization.		pms
         gbDipSW = dip_sw();   //(BYTE)GPIO_ByteRead(GPIO1, GPIO_LSB)^0xFF;
 
-        if (gbDipSW & MASK_SELF_TEST) // Self 테스트 모드		temp
+        if (gbDipSW & MASK_SELF_TEST)
         {
             TestAging();
             bDip_SW_Init = TRUE;
         }
-
-        if (gbDipSW & MASK_JIG_TEST) // Command test mode by keyboard
+        else if (gbDipSW & MASK_JIG_TEST) // Command test mode by keyboard
         {
             while (IUart_RecvByte_check(COM1, &ch))
             {
@@ -228,16 +227,7 @@ void SysTick_Handler(void)
             
             bDip_SW_Init = TRUE;
         }
-
-        /*
-        if((gbDipSW == MASK_NOMAL_MODE) && (bDip_SW_Init == TRUE))			//Dipswitch 0x00 and IO Initialization Mode
-        {
-          bDip_SW_Init = FALSE;
-          Write_IO_init();
-        }
-        */
-
-        if (!(gbDipSW & MASK_JIG_TEST) && (gbDipSW == gbOldDipSW))
+        else if (!(gbDipSW & (MASK_JIG_TEST + MASK_SELF_TEST)) && (gbDipSW == gbOldDipSW))
         {
             PassageProcessForSwing();
         }
