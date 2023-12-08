@@ -260,7 +260,6 @@ void TestDoor_S(void)
 
 void TestBuzzer(void)
 {
-
 	if (nBuzzOpSeq)
 	{
 		if (!TestOption.b.fTestBuzzer)

@@ -151,21 +151,21 @@ word dip_sw(void)
 
 void GCUInitialize(void)
 {
-	//EcuEmergencyOff();
-	BuzzerOff();
-
-	ControlIndicatorLight_En(DIR_RED);
-	ControlIndicatorLight_En(DIR_RED);
-	ControlOverHeadDisplay_En(DIR_RED);
-	ControlOverHeadDisplay_En(DIR_RED);
+	//EcuEmergencyOff();	
 	ControlUPS_CheckOn();
 	ControlUPS_ShutDownOff();
 	SetDefaultOpMode();
 	SetDefaultParameter();
 	SetDefaultStatus();
-	ControlBarrier(BARRIER_OPEN_FOR_EX);
-}
+	Brr_OpenBarrier(BARRIER_OPEN_FOR_EX);    
 
+	ControlStatusLED_En(DIR_RED);
+	ControlStatusLED_Ex(DIR_RED);
+	ControlOverHeadDisplay_En(DIR_RED);
+	ControlOverHeadDisplay_Ex(DIR_RED);
+
+    BuzzerOff();
+}
 
 inline void SerialProcess(void)
 {
@@ -175,7 +175,6 @@ inline void SerialProcess(void)
 		ProcessComm_ECU();
 	}
 }
-
 
 byte extinb(byte Add)			//test Read Address
 {

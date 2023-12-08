@@ -20,6 +20,7 @@ uint8_t Add_400_Value = 0;
 
 void BuzzerOn(void)
 {
+    printf("Buzzer On Called! \n");
 	HAL_GPIO_WritePin(BUZZ_CON_GPIO_Port,BUZZ_CON_Pin,GPIO_PIN_SET);
 }
 

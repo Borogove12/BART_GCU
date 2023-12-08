@@ -216,7 +216,6 @@ void SysTick_Handler(void)
         if (gbDipSW & MASK_SELF_TEST)
         {
             TestAging();
-            bDip_SW_Init = TRUE;
         }
         else if (gbDipSW & MASK_JIG_TEST) // Command test mode by keyboard
         {
@@ -224,8 +223,6 @@ void SysTick_Handler(void)
             {
                 CMD_Test(ch);
             }
-            
-            bDip_SW_Init = TRUE;
         }
         else if (!(gbDipSW & (MASK_JIG_TEST + MASK_SELF_TEST)) && (gbDipSW == gbOldDipSW))
         {
