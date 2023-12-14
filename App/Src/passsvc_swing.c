@@ -319,13 +319,17 @@ void CheckBarrierOperation(void)
                         {
                             printf(" [CheckBarrier] pos:%02X/%02X \n", gMainBarrierStatus.param.posStatus, gSubBarrierStatus.param.posStatus);
 
-                            if (isCalibrationStart == FALSE && (isSafetyOn == FALSE || gfisAuthTimeout == TRUE))
+                            if (isCalibrationStart == FALSE)
                             {
                                 nBarrierErrorCnt++;
 
                                 if (nBarrierErrorCnt == 8) // After 4 sec, Barrier fault is generated.
                                 {
-                                    if (gGCUStatus.ModuleAlarm.b.nFDoor1 == FDOOR_ALARM_NONE && gGCUStatus.ModuleAlarm.b.nFDoor2 == FDOOR_ALARM_NONE)
+                                    if (isSafetyOn == TRUE)
+                                    {
+                                        ControlBuzzer(BUZZER_ON, gGCUParameter.bAlarmTimeout);
+                                    }
+                                    else if (gGCUStatus.ModuleAlarm.b.nFDoor1 == FDOOR_ALARM_NONE && gGCUStatus.ModuleAlarm.b.nFDoor2 == FDOOR_ALARM_NONE)
                                     {
                                         ControlBuzzer(BUZZER_ON, gGCUParameter.bAlarmTimeout);
                                     }
@@ -362,31 +366,15 @@ void CheckBarrierOperation(void)
                         }
                         else
                         {
-                            if (gGCUParameter.bGateType == WIDE)
+                            // Total Locking 20230823
+                            if (!psenNewSwing.dirExit.passage && !psenNewSwing.dirEntry.passage)
                             {
-                                // Total Locking 20230823
-                                if (!psenNewSwing.dirExit.lower && !psenNewSwing.dirEntry.lower)
-                                {
-                                    StopBarrierForSwing(FALSE);
-                                }
-                                else
-                                {
-                                    printf(" [CheckBarrier] Total Locking - 1!!! \n");
-                                    StopBarrierForSwing(TRUE);
-                                }
+                                StopBarrierForSwing(FALSE);
                             }
                             else
                             {
-                                // Total Locking 20230823
-                                if (!psenNewSwing.dirExit.lower && !psenNewSwing.dirEntry.lower)
-                                {
-                                    StopBarrierForSwing(FALSE);
-                                }
-                                else
-                                {
-                                    printf(" [CheckBarrier] Total Locking - 2!!! \n");
-                                    StopBarrierForSwing(TRUE);
-                                }
+                                printf(" [CheckBarrier] Total Locking - 1!!! \n");
+                                StopBarrierForSwing(TRUE);
                             }
                         }
                     }
@@ -763,7 +751,7 @@ bool CheckPassOverSensor(void)
             if (psenNewSwing.b.s10 && !psenNewSwing.b.s13)
             {
                 printf(" [EN] Check PassOver - WIDE\n");
-                return  TRUE;
+                return TRUE;
             }
         }
         else if (isPassOver_EX)
@@ -771,7 +759,7 @@ bool CheckPassOverSensor(void)
             if (psenNewSwing.b.s02 && !psenNewSwing.b.s05)
             {
                 printf(" [EX] Check PassOver - WIDE\n");
-                return  TRUE;
+                return TRUE;
             }
         }
     }
@@ -782,15 +770,15 @@ bool CheckPassOverSensor(void)
             if ((psenNewSwing.b.s10 || psenNewSwing.b.s13) && !psenNewSwing.b.s11 && !psenNewSwing.b.s14)
             {
                 printf(" [EN] Check PassOver - STANDARD\n");
-                return  TRUE;
+                return TRUE;
             }
         }
         else if (isPassOver_EX)
         {
-            if ((psenNewSwing.b.s02 || psenNewSwing.b.s05) && !psenNewSwing.b.s03 && !psenNewSwing.b.s06) 
+            if ((psenNewSwing.b.s02 || psenNewSwing.b.s05) && !psenNewSwing.b.s03 && !psenNewSwing.b.s06)
             {
                 printf(" [EX] Check PassOver - STANDARD\n");
-                return  TRUE;
+                return TRUE;
             }
         }
     }
