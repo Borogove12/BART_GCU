@@ -599,7 +599,7 @@ Disassembly of section .text:
  802085c:	240000bc 	.word	0x240000bc
  8020860:	0802adb9 	.word	0x0802adb9
  8020864:	0802add3 	.word	0x0802add3
- 8020868:	0802bb90 	.word	0x0802bb90
+ 8020868:	0802bb8c 	.word	0x0802bb8c
 
 0802086c <CheckProtocol_UART5>:
  802086c:	b573      	push	{r0, r1, r4, r5, r6, lr}
@@ -703,7 +703,7 @@ Disassembly of section .text:
  8020948:	240000bd 	.word	0x240000bd
  802094c:	0802ae02 	.word	0x0802ae02
  8020950:	0802ae1c 	.word	0x0802ae1c
- 8020954:	0802bb90 	.word	0x0802bb90
+ 8020954:	0802bb8c 	.word	0x0802bb8c
 
 08020958 <ProcessCommand_Barrier>:
  8020958:	b508      	push	{r3, lr}
@@ -3053,7 +3053,7 @@ Disassembly of section .text:
  8021fe8:	24000254 	.word	0x24000254
  8021fec:	0802b350 	.word	0x0802b350
  8021ff0:	0802b366 	.word	0x0802b366
- 8021ff4:	0802bb90 	.word	0x0802bb90
+ 8021ff4:	0802bb8c 	.word	0x0802bb8c
  8021ff8:	0802b394 	.word	0x0802b394
  8021ffc:	0802b382 	.word	0x0802b382
 
@@ -3675,7 +3675,7 @@ Disassembly of section .text:
  802261a:	d103      	bne.n	8022624 <CheckBarrierOperation+0xe4>
  802261c:	f003 0307 	and.w	r3, r3, #7
  8022620:	2b02      	cmp	r3, #2
- 8022622:	d03e      	beq.n	80226a2 <CheckBarrierOperation+0x162>
+ 8022622:	d03c      	beq.n	802269e <CheckBarrierOperation+0x15e>
  8022624:	f7ff fdea 	bl	80221fc <CheckBarrierClosedStatus>
  8022628:	2800      	cmp	r0, #0
  802262a:	d0d3      	beq.n	80225d4 <CheckBarrierOperation+0x94>
@@ -3692,12 +3692,12 @@ Disassembly of section .text:
  8022646:	4e41      	ldr	r6, [pc, #260]	; (802274c <CheckBarrierOperation+0x20c>)
  8022648:	6833      	ldr	r3, [r6, #0]
  802264a:	3301      	adds	r3, #1
- 802264c:	2b08      	cmp	r3, #8
+ 802264c:	2b06      	cmp	r3, #6
  802264e:	6033      	str	r3, [r6, #0]
  8022650:	d1c0      	bne.n	80225d4 <CheckBarrierOperation+0x94>
  8022652:	4b43      	ldr	r3, [pc, #268]	; (8022760 <CheckBarrierOperation+0x220>)
  8022654:	781b      	ldrb	r3, [r3, #0]
- 8022656:	b1fb      	cbz	r3, 8022698 <CheckBarrierOperation+0x158>
+ 8022656:	b1eb      	cbz	r3, 8022694 <CheckBarrierOperation+0x154>
  8022658:	4b42      	ldr	r3, [pc, #264]	; (8022764 <CheckBarrierOperation+0x224>)
  802265a:	2001      	movs	r0, #1
  802265c:	78d9      	ldrb	r1, [r3, #3]
@@ -3720,50 +3720,50 @@ Disassembly of section .text:
  8022686:	7b1a      	ldrb	r2, [r3, #12]
  8022688:	f361 0283 	bfi	r2, r1, #2, #2
  802268c:	731a      	strb	r2, [r3, #12]
- 802268e:	2000      	movs	r0, #0
- 8022690:	6030      	str	r0, [r6, #0]
- 8022692:	f7ff fde7 	bl	8022264 <StopBarrierForSwing>
- 8022696:	e79d      	b.n	80225d4 <CheckBarrierOperation+0x94>
- 8022698:	4b2d      	ldr	r3, [pc, #180]	; (8022750 <CheckBarrierOperation+0x210>)
- 802269a:	7b1b      	ldrb	r3, [r3, #12]
- 802269c:	071b      	lsls	r3, r3, #28
- 802269e:	d0db      	beq.n	8022658 <CheckBarrierOperation+0x118>
- 80226a0:	e7df      	b.n	8022662 <CheckBarrierOperation+0x122>
- 80226a2:	4b29      	ldr	r3, [pc, #164]	; (8022748 <CheckBarrierOperation+0x208>)
- 80226a4:	781b      	ldrb	r3, [r3, #0]
- 80226a6:	2b00      	cmp	r3, #0
- 80226a8:	d194      	bne.n	80225d4 <CheckBarrierOperation+0x94>
- 80226aa:	4a28      	ldr	r2, [pc, #160]	; (802274c <CheckBarrierOperation+0x20c>)
- 80226ac:	6013      	str	r3, [r2, #0]
- 80226ae:	4b28      	ldr	r3, [pc, #160]	; (8022750 <CheckBarrierOperation+0x210>)
- 80226b0:	7b1a      	ldrb	r2, [r3, #12]
- 80226b2:	f022 020f 	bic.w	r2, r2, #15
- 80226b6:	731a      	strb	r2, [r3, #12]
- 80226b8:	2222      	movs	r2, #34	; 0x22
- 80226ba:	741a      	strb	r2, [r3, #16]
- 80226bc:	791a      	ldrb	r2, [r3, #4]
- 80226be:	b10a      	cbz	r2, 80226c4 <CheckBarrierOperation+0x184>
- 80226c0:	2001      	movs	r0, #1
- 80226c2:	e785      	b.n	80225d0 <CheckBarrierOperation+0x90>
- 80226c4:	795b      	ldrb	r3, [r3, #5]
- 80226c6:	b10b      	cbz	r3, 80226cc <CheckBarrierOperation+0x18c>
- 80226c8:	2002      	movs	r0, #2
- 80226ca:	e781      	b.n	80225d0 <CheckBarrierOperation+0x90>
- 80226cc:	4b26      	ldr	r3, [pc, #152]	; (8022768 <CheckBarrierOperation+0x228>)
- 80226ce:	781b      	ldrb	r3, [r3, #0]
- 80226d0:	2b01      	cmp	r3, #1
- 80226d2:	d0f9      	beq.n	80226c8 <CheckBarrierOperation+0x188>
- 80226d4:	4b25      	ldr	r3, [pc, #148]	; (802276c <CheckBarrierOperation+0x22c>)
- 80226d6:	8818      	ldrh	r0, [r3, #0]
- 80226d8:	f420 7040 	bic.w	r0, r0, #768	; 0x300
- 80226dc:	f020 0003 	bic.w	r0, r0, #3
- 80226e0:	b280      	uxth	r0, r0
- 80226e2:	2800      	cmp	r0, #0
- 80226e4:	d0d5      	beq.n	8022692 <CheckBarrierOperation+0x152>
+ 802268e:	2300      	movs	r3, #0
+ 8022690:	6033      	str	r3, [r6, #0]
+ 8022692:	e7bb      	b.n	802260c <CheckBarrierOperation+0xcc>
+ 8022694:	4b2e      	ldr	r3, [pc, #184]	; (8022750 <CheckBarrierOperation+0x210>)
+ 8022696:	7b1b      	ldrb	r3, [r3, #12]
+ 8022698:	071b      	lsls	r3, r3, #28
+ 802269a:	d0dd      	beq.n	8022658 <CheckBarrierOperation+0x118>
+ 802269c:	e7e1      	b.n	8022662 <CheckBarrierOperation+0x122>
+ 802269e:	4b2a      	ldr	r3, [pc, #168]	; (8022748 <CheckBarrierOperation+0x208>)
+ 80226a0:	781b      	ldrb	r3, [r3, #0]
+ 80226a2:	2b00      	cmp	r3, #0
+ 80226a4:	d196      	bne.n	80225d4 <CheckBarrierOperation+0x94>
+ 80226a6:	4a29      	ldr	r2, [pc, #164]	; (802274c <CheckBarrierOperation+0x20c>)
+ 80226a8:	6013      	str	r3, [r2, #0]
+ 80226aa:	4b29      	ldr	r3, [pc, #164]	; (8022750 <CheckBarrierOperation+0x210>)
+ 80226ac:	7b1a      	ldrb	r2, [r3, #12]
+ 80226ae:	f022 020f 	bic.w	r2, r2, #15
+ 80226b2:	731a      	strb	r2, [r3, #12]
+ 80226b4:	2222      	movs	r2, #34	; 0x22
+ 80226b6:	741a      	strb	r2, [r3, #16]
+ 80226b8:	791a      	ldrb	r2, [r3, #4]
+ 80226ba:	b10a      	cbz	r2, 80226c0 <CheckBarrierOperation+0x180>
+ 80226bc:	2001      	movs	r0, #1
+ 80226be:	e787      	b.n	80225d0 <CheckBarrierOperation+0x90>
+ 80226c0:	795b      	ldrb	r3, [r3, #5]
+ 80226c2:	b10b      	cbz	r3, 80226c8 <CheckBarrierOperation+0x188>
+ 80226c4:	2002      	movs	r0, #2
+ 80226c6:	e783      	b.n	80225d0 <CheckBarrierOperation+0x90>
+ 80226c8:	4b27      	ldr	r3, [pc, #156]	; (8022768 <CheckBarrierOperation+0x228>)
+ 80226ca:	781b      	ldrb	r3, [r3, #0]
+ 80226cc:	2b01      	cmp	r3, #1
+ 80226ce:	d0f9      	beq.n	80226c4 <CheckBarrierOperation+0x184>
+ 80226d0:	4b26      	ldr	r3, [pc, #152]	; (802276c <CheckBarrierOperation+0x22c>)
+ 80226d2:	8818      	ldrh	r0, [r3, #0]
+ 80226d4:	f420 7040 	bic.w	r0, r0, #768	; 0x300
+ 80226d8:	f020 0003 	bic.w	r0, r0, #3
+ 80226dc:	b280      	uxth	r0, r0
+ 80226de:	b910      	cbnz	r0, 80226e6 <CheckBarrierOperation+0x1a6>
+ 80226e0:	f7ff fdc0 	bl	8022264 <StopBarrierForSwing>
+ 80226e4:	e776      	b.n	80225d4 <CheckBarrierOperation+0x94>
  80226e6:	4822      	ldr	r0, [pc, #136]	; (8022770 <CheckBarrierOperation+0x230>)
  80226e8:	f003 fd12 	bl	8026110 <printf_>
  80226ec:	2001      	movs	r0, #1
- 80226ee:	e7d0      	b.n	8022692 <CheckBarrierOperation+0x152>
+ 80226ee:	e7f7      	b.n	80226e0 <CheckBarrierOperation+0x1a0>
  80226f0:	4b20      	ldr	r3, [pc, #128]	; (8022774 <CheckBarrierOperation+0x234>)
  80226f2:	781b      	ldrb	r3, [r3, #0]
  80226f4:	b94b      	cbnz	r3, 802270a <CheckBarrierOperation+0x1ca>
@@ -3909,11 +3909,11 @@ Disassembly of section .text:
  802285e:	bd70      	pop	{r4, r5, r6, pc}
  8022860:	24000410 	.word	0x24000410
  8022864:	240003fc 	.word	0x240003fc
- 8022868:	0802b4ca 	.word	0x0802b4ca
- 802286c:	0802b4e6 	.word	0x0802b4e6
+ 8022868:	0802b4c6 	.word	0x0802b4c6
+ 802286c:	0802b4e2 	.word	0x0802b4e2
  8022870:	240001a0 	.word	0x240001a0
- 8022874:	0802b502 	.word	0x0802b502
- 8022878:	0802b51e 	.word	0x0802b51e
+ 8022874:	0802b4fe 	.word	0x0802b4fe
+ 8022878:	0802b51a 	.word	0x0802b51a
  802287c:	2400011c 	.word	0x2400011c
  8022880:	24000404 	.word	0x24000404
  8022884:	24000121 	.word	0x24000121
@@ -4043,15 +4043,15 @@ Disassembly of section .text:
  80229b4:	240001a0 	.word	0x240001a0
  80229b8:	240003e0 	.word	0x240003e0
  80229bc:	240003e5 	.word	0x240003e5
- 80229c0:	0802b53a 	.word	0x0802b53a
+ 80229c0:	0802b536 	.word	0x0802b536
  80229c4:	24000454 	.word	0x24000454
  80229c8:	240001ac 	.word	0x240001ac
  80229cc:	240003e1 	.word	0x240003e1
- 80229d0:	0802b593 	.word	0x0802b593
- 80229d4:	0802b560 	.word	0x0802b560
- 80229d8:	0802b57d 	.word	0x0802b57d
- 80229dc:	0802b5ba 	.word	0x0802b5ba
- 80229e0:	0802b5d7 	.word	0x0802b5d7
+ 80229d0:	0802b58f 	.word	0x0802b58f
+ 80229d4:	0802b55c 	.word	0x0802b55c
+ 80229d8:	0802b579 	.word	0x0802b579
+ 80229dc:	0802b5b6 	.word	0x0802b5b6
+ 80229e0:	0802b5d3 	.word	0x0802b5d3
 
 080229e4 <CheckPassReadySwing>:
  80229e4:	b570      	push	{r4, r5, r6, lr}
@@ -4127,14 +4127,14 @@ Disassembly of section .text:
  8022a84:	24000410 	.word	0x24000410
  8022a88:	240003ea 	.word	0x240003ea
  8022a8c:	240003fc 	.word	0x240003fc
- 8022a90:	0802b5ed 	.word	0x0802b5ed
+ 8022a90:	0802b5e9 	.word	0x0802b5e9
  8022a94:	240003eb 	.word	0x240003eb
  8022a98:	240003e7 	.word	0x240003e7
- 8022a9c:	0802b600 	.word	0x0802b600
+ 8022a9c:	0802b5fc 	.word	0x0802b5fc
  8022aa0:	24000453 	.word	0x24000453
- 8022aa4:	0802b618 	.word	0x0802b618
+ 8022aa4:	0802b614 	.word	0x0802b614
  8022aa8:	240003e6 	.word	0x240003e6
- 8022aac:	0802b62b 	.word	0x0802b62b
+ 8022aac:	0802b627 	.word	0x0802b627
 
 08022ab0 <CheckPassOverSensor>:
  8022ab0:	b538      	push	{r3, r4, r5, lr}
@@ -4194,11 +4194,11 @@ Disassembly of section .text:
  8022b2c:	240003e8 	.word	0x240003e8
  8022b30:	24000408 	.word	0x24000408
  8022b34:	240003fc 	.word	0x240003fc
- 8022b38:	0802b645 	.word	0x0802b645
+ 8022b38:	0802b641 	.word	0x0802b641
  8022b3c:	240003e9 	.word	0x240003e9
- 8022b40:	0802b662 	.word	0x0802b662
- 8022b44:	0802b67f 	.word	0x0802b67f
- 8022b48:	0802b6a0 	.word	0x0802b6a0
+ 8022b40:	0802b65e 	.word	0x0802b65e
+ 8022b44:	0802b67b 	.word	0x0802b67b
+ 8022b48:	0802b69c 	.word	0x0802b69c
 
 08022b4c <CheckPassingSwing>:
  8022b4c:	b570      	push	{r4, r5, r6, lr}
@@ -4368,19 +4368,19 @@ Disassembly of section .text:
  8022cd0:	240003ea 	.word	0x240003ea
  8022cd4:	240003e8 	.word	0x240003e8
  8022cd8:	24000410 	.word	0x24000410
- 8022cdc:	0802b6c1 	.word	0x0802b6c1
+ 8022cdc:	0802b6bd 	.word	0x0802b6bd
  8022ce0:	240003fc 	.word	0x240003fc
  8022ce4:	24000248 	.word	0x24000248
  8022ce8:	240003eb 	.word	0x240003eb
  8022cec:	240003e9 	.word	0x240003e9
- 8022cf0:	0802b714 	.word	0x0802b714
+ 8022cf0:	0802b710 	.word	0x0802b710
  8022cf4:	2400014c 	.word	0x2400014c
- 8022cf8:	0802b6d7 	.word	0x0802b6d7
- 8022cfc:	0802b6ed 	.word	0x0802b6ed
- 8022d00:	0802b704 	.word	0x0802b704
- 8022d04:	0802b72a 	.word	0x0802b72a
- 8022d08:	0802b740 	.word	0x0802b740
- 8022d0c:	0802b757 	.word	0x0802b757
+ 8022cf8:	0802b6d3 	.word	0x0802b6d3
+ 8022cfc:	0802b6e9 	.word	0x0802b6e9
+ 8022d00:	0802b700 	.word	0x0802b700
+ 8022d04:	0802b726 	.word	0x0802b726
+ 8022d08:	0802b73c 	.word	0x0802b73c
+ 8022d0c:	0802b753 	.word	0x0802b753
 
 08022d10 <CheckCounterEnterTimer>:
  8022d10:	b510      	push	{r4, lr}
@@ -4521,10 +4521,10 @@ Disassembly of section .text:
  8022e54:	240003eb 	.word	0x240003eb
  8022e58:	240003fc 	.word	0x240003fc
  8022e5c:	240003e5 	.word	0x240003e5
- 8022e60:	0802b766 	.word	0x0802b766
+ 8022e60:	0802b762 	.word	0x0802b762
  8022e64:	24000454 	.word	0x24000454
  8022e68:	240003ea 	.word	0x240003ea
- 8022e6c:	0802b78f 	.word	0x0802b78f
+ 8022e6c:	0802b78b 	.word	0x0802b78b
 
 08022e70 <CheckTGTimerForSwing>:
  8022e70:	b510      	push	{r4, lr}
@@ -4587,9 +4587,9 @@ Disassembly of section .text:
  8022efc:	24000020 	.word	0x24000020
  8022f00:	24000410 	.word	0x24000410
  8022f04:	240003fc 	.word	0x240003fc
- 8022f08:	0802b7b8 	.word	0x0802b7b8
- 8022f0c:	0802b7e6 	.word	0x0802b7e6
- 8022f10:	0802b80f 	.word	0x0802b80f
+ 8022f08:	0802b7b4 	.word	0x0802b7b4
+ 8022f0c:	0802b7e2 	.word	0x0802b7e2
+ 8022f10:	0802b80b 	.word	0x0802b80b
 
 08022f14 <CheckSafetyTimerForSwing>:
  8022f14:	b538      	push	{r3, r4, r5, lr}
@@ -4775,10 +4775,10 @@ Disassembly of section .text:
  80230ae:	e7ad      	b.n	802300c <CheckSafetyTimerForSwing+0xf8>
  80230b0:	24000170 	.word	0x24000170
  80230b4:	2400000c 	.word	0x2400000c
- 80230b8:	0802b842 	.word	0x0802b842
+ 80230b8:	0802b83e 	.word	0x0802b83e
  80230bc:	24000218 	.word	0x24000218
  80230c0:	24000140 	.word	0x24000140
- 80230c4:	0802b874 	.word	0x0802b874
+ 80230c4:	0802b870 	.word	0x0802b870
  80230c8:	2400011b 	.word	0x2400011b
  80230cc:	240003ec 	.word	0x240003ec
  80230d0:	240003ee 	.word	0x240003ee
@@ -4787,13 +4787,13 @@ Disassembly of section .text:
  80230dc:	240003fc 	.word	0x240003fc
  80230e0:	24000408 	.word	0x24000408
  80230e4:	24000410 	.word	0x24000410
- 80230e8:	0802b8a3 	.word	0x0802b8a3
+ 80230e8:	0802b89f 	.word	0x0802b89f
  80230ec:	24000450 	.word	0x24000450
  80230f0:	ffffe088 	.word	0xffffe088
  80230f4:	ffff88f0 	.word	0xffff88f0
- 80230f8:	0802b8ce 	.word	0x0802b8ce
+ 80230f8:	0802b8ca 	.word	0x0802b8ca
  80230fc:	ffff88e0 	.word	0xffff88e0
- 8023100:	0802b8f9 	.word	0x0802b8f9
+ 8023100:	0802b8f5 	.word	0x0802b8f5
 
 08023104 <CheckResetTimer>:
  8023104:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -4890,12 +4890,12 @@ Disassembly of section .text:
  80231f4:	240003f0 	.word	0x240003f0
  80231f8:	240003fc 	.word	0x240003fc
  80231fc:	240003ed 	.word	0x240003ed
- 8023200:	0802b916 	.word	0x0802b916
+ 8023200:	0802b912 	.word	0x0802b912
  8023204:	240003e4 	.word	0x240003e4
  8023208:	24000028 	.word	0x24000028
- 802320c:	0802b939 	.word	0x0802b939
+ 802320c:	0802b935 	.word	0x0802b935
  8023210:	24000410 	.word	0x24000410
- 8023214:	0802b95c 	.word	0x0802b95c
+ 8023214:	0802b958 	.word	0x0802b958
  8023218:	240003e3 	.word	0x240003e3
  802321c:	240003f8 	.word	0x240003f8
  8023220:	24000018 	.word	0x24000018
@@ -4987,16 +4987,16 @@ Disassembly of section .text:
  80232ec:	24000248 	.word	0x24000248
  80232f0:	24000024 	.word	0x24000024
  80232f4:	240003e6 	.word	0x240003e6
- 80232f8:	0802b97f 	.word	0x0802b97f
+ 80232f8:	0802b97b 	.word	0x0802b97b
  80232fc:	240003e7 	.word	0x240003e7
- 8023300:	0802b9c2 	.word	0x0802b9c2
+ 8023300:	0802b9be 	.word	0x0802b9be
  8023304:	24000408 	.word	0x24000408
  8023308:	24000410 	.word	0x24000410
- 802330c:	0802ba05 	.word	0x0802ba05
- 8023310:	0802ba22 	.word	0x0802ba22
+ 802330c:	0802ba01 	.word	0x0802ba01
+ 8023310:	0802ba1e 	.word	0x0802ba1e
  8023314:	240003fc 	.word	0x240003fc
- 8023318:	0802ba3f 	.word	0x0802ba3f
- 802331c:	0802ba7b 	.word	0x0802ba7b
+ 8023318:	0802ba3b 	.word	0x0802ba3b
+ 802331c:	0802ba77 	.word	0x0802ba77
 
 08023320 <CheckCloseWaitTimer>:
  8023320:	b508      	push	{r3, lr}
@@ -5775,10 +5775,10 @@ Disassembly of section .text:
  8023a54:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
  8023a58:	f000 b95e 	b.w	8023d18 <Barrier_Val>
  8023a5c:	240004fe 	.word	0x240004fe
- 8023a60:	0802bab8 	.word	0x0802bab8
- 8023a64:	0802bac8 	.word	0x0802bac8
- 8023a68:	0802badc 	.word	0x0802badc
- 8023a6c:	0802bafa 	.word	0x0802bafa
+ 8023a60:	0802bab4 	.word	0x0802bab4
+ 8023a64:	0802bac4 	.word	0x0802bac4
+ 8023a68:	0802bad8 	.word	0x0802bad8
+ 8023a6c:	0802baf6 	.word	0x0802baf6
 
 08023a70 <BuzzerOn>:
  8023a70:	b508      	push	{r3, lr}
@@ -5789,7 +5789,7 @@ Disassembly of section .text:
  8023a7e:	4803      	ldr	r0, [pc, #12]	; (8023a8c <BuzzerOn+0x1c>)
  8023a80:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
  8023a84:	f003 ba78 	b.w	8026f78 <HAL_GPIO_WritePin>
- 8023a88:	0802bb17 	.word	0x0802bb17
+ 8023a88:	0802bb13 	.word	0x0802bb13
  8023a8c:	58020000 	.word	0x58020000
 
 08023a90 <BuzzerOff>:
@@ -6086,7 +6086,7 @@ Disassembly of section .text:
  8023d1e:	f006 b8ad 	b.w	8029e7c <iprintf>
  8023d22:	bf00      	nop
  8023d24:	240004fe 	.word	0x240004fe
- 8023d28:	0802bb2a 	.word	0x0802bb2a
+ 8023d28:	0802bb26 	.word	0x0802bb26
 
 08023d2c <IUart_Open>:
  8023d2c:	2804      	cmp	r0, #4
@@ -6797,7 +6797,7 @@ Disassembly of section .text:
  80243aa:	b002      	add	sp, #8
  80243ac:	bd10      	pop	{r4, pc}
  80243ae:	bf00      	nop
- 80243b0:	0802bb4c 	.word	0x0802bb4c
+ 80243b0:	0802bb48 	.word	0x0802bb48
  80243b4:	240019b4 	.word	0x240019b4
 
 080243b8 <SpiFlash_Init>:
@@ -6820,8 +6820,8 @@ Disassembly of section .text:
  80243e4:	e7f9      	b.n	80243da <SpiFlash_Init+0x22>
  80243e6:	bf00      	nop
  80243e8:	001f4800 	.word	0x001f4800
- 80243ec:	0802bb60 	.word	0x0802bb60
- 80243f0:	0802bb74 	.word	0x0802bb74
+ 80243ec:	0802bb5c 	.word	0x0802bb5c
+ 80243f0:	0802bb70 	.word	0x0802bb70
 
 080243f4 <bsp_InitSpiFlash>:
  80243f4:	b510      	push	{r4, lr}
@@ -7025,8 +7025,8 @@ Disassembly of section .text:
  80245d6:	4620      	mov	r0, r4
  80245d8:	b002      	add	sp, #8
  80245da:	bd10      	pop	{r4, pc}
- 80245dc:	0802bb8d 	.word	0x0802bb8d
- 80245e0:	0802bb8a 	.word	0x0802bb8a
+ 80245dc:	0802bb89 	.word	0x0802bb89
+ 80245e0:	0802bb86 	.word	0x0802bb86
 
 080245e4 <_low_level_put>:
  80245e4:	4601      	mov	r1, r0
@@ -7148,8 +7148,8 @@ Disassembly of section .text:
  80246f8:	462c      	mov	r4, r5
  80246fa:	f005 fbd7 	bl	8029eac <putchar>
  80246fe:	e7e1      	b.n	80246c4 <dump+0x74>
- 8024700:	0802bb91 	.word	0x0802bb91
- 8024704:	0802bb98 	.word	0x0802bb98
+ 8024700:	0802bb8d 	.word	0x0802bb8d
+ 8024704:	0802bb94 	.word	0x0802bb94
  8024708:	0802be94 	.word	0x0802be94
 
 0802470c <htoa>:
@@ -7168,7 +7168,7 @@ Disassembly of section .text:
  802472a:	710b      	strb	r3, [r1, #4]
  802472c:	bd30      	pop	{r4, r5, pc}
  802472e:	bf00      	nop
- 8024730:	0802bb9b 	.word	0x0802bb9b
+ 8024730:	0802bb97 	.word	0x0802bb97
 
 08024734 <hexdump>:
  8024734:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -7799,7 +7799,7 @@ Disassembly of section .text:
  8024e4a:	bd10      	pop	{r4, pc}
  8024e4c:	24001e34 	.word	0x24001e34
  8024e50:	24001e38 	.word	0x24001e38
- 8024e54:	0802bbac 	.word	0x0802bbac
+ 8024e54:	0802bba8 	.word	0x0802bba8
 
 08024e58 <SF_RW_Byte_FLASH>:
  8024e58:	b57f      	push	{r0, r1, r2, r3, r4, r5, r6, lr}
@@ -7854,7 +7854,7 @@ Disassembly of section .text:
  8024ed2:	bf00      	nop
  8024ed4:	58020000 	.word	0x58020000
  8024ed8:	24001e38 	.word	0x24001e38
- 8024edc:	0802bbbd 	.word	0x0802bbbd
+ 8024edc:	0802bbb9 	.word	0x0802bbb9
 
 08024ee0 <write_enable>:
  8024ee0:	b510      	push	{r4, lr}
@@ -7967,11 +7967,11 @@ Disassembly of section .text:
  8024ff6:	46a0      	mov	r8, r4
  8024ff8:	e7e4      	b.n	8024fc4 <flash_read+0xbc>
  8024ffa:	bf00      	nop
- 8024ffc:	0802bbce 	.word	0x0802bbce
+ 8024ffc:	0802bbca 	.word	0x0802bbca
  8025000:	58020000 	.word	0x58020000
  8025004:	24001e38 	.word	0x24001e38
- 8025008:	0802bc02 	.word	0x0802bc02
- 802500c:	0802bc39 	.word	0x0802bc39
+ 8025008:	0802bbfe 	.word	0x0802bbfe
+ 802500c:	0802bc35 	.word	0x0802bc35
 
 08025010 <flash_erase>:
  8025010:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -8059,10 +8059,10 @@ Disassembly of section .text:
  80250f0:	e7d6      	b.n	80250a0 <flash_erase+0x90>
  80250f2:	bf00      	nop
  80250f4:	58020000 	.word	0x58020000
- 80250f8:	0802bc5b 	.word	0x0802bc5b
+ 80250f8:	0802bc57 	.word	0x0802bc57
  80250fc:	24001e38 	.word	0x24001e38
- 8025100:	0802bcbb 	.word	0x0802bcbb
- 8025104:	0802bc86 	.word	0x0802bc86
+ 8025100:	0802bcb7 	.word	0x0802bcb7
+ 8025104:	0802bc82 	.word	0x0802bc82
 
 08025108 <flash_write>:
  8025108:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -8204,14 +8204,14 @@ Disassembly of section .text:
  8025268:	f8cd 800c 	str.w	r8, [sp, #12]
  802526c:	e7c3      	b.n	80251f6 <flash_write+0xee>
  802526e:	bf00      	nop
- 8025270:	0802bcec 	.word	0x0802bcec
+ 8025270:	0802bce8 	.word	0x0802bce8
  8025274:	58020000 	.word	0x58020000
  8025278:	24001e39 	.word	0x24001e39
  802527c:	24001e38 	.word	0x24001e38
- 8025280:	0802bd21 	.word	0x0802bd21
- 8025284:	0802bd38 	.word	0x0802bd38
- 8025288:	0802bd70 	.word	0x0802bd70
- 802528c:	0802bd83 	.word	0x0802bd83
+ 8025280:	0802bd1d 	.word	0x0802bd1d
+ 8025284:	0802bd34 	.word	0x0802bd34
+ 8025288:	0802bd6c 	.word	0x0802bd6c
+ 802528c:	0802bd7f 	.word	0x0802bd7f
 
 08025290 <dip_sw>:
  8025290:	4b02      	ldr	r3, [pc, #8]	; (802529c <dip_sw+0xc>)
@@ -9037,10 +9037,10 @@ Disassembly of section .text:
  8025ba8:	00000000 	.word	0x00000000
  8025bac:	c1cdcd65 	.word	0xc1cdcd65
 	...
- 8025bb8:	0802bdbd 	.word	0x0802bdbd
- 8025bbc:	0802bdc1 	.word	0x0802bdc1
- 8025bc0:	0802bdb8 	.word	0x0802bdb8
- 8025bc4:	0802bdb4 	.word	0x0802bdb4
+ 8025bb8:	0802bdb9 	.word	0x0802bdb9
+ 8025bbc:	0802bdbd 	.word	0x0802bdbd
+ 8025bc0:	0802bdb4 	.word	0x0802bdb4
+ 8025bc4:	0802bdb0 	.word	0x0802bdb0
  8025bc8:	0802bdc8 	.word	0x0802bdc8
 
 08025bcc <_out_char>:
@@ -15394,7 +15394,7 @@ Disassembly of section .text:
  8029bcc:	3401      	adds	r4, #1
  8029bce:	f7fc fa9f 	bl	8026110 <printf_>
  8029bd2:	e7ed      	b.n	8029bb0 <Print2Hex+0x18>
- 8029bd4:	0802bb8a 	.word	0x0802bb8a
+ 8029bd4:	0802bb86 	.word	0x0802bb86
  8029bd8:	0802be86 	.word	0x0802be86
  8029bdc:	0802be8f 	.word	0x0802be8f
 

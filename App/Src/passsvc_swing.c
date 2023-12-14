@@ -323,7 +323,7 @@ void CheckBarrierOperation(void)
                             {
                                 nBarrierErrorCnt++;
 
-                                if (nBarrierErrorCnt == 8) // After 4 sec, Barrier fault is generated.
+                                if (nBarrierErrorCnt == 6) // After 4 sec, Barrier fault is generated.
                                 {
                                     if (isSafetyOn == TRUE)
                                     {
@@ -340,7 +340,7 @@ void CheckBarrierOperation(void)
                                         gGCUStatus.ModuleAlarm.b.nFDoor2 = FDOOR_ALARM_CLOSE_FAULT;
 
                                     nBarrierErrorCnt = 0;
-                                    StopBarrierForSwing(FALSE);
+                                    ControlBarrier(BARRIER_CLOSE);
                                 }
                             }
                         }
@@ -373,7 +373,7 @@ void CheckBarrierOperation(void)
                             }
                             else
                             {
-                                printf(" [CheckBarrier] Total Locking - 1!!! \n");
+                                printf(" [CheckBarrier] Total Locking!!! \n");
                                 StopBarrierForSwing(TRUE);
                             }
                         }
@@ -926,6 +926,7 @@ void CheckSafetyTimerForSwing(void)
             StopBarrierForSwing(FALSE);
             ResetTimer(&timerBarrierStop);
             SetTimer(&timerSafety);
+			isSentClose = FALSE;
         }
     }
     else if (timerSafety.fStart)
@@ -934,9 +935,18 @@ void CheckSafetyTimerForSwing(void)
         {
             printf(" [CheckSafetyTimerForSwing] Safety Time Out! \n");
             ResetTimer(&timerSafety);
-            gbAuthDirection = FROM_NONE;
-            isSafetyOn = FALSE;
-            isSentClose = FALSE;
+			if (isSentClose == FALSE)
+			{
+				SetTimer(&timerSafety);
+			}
+			else 
+			{
+				gbAuthDirection = FROM_NONE;
+				gGCUStatus.PassageAlarm.b.nPassOverFromEN = OFF;
+				gGCUStatus.PassageAlarm.b.nPassOverFromEX = OFF;
+				isSafetyOn = FALSE;
+				isSentClose = FALSE;
+			}
         }
         else
         {
@@ -955,7 +965,6 @@ void CheckSafetyTimerForSwing(void)
                             ResetTimer(&timerSafety);
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
-                            isSentClose = FALSE;
                         }
                         else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
                         {
@@ -973,7 +982,6 @@ void CheckSafetyTimerForSwing(void)
                             ResetTimer(&timerSafety);
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
-                            isSentClose = FALSE;
                         }
                         else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
                         {
@@ -996,7 +1004,6 @@ void CheckSafetyTimerForSwing(void)
                             ResetTimer(&timerSafety);
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
-                            isSentClose = FALSE;
                         }
                         else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
                         {
