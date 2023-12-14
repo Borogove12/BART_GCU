@@ -74,7 +74,6 @@ extern volatile DWORD gdwTick;
 
 /* USER CODE BEGIN EV */
 extern bool bDip_SW_Flag;
-bool bDip_SW_Init = FALSE;
 BYTE gbDipSW, gbOldDipSW;
 /* USER CODE END EV */
 

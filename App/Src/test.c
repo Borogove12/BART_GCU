@@ -367,7 +367,7 @@ void TestAging(void)
 		TestLamp();
 		TestDoor_P();
 		TestDoor_S();
-		TestBuzzer();
+		// TestBuzzer();
 	}
 
 	loop++;
