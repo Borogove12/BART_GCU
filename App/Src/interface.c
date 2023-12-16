@@ -525,7 +525,7 @@ void CMDControlBuzzer(void)
 void CMDSafetyStop(void)
 {
 	T_CMD_SAFETY_STOP *pcmdSafetyStop = (T_CMD_SAFETY_STOP *)GCUCommand.d.mbOptionData;
-	gfAISafetyOn = pcmdSafetyStop->bSafety;
+	gfAIDetection = pcmdSafetyStop->bSafety;
 }
 
 #define MAX_WRITE_REG	9
@@ -681,7 +681,7 @@ void CMDReadRegister(void)			//pms		이 함수 모두 확인 필요
 	mbReadData[5] =  dwSpareSenserValue;		// Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기) -> 회로상에도 스페어는 17,18 로 표기 바랍니다 20230927 by Joseph
 												// add - jig test에서는 17 18 할당 -> JIG 에서는 17,18 sensor 체크는 뺄 예정입니다. 20230927 by Joseph
 	mbReadData[6] =  0;							// Spare sensor (WMATA not used) -> JIG 에서는 Spare sensor 체크는 뺄 예정입니다. 20230927 by Joseph
-	mbReadData[7] =  (*(BYTE*)READ04_ADR);		// Barrier status, High active
+	mbReadData[7] =  (*(BYTE*)READ04_ADR);		// Barrier status, High active (S_Brake:S_Abnormal:S_Fault:S_Position:P_Brake:P_Abnormal:P_Fault:P_Position)
 	mbReadData[8] =  (*(BYTE*)READ03_ADR);		// SCADA, High active
 	mbReadData[9] =  IsEMGSignalOn();			// External IRQ source  - 인터럽트 신호 BART에서 사용여부는 첨부 GCU_IO Specification 참조 -> EBO (Emergency) Signal 값으로 변경. 20231002 by Joseph
 	mbReadData[10] =  dwUPSValue;				// UPS Status - BART도 UPS I/F 사용 (In: 3EA) 

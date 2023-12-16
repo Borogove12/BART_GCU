@@ -273,6 +273,7 @@ void CloseBarrierForSwing(void)
 
 void CheckBarrierOperation(void)
 {
+    BYTE barrierIO = 0x00;
     if (timerBarrierCmdWait.fStart)
     {
         if (IsTimeout(&timerBarrierCmdWait, dwBarrierCmdWaitTime * TICK_COUNT_100MS))
@@ -285,6 +286,7 @@ void CheckBarrierOperation(void)
         if (IsTimeout(&timerBarrierCheck, dwBarrierCheckTime * TICK_COUNT_100MS))
         {
             ResetTimer(&timerBarrierCheck);
+            barrierIO = (*(BYTE*)READ04_ADR);
 
             if (gMainBarrierStatus.param.actStatus == 0 && gSubBarrierStatus.param.actStatus == 0)
             {
@@ -323,13 +325,9 @@ void CheckBarrierOperation(void)
                             {
                                 nBarrierErrorCnt++;
 
-                                if (nBarrierErrorCnt == 6) // After 4 sec, Barrier fault is generated.
+                                if (nBarrierErrorCnt == 8) // After 4 sec, Barrier fault is generated.
                                 {
-                                    if (isSafetyOn == TRUE)
-                                    {
-                                        ControlBuzzer(BUZZER_ON, gGCUParameter.bAlarmTimeout);
-                                    }
-                                    else if (gGCUStatus.ModuleAlarm.b.nFDoor1 == FDOOR_ALARM_NONE && gGCUStatus.ModuleAlarm.b.nFDoor2 == FDOOR_ALARM_NONE)
+                                    if (isSafetyOn == TRUE || (gGCUStatus.ModuleAlarm.b.nFDoor1 == FDOOR_ALARM_NONE && gGCUStatus.ModuleAlarm.b.nFDoor2 == FDOOR_ALARM_NONE))
                                     {
                                         ControlBuzzer(BUZZER_ON, gGCUParameter.bAlarmTimeout);
                                     }
@@ -367,7 +365,7 @@ void CheckBarrierOperation(void)
                         else
                         {
                             // Total Locking 20230823
-                            if (!psenNewSwing.dirExit.passage && !psenNewSwing.dirEntry.passage)
+                            if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
                             {
                                 StopBarrierForSwing(FALSE);
                             }
@@ -966,7 +964,7 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         {
                             gGCUStatus.bSafetyDetection = FLG_OFF;
                             isSentClose = TRUE;
@@ -983,7 +981,7 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         {
                             gGCUStatus.bSafetyDetection = FLG_OFF;
                             isSentClose = TRUE;
@@ -1005,7 +1003,7 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         {
                             gGCUStatus.bSafetyDetection = FLG_OFF;
                             isSentClose = TRUE;
@@ -1023,7 +1021,7 @@ void CheckSafetyTimerForSwing(void)
                             isSafetyOn = TRUE;
                             isSentClose = FALSE;
                         }
-                        else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         {
                             gGCUStatus.bSafetyDetection = FLG_OFF;
                             isSentClose = TRUE;
@@ -1044,7 +1042,7 @@ void CheckSafetyTimerForSwing(void)
                         isSafetyOn = TRUE;
                         isSentClose = FALSE;
                     }
-                    else if (gfAISafetyOn == FALSE && isSentClose == FALSE)
+                    else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                     {
                         gGCUStatus.bSafetyDetection = FLG_OFF;
                         isSentClose = TRUE;

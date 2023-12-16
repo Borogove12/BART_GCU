@@ -17,6 +17,7 @@
 /* Global variables ----------------------------------------------------------*/
 extern BYTE gbPrevDir;
 extern BYTE gbBarrierCmd;
+extern BYTE gfAIDetection;
 
 extern bool gisEntryPassenger;
 extern bool gisExitPassenger;
@@ -25,7 +26,6 @@ extern bool gfFreeMode;
 extern bool gfTestMode;
 extern bool gfPeopleCount_EN;
 extern bool gfPeopleCount_EX;
-extern bool gfAISafetyOn;
 
 extern int gnPassPattern;
 extern int gnSignalCount;
