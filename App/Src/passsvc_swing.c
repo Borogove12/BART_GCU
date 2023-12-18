@@ -104,7 +104,9 @@ void UpdateSensorData()
 
 void InitPassageModeForSwing(void)
 {
-    if (isBarrierStop == TRUE)
+    BYTE barrierBrake = (*(BYTE *)READ04_ADR) & BRR_STAT_BRAKE_MASK;
+
+    if (barrierBrake)
     {
         printf(" [InitPassageMode] Release the barrier stop \n");
         StopBarrierForSwing(FALSE);
@@ -225,7 +227,9 @@ void StopBarrierForSwing(bool isStop)
 
 void OpenBarrierForSwing(BYTE bDir)
 {
-    if (isBarrierStop == TRUE)
+    BYTE barrierBrake = (*(BYTE *)READ04_ADR) & BRR_STAT_BRAKE_MASK;
+
+    if (barrierBrake)
     {
         StopBarrierForSwing(FALSE);
     }
@@ -261,7 +265,9 @@ void CloseBarrierForSwing(void)
 {
     if (gGCUStatus.ModuleAlarm.b.nSafetyErr == OFF && (gfTestMode == TRUE || CheckBarrierClosedStatus()))
     {
-        if (isBarrierStop == TRUE)
+        BYTE barrierBrake = (*(BYTE *)READ04_ADR) & BRR_STAT_BRAKE_MASK;
+
+        if (barrierBrake)
         {
             StopBarrierForSwing(FALSE);
         }
@@ -286,7 +292,7 @@ void CheckBarrierOperation(void)
         if (IsTimeout(&timerBarrierCheck, dwBarrierCheckTime * TICK_COUNT_100MS))
         {
             ResetTimer(&timerBarrierCheck);
-            barrierIO = (*(BYTE*)READ04_ADR);
+            barrierIO = (*(BYTE *)READ04_ADR);
 
             if (gMainBarrierStatus.param.actStatus == 0 && gSubBarrierStatus.param.actStatus == 0)
             {
@@ -368,11 +374,11 @@ void CheckBarrierOperation(void)
                             // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
                             if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
                             {
+                                printf(" [CheckBarrier] Total Locking!!! \n");
                                 StopBarrierForSwing(TRUE);
                             }
                             else
                             {
-                                printf(" [CheckBarrier] Total Locking!!! \n");
                                 StopBarrierForSwing(FALSE);
                             }
                         }
@@ -925,7 +931,7 @@ void CheckSafetyTimerForSwing(void)
             StopBarrierForSwing(FALSE);
             ResetTimer(&timerBarrierStop);
             SetTimer(&timerSafety);
-			isSentClose = FALSE;
+            isSentClose = FALSE;
         }
     }
     else if (timerSafety.fStart)
@@ -934,18 +940,18 @@ void CheckSafetyTimerForSwing(void)
         {
             printf(" [CheckSafetyTimerForSwing] Safety Time Out! \n");
             ResetTimer(&timerSafety);
-			if (isSentClose == FALSE)
-			{
-				SetTimer(&timerSafety);
-			}
-			else 
-			{
-				gbAuthDirection = FROM_NONE;
-				gGCUStatus.PassageAlarm.b.nPassOverFromEN = OFF;
-				gGCUStatus.PassageAlarm.b.nPassOverFromEX = OFF;
-				isSafetyOn = FALSE;
-				isSentClose = FALSE;
-			}
+            if (isSentClose == FALSE)
+            {
+                SetTimer(&timerSafety);
+            }
+            else
+            {
+                gbAuthDirection = FROM_NONE;
+                gGCUStatus.PassageAlarm.b.nPassOverFromEN = OFF;
+                gGCUStatus.PassageAlarm.b.nPassOverFromEX = OFF;
+                isSafetyOn = FALSE;
+                isSentClose = FALSE;
+            }
         }
         else
         {

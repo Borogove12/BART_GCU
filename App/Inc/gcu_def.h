@@ -174,6 +174,14 @@ enum
 	UPS_CMD_SHUTDOWN 	= 0x02,
 };
 
+enum
+{
+    BRR_STAT_BRAKE_MASK = 0x88,
+    BRR_STAT_ABNORMAL_MASK = 0x44,
+    BRR_STAT_FAULT_MASK = 0x22,
+    BRR_STAT_POSITION_MASK = 0x11,
+};
+
 // TODO: Must be changed for Prod board
 // Oak Board: Low active
 // #define ControlUPS_CheckOn() 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_RESET)
