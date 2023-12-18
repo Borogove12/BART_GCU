@@ -210,7 +210,7 @@ void SysTick_Handler(void)
     /* USER CODE BEGIN SysTick_IRQn 1 */
     if (bDip_SW_Flag == TRUE) // The hal tick works immediately after SystemClock_Config is enabled.
     {                         // The dipswitch should work after the FMC initialization.		pms
-        gbDipSW = dip_sw();   //(BYTE)GPIO_ByteRead(GPIO1, GPIO_LSB)^0xFF;
+        gbDipSW = dip_sw();
 
         if (gbDipSW & MASK_SELF_TEST)
         {
