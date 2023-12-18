@@ -151,7 +151,7 @@ word dip_sw(void)
 
 void GCUInitialize(void)
 {
-	//EcuEmergencyOff();	
+    BuzzerOff();
 	ControlUPS_CheckOn();
 	ControlUPS_ShutDownOff();
 	SetDefaultOpMode();
@@ -163,8 +163,6 @@ void GCUInitialize(void)
 	ControlStatusLED_Ex(DIR_RED);
 	ControlOverHeadDisplay_En(DIR_RED);
 	ControlOverHeadDisplay_Ex(DIR_RED);
-
-    BuzzerOff();
 }
 
 inline void SerialProcess(void)
