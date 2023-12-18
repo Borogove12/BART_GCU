@@ -508,30 +508,23 @@ void CheckUPSStatus(void)
 
 void CheckEmergencySignal(void)
 {
-    BYTE bNewEmergencySignal = OFF;
+    BYTE bNewEmergencySignal = ON;
     BYTE bDipSwitch4 = ReadDipSwitch() & MASK_EMG_SIGNAL;
     T_GCU_OP_MODE newMode;
     int nTriggerCount;
 
     if (bDipSwitch4)
-        bNewEmergencySignal = OFF;
+        bNewEmergencySignal = ON;
     else
     {
         bNewEmergencySignal = (BYTE)IsEMGSignalOn();
     }
 
-    // TODO: EMG signal must be checked with Prod board by Joseph 20231002
-    // Oakland Board - Low active (EMG)
+    // Prod EMG signal - Normal: High / Emg: Low
     if (bNewEmergencySignal)
-        gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
-    else
         gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
-
-    // Prod Board - High active (EMG) - Should check whether the board itself convert signal.
-    // if (!bNewEmergencySignal)
-    //     gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
-    // else
-    //     gGCUStatus.ModeStatus.b.nEmergencyMode = OFF;
+    else
+        gGCUStatus.ModeStatus.b.nEmergencyMode = ON;
 
     if (gbPrevEmgSignal != bNewEmergencySignal)
     {
