@@ -32,7 +32,7 @@ DWORD dwInverseCloseTime = 4;   // unit: 100 ms
 DWORD dwBarrierCheckTime = 5;   // unit: 100 ms
 DWORD dwBarrierStopTime = 5;    // unit: 100 ms
 DWORD dwBarrierCmdWaitTime = 2; // unit: 100 ms
-DWORD dwStopHoldingTime = 6;    // unit: 10 sec
+DWORD dwStopHoldingTime = 3;    // unit: 10 sec
 
 bool isPassReady_EN = FALSE; // pass-ready state of direction Entry
 bool isPassReady_EX = FALSE; // pass-ready state of direction Exit
@@ -365,7 +365,8 @@ void CheckBarrierOperation(void)
                         else
                         {
                             // Total Locking 20230823
-                            if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
+                            // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
+                            if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
                             {
                                 StopBarrierForSwing(TRUE);
                             }
