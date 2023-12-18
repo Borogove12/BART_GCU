@@ -963,7 +963,7 @@ Disassembly of section .text:
  8020b86:	4a07      	ldr	r2, [pc, #28]	; (8020ba4 <SetNewOpMode+0x60>)
  8020b88:	6013      	str	r3, [r2, #0]
  8020b8a:	f7ff ffc3 	bl	8020b14 <ApplyStatusMode>
- 8020b8e:	f001 fb81 	bl	8022294 <InitPassageModeForSwing>
+ 8020b8e:	f001 fb7f 	bl	8022290 <InitPassageModeForSwing>
  8020b92:	2300      	movs	r3, #0
  8020b94:	7023      	strb	r3, [r4, #0]
  8020b96:	bd10      	pop	{r4, pc}
@@ -1000,7 +1000,7 @@ Disassembly of section .text:
  8020bde:	6023      	str	r3, [r4, #0]
  8020be0:	f7ff ff98 	bl	8020b14 <ApplyStatusMode>
  8020be4:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
- 8020be8:	f001 bb54 	b.w	8022294 <InitPassageModeForSwing>
+ 8020be8:	f001 bb52 	b.w	8022290 <InitPassageModeForSwing>
  8020bec:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
  8020bee:	bf00      	nop
  8020bf0:	24000148 	.word	0x24000148
@@ -1163,7 +1163,7 @@ Disassembly of section .text:
  8020d5e:	f013 0f77 	tst.w	r3, #119	; 0x77
  8020d62:	d103      	bne.n	8020d6c <ClearAuthCount+0x28>
  8020d64:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8020d68:	f001 ba94 	b.w	8022294 <InitPassageModeForSwing>
+ 8020d68:	f001 ba92 	b.w	8022290 <InitPassageModeForSwing>
  8020d6c:	bd10      	pop	{r4, pc}
  8020d6e:	bf00      	nop
  8020d70:	2400014c 	.word	0x2400014c
@@ -1180,14 +1180,14 @@ Disassembly of section .text:
  8020d86:	f008 ff53 	bl	8029c30 <ResetTimer>
  8020d8a:	7820      	ldrb	r0, [r4, #0]
  8020d8c:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8020d90:	f001 bb78 	b.w	8022484 <OpenBarrierForSwing>
+ 8020d90:	f001 bb76 	b.w	8022480 <OpenBarrierForSwing>
  8020d94:	2803      	cmp	r0, #3
  8020d96:	d10d      	bne.n	8020db4 <ControlBarrier+0x3c>
  8020d98:	4b09      	ldr	r3, [pc, #36]	; (8020dc0 <ControlBarrier+0x48>)
  8020d9a:	781b      	ldrb	r3, [r3, #0]
  8020d9c:	b11b      	cbz	r3, 8020da6 <ControlBarrier+0x2e>
  8020d9e:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8020da2:	f001 bbab 	b.w	80224fc <CloseBarrierForSwing>
+ 8020da2:	f001 bba9 	b.w	80224f8 <CloseBarrierForSwing>
  8020da6:	4805      	ldr	r0, [pc, #20]	; (8020dbc <ControlBarrier+0x44>)
  8020da8:	7803      	ldrb	r3, [r0, #0]
  8020daa:	b91b      	cbnz	r3, 8020db4 <ControlBarrier+0x3c>
@@ -1839,7 +1839,7 @@ Disassembly of section .text:
  802141a:	4b21      	ldr	r3, [pc, #132]	; (80214a0 <ClearIllegalPass+0xcc>)
  802141c:	781b      	ldrb	r3, [r3, #0]
  802141e:	b923      	cbnz	r3, 802142a <ClearIllegalPass+0x56>
- 8021420:	f000 ff38 	bl	8022294 <InitPassageModeForSwing>
+ 8021420:	f000 ff36 	bl	8022290 <InitPassageModeForSwing>
  8021424:	481f      	ldr	r0, [pc, #124]	; (80214a4 <ClearIllegalPass+0xd0>)
  8021426:	f004 fe93 	bl	8026150 <printf_>
  802142a:	7a23      	ldrb	r3, [r4, #8]
@@ -1873,7 +1873,7 @@ Disassembly of section .text:
  8021472:	4b0b      	ldr	r3, [pc, #44]	; (80214a0 <ClearIllegalPass+0xcc>)
  8021474:	781b      	ldrb	r3, [r3, #0]
  8021476:	b933      	cbnz	r3, 8021486 <ClearIllegalPass+0xb2>
- 8021478:	f000 ff0c 	bl	8022294 <InitPassageModeForSwing>
+ 8021478:	f000 ff0a 	bl	8022290 <InitPassageModeForSwing>
  802147c:	480d      	ldr	r0, [pc, #52]	; (80214b4 <ClearIllegalPass+0xe0>)
  802147e:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  8021482:	f004 be65 	b.w	8026150 <printf_>
@@ -1976,7 +1976,7 @@ Disassembly of section .text:
  8021586:	f7ff ff25 	bl	80213d4 <ClearIllegalPass>
  802158a:	722c      	strb	r4, [r5, #8]
  802158c:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
- 8021590:	f000 be80 	b.w	8022294 <InitPassageModeForSwing>
+ 8021590:	f000 be7e 	b.w	8022290 <InitPassageModeForSwing>
  8021594:	bd38      	pop	{r3, r4, r5, pc}
  8021596:	bf00      	nop
  8021598:	2400014c 	.word	0x2400014c
@@ -2613,1195 +2613,1196 @@ Disassembly of section .text:
  8021b84:	24000254 	.word	0x24000254
 
 08021b88 <CMDSafetyStop>:
- 8021b88:	4b03      	ldr	r3, [pc, #12]	; (8021b98 <CMDSafetyStop+0x10>)
- 8021b8a:	4a04      	ldr	r2, [pc, #16]	; (8021b9c <CMDSafetyStop+0x14>)
- 8021b8c:	791b      	ldrb	r3, [r3, #4]
- 8021b8e:	3b00      	subs	r3, #0
- 8021b90:	bf18      	it	ne
- 8021b92:	2301      	movne	r3, #1
- 8021b94:	7013      	strb	r3, [r2, #0]
- 8021b96:	4770      	bx	lr
- 8021b98:	24000254 	.word	0x24000254
- 8021b9c:	24000450 	.word	0x24000450
+ 8021b88:	4b02      	ldr	r3, [pc, #8]	; (8021b94 <CMDSafetyStop+0xc>)
+ 8021b8a:	791a      	ldrb	r2, [r3, #4]
+ 8021b8c:	4b02      	ldr	r3, [pc, #8]	; (8021b98 <CMDSafetyStop+0x10>)
+ 8021b8e:	701a      	strb	r2, [r3, #0]
+ 8021b90:	4770      	bx	lr
+ 8021b92:	bf00      	nop
+ 8021b94:	24000254 	.word	0x24000254
+ 8021b98:	24000450 	.word	0x24000450
 
-08021ba0 <CMDWriteRegister>:
- 8021ba0:	b510      	push	{r4, lr}
- 8021ba2:	4c49      	ldr	r4, [pc, #292]	; (8021cc8 <CMDWriteRegister+0x128>)
- 8021ba4:	4849      	ldr	r0, [pc, #292]	; (8021ccc <CMDWriteRegister+0x12c>)
- 8021ba6:	7921      	ldrb	r1, [r4, #4]
- 8021ba8:	f004 fad2 	bl	8026150 <printf_>
- 8021bac:	7961      	ldrb	r1, [r4, #5]
- 8021bae:	4848      	ldr	r0, [pc, #288]	; (8021cd0 <CMDWriteRegister+0x130>)
- 8021bb0:	f004 face 	bl	8026150 <printf_>
- 8021bb4:	79a1      	ldrb	r1, [r4, #6]
- 8021bb6:	4847      	ldr	r0, [pc, #284]	; (8021cd4 <CMDWriteRegister+0x134>)
- 8021bb8:	f004 faca 	bl	8026150 <printf_>
- 8021bbc:	79e1      	ldrb	r1, [r4, #7]
- 8021bbe:	4846      	ldr	r0, [pc, #280]	; (8021cd8 <CMDWriteRegister+0x138>)
- 8021bc0:	f004 fac6 	bl	8026150 <printf_>
- 8021bc4:	7a21      	ldrb	r1, [r4, #8]
- 8021bc6:	4845      	ldr	r0, [pc, #276]	; (8021cdc <CMDWriteRegister+0x13c>)
- 8021bc8:	f004 fac2 	bl	8026150 <printf_>
- 8021bcc:	7a61      	ldrb	r1, [r4, #9]
- 8021bce:	4844      	ldr	r0, [pc, #272]	; (8021ce0 <CMDWriteRegister+0x140>)
- 8021bd0:	f004 fabe 	bl	8026150 <printf_>
- 8021bd4:	7aa1      	ldrb	r1, [r4, #10]
- 8021bd6:	4843      	ldr	r0, [pc, #268]	; (8021ce4 <CMDWriteRegister+0x144>)
- 8021bd8:	f004 faba 	bl	8026150 <printf_>
- 8021bdc:	7ae1      	ldrb	r1, [r4, #11]
- 8021bde:	4842      	ldr	r0, [pc, #264]	; (8021ce8 <CMDWriteRegister+0x148>)
- 8021be0:	f004 fab6 	bl	8026150 <printf_>
- 8021be4:	7b21      	ldrb	r1, [r4, #12]
- 8021be6:	4841      	ldr	r0, [pc, #260]	; (8021cec <CMDWriteRegister+0x14c>)
- 8021be8:	f004 fab2 	bl	8026150 <printf_>
- 8021bec:	7922      	ldrb	r2, [r4, #4]
- 8021bee:	f994 3004 	ldrsb.w	r3, [r4, #4]
- 8021bf2:	f002 0201 	and.w	r2, r2, #1
- 8021bf6:	f003 03fe 	and.w	r3, r3, #254	; 0xfe
- 8021bfa:	4313      	orrs	r3, r2
- 8021bfc:	4a3c      	ldr	r2, [pc, #240]	; (8021cf0 <CMDWriteRegister+0x150>)
- 8021bfe:	7013      	strb	r3, [r2, #0]
- 8021c00:	7962      	ldrb	r2, [r4, #5]
- 8021c02:	f994 3005 	ldrsb.w	r3, [r4, #5]
- 8021c06:	f002 0201 	and.w	r2, r2, #1
- 8021c0a:	f003 030e 	and.w	r3, r3, #14
- 8021c0e:	4313      	orrs	r3, r2
- 8021c10:	4a38      	ldr	r2, [pc, #224]	; (8021cf4 <CMDWriteRegister+0x154>)
- 8021c12:	7013      	strb	r3, [r2, #0]
- 8021c14:	79e0      	ldrb	r0, [r4, #7]
- 8021c16:	f994 3007 	ldrsb.w	r3, [r4, #7]
- 8021c1a:	7a22      	ldrb	r2, [r4, #8]
- 8021c1c:	f000 0001 	and.w	r0, r0, #1
- 8021c20:	f003 030e 	and.w	r3, r3, #14
- 8021c24:	0112      	lsls	r2, r2, #4
- 8021c26:	4303      	orrs	r3, r0
- 8021c28:	f002 0010 	and.w	r0, r2, #16
- 8021c2c:	b251      	sxtb	r1, r2
- 8021c2e:	4303      	orrs	r3, r0
- 8021c30:	f002 0020 	and.w	r0, r2, #32
- 8021c34:	f002 0240 	and.w	r2, r2, #64	; 0x40
- 8021c38:	4303      	orrs	r3, r0
- 8021c3a:	4313      	orrs	r3, r2
- 8021c3c:	f021 027f 	bic.w	r2, r1, #127	; 0x7f
- 8021c40:	4313      	orrs	r3, r2
- 8021c42:	f04f 42c8 	mov.w	r2, #1677721600	; 0x64000000
- 8021c46:	b2db      	uxtb	r3, r3
- 8021c48:	7013      	strb	r3, [r2, #0]
- 8021c4a:	7aa1      	ldrb	r1, [r4, #10]
- 8021c4c:	7ae2      	ldrb	r2, [r4, #11]
- 8021c4e:	104b      	asrs	r3, r1, #1
- 8021c50:	0048      	lsls	r0, r1, #1
- 8021c52:	f001 0101 	and.w	r1, r1, #1
- 8021c56:	f003 0302 	and.w	r3, r3, #2
- 8021c5a:	f000 0004 	and.w	r0, r0, #4
- 8021c5e:	4303      	orrs	r3, r0
- 8021c60:	430b      	orrs	r3, r1
- 8021c62:	0111      	lsls	r1, r2, #4
- 8021c64:	f001 0110 	and.w	r1, r1, #16
- 8021c68:	430b      	orrs	r3, r1
- 8021c6a:	00d1      	lsls	r1, r2, #3
- 8021c6c:	0152      	lsls	r2, r2, #5
- 8021c6e:	f001 0120 	and.w	r1, r1, #32
- 8021c72:	f002 0240 	and.w	r2, r2, #64	; 0x40
- 8021c76:	430b      	orrs	r3, r1
- 8021c78:	4313      	orrs	r3, r2
- 8021c7a:	4a1f      	ldr	r2, [pc, #124]	; (8021cf8 <CMDWriteRegister+0x158>)
- 8021c7c:	7013      	strb	r3, [r2, #0]
- 8021c7e:	7b22      	ldrb	r2, [r4, #12]
- 8021c80:	2a33      	cmp	r2, #51	; 0x33
- 8021c82:	d10f      	bne.n	8021ca4 <CMDWriteRegister+0x104>
- 8021c84:	2201      	movs	r2, #1
- 8021c86:	2140      	movs	r1, #64	; 0x40
- 8021c88:	481c      	ldr	r0, [pc, #112]	; (8021cfc <CMDWriteRegister+0x15c>)
- 8021c8a:	f005 f995 	bl	8026fb8 <HAL_GPIO_WritePin>
- 8021c8e:	2201      	movs	r2, #1
- 8021c90:	2180      	movs	r1, #128	; 0x80
- 8021c92:	481a      	ldr	r0, [pc, #104]	; (8021cfc <CMDWriteRegister+0x15c>)
- 8021c94:	f005 f990 	bl	8026fb8 <HAL_GPIO_WritePin>
- 8021c98:	7ba3      	ldrb	r3, [r4, #14]
- 8021c9a:	b183      	cbz	r3, 8021cbe <CMDWriteRegister+0x11e>
- 8021c9c:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8021ca0:	f001 bf08 	b.w	8023ab4 <BuzzerOn>
- 8021ca4:	f082 0202 	eor.w	r2, r2, #2
- 8021ca8:	2140      	movs	r1, #64	; 0x40
- 8021caa:	4814      	ldr	r0, [pc, #80]	; (8021cfc <CMDWriteRegister+0x15c>)
- 8021cac:	f3c2 0240 	ubfx	r2, r2, #1, #1
- 8021cb0:	f005 f982 	bl	8026fb8 <HAL_GPIO_WritePin>
- 8021cb4:	7b22      	ldrb	r2, [r4, #12]
- 8021cb6:	43d2      	mvns	r2, r2
- 8021cb8:	f002 0201 	and.w	r2, r2, #1
- 8021cbc:	e7e8      	b.n	8021c90 <CMDWriteRegister+0xf0>
- 8021cbe:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8021cc2:	f001 bf07 	b.w	8023ad4 <BuzzerOff>
- 8021cc6:	bf00      	nop
- 8021cc8:	24000254 	.word	0x24000254
- 8021ccc:	0802b2b1 	.word	0x0802b2b1
- 8021cd0:	0802b2c7 	.word	0x0802b2c7
- 8021cd4:	0802b2dd 	.word	0x0802b2dd
- 8021cd8:	0802b2f3 	.word	0x0802b2f3
- 8021cdc:	0802b309 	.word	0x0802b309
- 8021ce0:	0802b31f 	.word	0x0802b31f
- 8021ce4:	0802b335 	.word	0x0802b335
- 8021ce8:	0802b34b 	.word	0x0802b34b
- 8021cec:	0802b361 	.word	0x0802b361
- 8021cf0:	64000200 	.word	0x64000200
- 8021cf4:	64000400 	.word	0x64000400
- 8021cf8:	64000100 	.word	0x64000100
- 8021cfc:	58021400 	.word	0x58021400
+08021b9c <CMDWriteRegister>:
+ 8021b9c:	b510      	push	{r4, lr}
+ 8021b9e:	4c49      	ldr	r4, [pc, #292]	; (8021cc4 <CMDWriteRegister+0x128>)
+ 8021ba0:	4849      	ldr	r0, [pc, #292]	; (8021cc8 <CMDWriteRegister+0x12c>)
+ 8021ba2:	7921      	ldrb	r1, [r4, #4]
+ 8021ba4:	f004 fad4 	bl	8026150 <printf_>
+ 8021ba8:	7961      	ldrb	r1, [r4, #5]
+ 8021baa:	4848      	ldr	r0, [pc, #288]	; (8021ccc <CMDWriteRegister+0x130>)
+ 8021bac:	f004 fad0 	bl	8026150 <printf_>
+ 8021bb0:	79a1      	ldrb	r1, [r4, #6]
+ 8021bb2:	4847      	ldr	r0, [pc, #284]	; (8021cd0 <CMDWriteRegister+0x134>)
+ 8021bb4:	f004 facc 	bl	8026150 <printf_>
+ 8021bb8:	79e1      	ldrb	r1, [r4, #7]
+ 8021bba:	4846      	ldr	r0, [pc, #280]	; (8021cd4 <CMDWriteRegister+0x138>)
+ 8021bbc:	f004 fac8 	bl	8026150 <printf_>
+ 8021bc0:	7a21      	ldrb	r1, [r4, #8]
+ 8021bc2:	4845      	ldr	r0, [pc, #276]	; (8021cd8 <CMDWriteRegister+0x13c>)
+ 8021bc4:	f004 fac4 	bl	8026150 <printf_>
+ 8021bc8:	7a61      	ldrb	r1, [r4, #9]
+ 8021bca:	4844      	ldr	r0, [pc, #272]	; (8021cdc <CMDWriteRegister+0x140>)
+ 8021bcc:	f004 fac0 	bl	8026150 <printf_>
+ 8021bd0:	7aa1      	ldrb	r1, [r4, #10]
+ 8021bd2:	4843      	ldr	r0, [pc, #268]	; (8021ce0 <CMDWriteRegister+0x144>)
+ 8021bd4:	f004 fabc 	bl	8026150 <printf_>
+ 8021bd8:	7ae1      	ldrb	r1, [r4, #11]
+ 8021bda:	4842      	ldr	r0, [pc, #264]	; (8021ce4 <CMDWriteRegister+0x148>)
+ 8021bdc:	f004 fab8 	bl	8026150 <printf_>
+ 8021be0:	7b21      	ldrb	r1, [r4, #12]
+ 8021be2:	4841      	ldr	r0, [pc, #260]	; (8021ce8 <CMDWriteRegister+0x14c>)
+ 8021be4:	f004 fab4 	bl	8026150 <printf_>
+ 8021be8:	7922      	ldrb	r2, [r4, #4]
+ 8021bea:	f994 3004 	ldrsb.w	r3, [r4, #4]
+ 8021bee:	f002 0201 	and.w	r2, r2, #1
+ 8021bf2:	f003 03fe 	and.w	r3, r3, #254	; 0xfe
+ 8021bf6:	4313      	orrs	r3, r2
+ 8021bf8:	4a3c      	ldr	r2, [pc, #240]	; (8021cec <CMDWriteRegister+0x150>)
+ 8021bfa:	7013      	strb	r3, [r2, #0]
+ 8021bfc:	7962      	ldrb	r2, [r4, #5]
+ 8021bfe:	f994 3005 	ldrsb.w	r3, [r4, #5]
+ 8021c02:	f002 0201 	and.w	r2, r2, #1
+ 8021c06:	f003 030e 	and.w	r3, r3, #14
+ 8021c0a:	4313      	orrs	r3, r2
+ 8021c0c:	4a38      	ldr	r2, [pc, #224]	; (8021cf0 <CMDWriteRegister+0x154>)
+ 8021c0e:	7013      	strb	r3, [r2, #0]
+ 8021c10:	79e0      	ldrb	r0, [r4, #7]
+ 8021c12:	f994 3007 	ldrsb.w	r3, [r4, #7]
+ 8021c16:	7a22      	ldrb	r2, [r4, #8]
+ 8021c18:	f000 0001 	and.w	r0, r0, #1
+ 8021c1c:	f003 030e 	and.w	r3, r3, #14
+ 8021c20:	0112      	lsls	r2, r2, #4
+ 8021c22:	4303      	orrs	r3, r0
+ 8021c24:	f002 0010 	and.w	r0, r2, #16
+ 8021c28:	b251      	sxtb	r1, r2
+ 8021c2a:	4303      	orrs	r3, r0
+ 8021c2c:	f002 0020 	and.w	r0, r2, #32
+ 8021c30:	f002 0240 	and.w	r2, r2, #64	; 0x40
+ 8021c34:	4303      	orrs	r3, r0
+ 8021c36:	4313      	orrs	r3, r2
+ 8021c38:	f021 027f 	bic.w	r2, r1, #127	; 0x7f
+ 8021c3c:	4313      	orrs	r3, r2
+ 8021c3e:	f04f 42c8 	mov.w	r2, #1677721600	; 0x64000000
+ 8021c42:	b2db      	uxtb	r3, r3
+ 8021c44:	7013      	strb	r3, [r2, #0]
+ 8021c46:	7aa1      	ldrb	r1, [r4, #10]
+ 8021c48:	7ae2      	ldrb	r2, [r4, #11]
+ 8021c4a:	104b      	asrs	r3, r1, #1
+ 8021c4c:	0048      	lsls	r0, r1, #1
+ 8021c4e:	f001 0101 	and.w	r1, r1, #1
+ 8021c52:	f003 0302 	and.w	r3, r3, #2
+ 8021c56:	f000 0004 	and.w	r0, r0, #4
+ 8021c5a:	4303      	orrs	r3, r0
+ 8021c5c:	430b      	orrs	r3, r1
+ 8021c5e:	0111      	lsls	r1, r2, #4
+ 8021c60:	f001 0110 	and.w	r1, r1, #16
+ 8021c64:	430b      	orrs	r3, r1
+ 8021c66:	00d1      	lsls	r1, r2, #3
+ 8021c68:	0152      	lsls	r2, r2, #5
+ 8021c6a:	f001 0120 	and.w	r1, r1, #32
+ 8021c6e:	f002 0240 	and.w	r2, r2, #64	; 0x40
+ 8021c72:	430b      	orrs	r3, r1
+ 8021c74:	4313      	orrs	r3, r2
+ 8021c76:	4a1f      	ldr	r2, [pc, #124]	; (8021cf4 <CMDWriteRegister+0x158>)
+ 8021c78:	7013      	strb	r3, [r2, #0]
+ 8021c7a:	7b22      	ldrb	r2, [r4, #12]
+ 8021c7c:	2a33      	cmp	r2, #51	; 0x33
+ 8021c7e:	d10f      	bne.n	8021ca0 <CMDWriteRegister+0x104>
+ 8021c80:	2201      	movs	r2, #1
+ 8021c82:	2140      	movs	r1, #64	; 0x40
+ 8021c84:	481c      	ldr	r0, [pc, #112]	; (8021cf8 <CMDWriteRegister+0x15c>)
+ 8021c86:	f005 f997 	bl	8026fb8 <HAL_GPIO_WritePin>
+ 8021c8a:	2201      	movs	r2, #1
+ 8021c8c:	2180      	movs	r1, #128	; 0x80
+ 8021c8e:	481a      	ldr	r0, [pc, #104]	; (8021cf8 <CMDWriteRegister+0x15c>)
+ 8021c90:	f005 f992 	bl	8026fb8 <HAL_GPIO_WritePin>
+ 8021c94:	7ba3      	ldrb	r3, [r4, #14]
+ 8021c96:	b183      	cbz	r3, 8021cba <CMDWriteRegister+0x11e>
+ 8021c98:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+ 8021c9c:	f001 bf0a 	b.w	8023ab4 <BuzzerOn>
+ 8021ca0:	f082 0202 	eor.w	r2, r2, #2
+ 8021ca4:	2140      	movs	r1, #64	; 0x40
+ 8021ca6:	4814      	ldr	r0, [pc, #80]	; (8021cf8 <CMDWriteRegister+0x15c>)
+ 8021ca8:	f3c2 0240 	ubfx	r2, r2, #1, #1
+ 8021cac:	f005 f984 	bl	8026fb8 <HAL_GPIO_WritePin>
+ 8021cb0:	7b22      	ldrb	r2, [r4, #12]
+ 8021cb2:	43d2      	mvns	r2, r2
+ 8021cb4:	f002 0201 	and.w	r2, r2, #1
+ 8021cb8:	e7e8      	b.n	8021c8c <CMDWriteRegister+0xf0>
+ 8021cba:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+ 8021cbe:	f001 bf09 	b.w	8023ad4 <BuzzerOff>
+ 8021cc2:	bf00      	nop
+ 8021cc4:	24000254 	.word	0x24000254
+ 8021cc8:	0802b2b1 	.word	0x0802b2b1
+ 8021ccc:	0802b2c7 	.word	0x0802b2c7
+ 8021cd0:	0802b2dd 	.word	0x0802b2dd
+ 8021cd4:	0802b2f3 	.word	0x0802b2f3
+ 8021cd8:	0802b309 	.word	0x0802b309
+ 8021cdc:	0802b31f 	.word	0x0802b31f
+ 8021ce0:	0802b335 	.word	0x0802b335
+ 8021ce4:	0802b34b 	.word	0x0802b34b
+ 8021ce8:	0802b361 	.word	0x0802b361
+ 8021cec:	64000200 	.word	0x64000200
+ 8021cf0:	64000400 	.word	0x64000400
+ 8021cf4:	64000100 	.word	0x64000100
+ 8021cf8:	58021400 	.word	0x58021400
 
-08021d00 <CMDReadRegister>:
- 8021d00:	b530      	push	{r4, r5, lr}
- 8021d02:	f44f 6180 	mov.w	r1, #1024	; 0x400
- 8021d06:	b085      	sub	sp, #20
- 8021d08:	482f      	ldr	r0, [pc, #188]	; (8021dc8 <CMDReadRegister+0xc8>)
- 8021d0a:	f005 f94f 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021d0e:	1e05      	subs	r5, r0, #0
- 8021d10:	f44f 7180 	mov.w	r1, #256	; 0x100
- 8021d14:	482c      	ldr	r0, [pc, #176]	; (8021dc8 <CMDReadRegister+0xc8>)
- 8021d16:	bf18      	it	ne
- 8021d18:	2501      	movne	r5, #1
- 8021d1a:	f005 f947 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021d1e:	2800      	cmp	r0, #0
- 8021d20:	f44f 7100 	mov.w	r1, #512	; 0x200
- 8021d24:	4828      	ldr	r0, [pc, #160]	; (8021dc8 <CMDReadRegister+0xc8>)
- 8021d26:	bf14      	ite	ne
- 8021d28:	2402      	movne	r4, #2
- 8021d2a:	2400      	moveq	r4, #0
- 8021d2c:	f005 f93e 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021d30:	2800      	cmp	r0, #0
- 8021d32:	ea44 0405 	orr.w	r4, r4, r5
- 8021d36:	f44f 6180 	mov.w	r1, #1024	; 0x400
- 8021d3a:	bf14      	ite	ne
- 8021d3c:	2004      	movne	r0, #4
- 8021d3e:	2000      	moveq	r0, #0
- 8021d40:	4304      	orrs	r4, r0
- 8021d42:	4822      	ldr	r0, [pc, #136]	; (8021dcc <CMDReadRegister+0xcc>)
- 8021d44:	f005 f932 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021d48:	1e05      	subs	r5, r0, #0
- 8021d4a:	f44f 6100 	mov.w	r1, #2048	; 0x800
- 8021d4e:	481f      	ldr	r0, [pc, #124]	; (8021dcc <CMDReadRegister+0xcc>)
- 8021d50:	bf18      	it	ne
- 8021d52:	2501      	movne	r5, #1
- 8021d54:	f005 f92a 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021d58:	491d      	ldr	r1, [pc, #116]	; (8021dd0 <CMDReadRegister+0xd0>)
- 8021d5a:	2800      	cmp	r0, #0
- 8021d5c:	780a      	ldrb	r2, [r1, #0]
- 8021d5e:	bf14      	ite	ne
- 8021d60:	2302      	movne	r3, #2
- 8021d62:	2300      	moveq	r3, #0
- 8021d64:	f002 020f 	and.w	r2, r2, #15
- 8021d68:	ea43 0005 	orr.w	r0, r3, r5
- 8021d6c:	4b19      	ldr	r3, [pc, #100]	; (8021dd4 <CMDReadRegister+0xd4>)
- 8021d6e:	f88d 2004 	strb.w	r2, [sp, #4]
- 8021d72:	780a      	ldrb	r2, [r1, #0]
- 8021d74:	f04f 41c0 	mov.w	r1, #1610612736	; 0x60000000
- 8021d78:	0912      	lsrs	r2, r2, #4
- 8021d7a:	f88d 2005 	strb.w	r2, [sp, #5]
- 8021d7e:	2200      	movs	r2, #0
- 8021d80:	f88d 2006 	strb.w	r2, [sp, #6]
- 8021d84:	7809      	ldrb	r1, [r1, #0]
- 8021d86:	f88d 1007 	strb.w	r1, [sp, #7]
- 8021d8a:	4913      	ldr	r1, [pc, #76]	; (8021dd8 <CMDReadRegister+0xd8>)
- 8021d8c:	7809      	ldrb	r1, [r1, #0]
- 8021d8e:	f88d 0009 	strb.w	r0, [sp, #9]
- 8021d92:	f88d 1008 	strb.w	r1, [sp, #8]
- 8021d96:	f44f 7100 	mov.w	r1, #512	; 0x200
- 8021d9a:	f88d 200a 	strb.w	r2, [sp, #10]
- 8021d9e:	781b      	ldrb	r3, [r3, #0]
- 8021da0:	480e      	ldr	r0, [pc, #56]	; (8021ddc <CMDReadRegister+0xdc>)
- 8021da2:	f88d 300b 	strb.w	r3, [sp, #11]
- 8021da6:	4b0e      	ldr	r3, [pc, #56]	; (8021de0 <CMDReadRegister+0xe0>)
- 8021da8:	781b      	ldrb	r3, [r3, #0]
- 8021daa:	f88d 300c 	strb.w	r3, [sp, #12]
- 8021dae:	f005 f8fd 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021db2:	210b      	movs	r1, #11
- 8021db4:	f88d 000d 	strb.w	r0, [sp, #13]
- 8021db8:	a801      	add	r0, sp, #4
- 8021dba:	f88d 400e 	strb.w	r4, [sp, #14]
- 8021dbe:	f7ff fd8b 	bl	80218d8 <MakeResponse>
- 8021dc2:	b005      	add	sp, #20
- 8021dc4:	bd30      	pop	{r4, r5, pc}
- 8021dc6:	bf00      	nop
- 8021dc8:	58021400 	.word	0x58021400
- 8021dcc:	58020000 	.word	0x58020000
- 8021dd0:	60000300 	.word	0x60000300
- 8021dd4:	60000600 	.word	0x60000600
- 8021dd8:	60000100 	.word	0x60000100
- 8021ddc:	58020400 	.word	0x58020400
- 8021de0:	60000500 	.word	0x60000500
+08021cfc <CMDReadRegister>:
+ 8021cfc:	b530      	push	{r4, r5, lr}
+ 8021cfe:	f44f 6180 	mov.w	r1, #1024	; 0x400
+ 8021d02:	b085      	sub	sp, #20
+ 8021d04:	482f      	ldr	r0, [pc, #188]	; (8021dc4 <CMDReadRegister+0xc8>)
+ 8021d06:	f005 f951 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021d0a:	1e05      	subs	r5, r0, #0
+ 8021d0c:	f44f 7180 	mov.w	r1, #256	; 0x100
+ 8021d10:	482c      	ldr	r0, [pc, #176]	; (8021dc4 <CMDReadRegister+0xc8>)
+ 8021d12:	bf18      	it	ne
+ 8021d14:	2501      	movne	r5, #1
+ 8021d16:	f005 f949 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021d1a:	2800      	cmp	r0, #0
+ 8021d1c:	f44f 7100 	mov.w	r1, #512	; 0x200
+ 8021d20:	4828      	ldr	r0, [pc, #160]	; (8021dc4 <CMDReadRegister+0xc8>)
+ 8021d22:	bf14      	ite	ne
+ 8021d24:	2402      	movne	r4, #2
+ 8021d26:	2400      	moveq	r4, #0
+ 8021d28:	f005 f940 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021d2c:	2800      	cmp	r0, #0
+ 8021d2e:	ea44 0405 	orr.w	r4, r4, r5
+ 8021d32:	f44f 6180 	mov.w	r1, #1024	; 0x400
+ 8021d36:	bf14      	ite	ne
+ 8021d38:	2004      	movne	r0, #4
+ 8021d3a:	2000      	moveq	r0, #0
+ 8021d3c:	4304      	orrs	r4, r0
+ 8021d3e:	4822      	ldr	r0, [pc, #136]	; (8021dc8 <CMDReadRegister+0xcc>)
+ 8021d40:	f005 f934 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021d44:	1e05      	subs	r5, r0, #0
+ 8021d46:	f44f 6100 	mov.w	r1, #2048	; 0x800
+ 8021d4a:	481f      	ldr	r0, [pc, #124]	; (8021dc8 <CMDReadRegister+0xcc>)
+ 8021d4c:	bf18      	it	ne
+ 8021d4e:	2501      	movne	r5, #1
+ 8021d50:	f005 f92c 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021d54:	491d      	ldr	r1, [pc, #116]	; (8021dcc <CMDReadRegister+0xd0>)
+ 8021d56:	2800      	cmp	r0, #0
+ 8021d58:	780a      	ldrb	r2, [r1, #0]
+ 8021d5a:	bf14      	ite	ne
+ 8021d5c:	2302      	movne	r3, #2
+ 8021d5e:	2300      	moveq	r3, #0
+ 8021d60:	f002 020f 	and.w	r2, r2, #15
+ 8021d64:	ea43 0005 	orr.w	r0, r3, r5
+ 8021d68:	4b19      	ldr	r3, [pc, #100]	; (8021dd0 <CMDReadRegister+0xd4>)
+ 8021d6a:	f88d 2004 	strb.w	r2, [sp, #4]
+ 8021d6e:	780a      	ldrb	r2, [r1, #0]
+ 8021d70:	f04f 41c0 	mov.w	r1, #1610612736	; 0x60000000
+ 8021d74:	0912      	lsrs	r2, r2, #4
+ 8021d76:	f88d 2005 	strb.w	r2, [sp, #5]
+ 8021d7a:	2200      	movs	r2, #0
+ 8021d7c:	f88d 2006 	strb.w	r2, [sp, #6]
+ 8021d80:	7809      	ldrb	r1, [r1, #0]
+ 8021d82:	f88d 1007 	strb.w	r1, [sp, #7]
+ 8021d86:	4913      	ldr	r1, [pc, #76]	; (8021dd4 <CMDReadRegister+0xd8>)
+ 8021d88:	7809      	ldrb	r1, [r1, #0]
+ 8021d8a:	f88d 0009 	strb.w	r0, [sp, #9]
+ 8021d8e:	f88d 1008 	strb.w	r1, [sp, #8]
+ 8021d92:	f44f 7100 	mov.w	r1, #512	; 0x200
+ 8021d96:	f88d 200a 	strb.w	r2, [sp, #10]
+ 8021d9a:	781b      	ldrb	r3, [r3, #0]
+ 8021d9c:	480e      	ldr	r0, [pc, #56]	; (8021dd8 <CMDReadRegister+0xdc>)
+ 8021d9e:	f88d 300b 	strb.w	r3, [sp, #11]
+ 8021da2:	4b0e      	ldr	r3, [pc, #56]	; (8021ddc <CMDReadRegister+0xe0>)
+ 8021da4:	781b      	ldrb	r3, [r3, #0]
+ 8021da6:	f88d 300c 	strb.w	r3, [sp, #12]
+ 8021daa:	f005 f8ff 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021dae:	210b      	movs	r1, #11
+ 8021db0:	f88d 000d 	strb.w	r0, [sp, #13]
+ 8021db4:	a801      	add	r0, sp, #4
+ 8021db6:	f88d 400e 	strb.w	r4, [sp, #14]
+ 8021dba:	f7ff fd8d 	bl	80218d8 <MakeResponse>
+ 8021dbe:	b005      	add	sp, #20
+ 8021dc0:	bd30      	pop	{r4, r5, pc}
+ 8021dc2:	bf00      	nop
+ 8021dc4:	58021400 	.word	0x58021400
+ 8021dc8:	58020000 	.word	0x58020000
+ 8021dcc:	60000300 	.word	0x60000300
+ 8021dd0:	60000600 	.word	0x60000600
+ 8021dd4:	60000100 	.word	0x60000100
+ 8021dd8:	58020400 	.word	0x58020400
+ 8021ddc:	60000500 	.word	0x60000500
 
-08021de4 <CMDGetCPLDVersion>:
- 8021de4:	b507      	push	{r0, r1, r2, lr}
- 8021de6:	2300      	movs	r3, #0
- 8021de8:	2101      	movs	r1, #1
- 8021dea:	f10d 0007 	add.w	r0, sp, #7
- 8021dee:	f88d 3007 	strb.w	r3, [sp, #7]
- 8021df2:	f7ff fd71 	bl	80218d8 <MakeResponse>
- 8021df6:	b003      	add	sp, #12
- 8021df8:	f85d fb04 	ldr.w	pc, [sp], #4
+08021de0 <CMDGetCPLDVersion>:
+ 8021de0:	b507      	push	{r0, r1, r2, lr}
+ 8021de2:	2300      	movs	r3, #0
+ 8021de4:	2101      	movs	r1, #1
+ 8021de6:	f10d 0007 	add.w	r0, sp, #7
+ 8021dea:	f88d 3007 	strb.w	r3, [sp, #7]
+ 8021dee:	f7ff fd73 	bl	80218d8 <MakeResponse>
+ 8021df2:	b003      	add	sp, #12
+ 8021df4:	f85d fb04 	ldr.w	pc, [sp], #4
 
-08021dfc <CMDGetDipSwitch>:
- 8021dfc:	4b06      	ldr	r3, [pc, #24]	; (8021e18 <CMDGetDipSwitch+0x1c>)
- 8021dfe:	691b      	ldr	r3, [r3, #16]
- 8021e00:	b507      	push	{r0, r1, r2, lr}
- 8021e02:	43db      	mvns	r3, r3
- 8021e04:	2101      	movs	r1, #1
- 8021e06:	f10d 0007 	add.w	r0, sp, #7
- 8021e0a:	f88d 3007 	strb.w	r3, [sp, #7]
- 8021e0e:	f7ff fd63 	bl	80218d8 <MakeResponse>
- 8021e12:	b003      	add	sp, #12
- 8021e14:	f85d fb04 	ldr.w	pc, [sp], #4
- 8021e18:	58020400 	.word	0x58020400
+08021df8 <CMDGetDipSwitch>:
+ 8021df8:	4b06      	ldr	r3, [pc, #24]	; (8021e14 <CMDGetDipSwitch+0x1c>)
+ 8021dfa:	691b      	ldr	r3, [r3, #16]
+ 8021dfc:	b507      	push	{r0, r1, r2, lr}
+ 8021dfe:	43db      	mvns	r3, r3
+ 8021e00:	2101      	movs	r1, #1
+ 8021e02:	f10d 0007 	add.w	r0, sp, #7
+ 8021e06:	f88d 3007 	strb.w	r3, [sp, #7]
+ 8021e0a:	f7ff fd65 	bl	80218d8 <MakeResponse>
+ 8021e0e:	b003      	add	sp, #12
+ 8021e10:	f85d fb04 	ldr.w	pc, [sp], #4
+ 8021e14:	58020400 	.word	0x58020400
 
-08021e1c <CMDSetUPSCommand>:
- 8021e1c:	4b0b      	ldr	r3, [pc, #44]	; (8021e4c <CMDSetUPSCommand+0x30>)
- 8021e1e:	480c      	ldr	r0, [pc, #48]	; (8021e50 <CMDSetUPSCommand+0x34>)
- 8021e20:	b510      	push	{r4, lr}
- 8021e22:	791c      	ldrb	r4, [r3, #4]
- 8021e24:	4621      	mov	r1, r4
- 8021e26:	f004 f993 	bl	8026150 <printf_>
- 8021e2a:	2c02      	cmp	r4, #2
- 8021e2c:	d00b      	beq.n	8021e46 <CMDSetUPSCommand+0x2a>
- 8021e2e:	2201      	movs	r2, #1
- 8021e30:	2140      	movs	r1, #64	; 0x40
- 8021e32:	4808      	ldr	r0, [pc, #32]	; (8021e54 <CMDSetUPSCommand+0x38>)
- 8021e34:	f005 f8c0 	bl	8026fb8 <HAL_GPIO_WritePin>
- 8021e38:	2201      	movs	r2, #1
- 8021e3a:	2180      	movs	r1, #128	; 0x80
- 8021e3c:	4805      	ldr	r0, [pc, #20]	; (8021e54 <CMDSetUPSCommand+0x38>)
- 8021e3e:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8021e42:	f005 b8b9 	b.w	8026fb8 <HAL_GPIO_WritePin>
- 8021e46:	2200      	movs	r2, #0
- 8021e48:	e7f7      	b.n	8021e3a <CMDSetUPSCommand+0x1e>
- 8021e4a:	bf00      	nop
- 8021e4c:	24000254 	.word	0x24000254
- 8021e50:	0802b377 	.word	0x0802b377
- 8021e54:	58021400 	.word	0x58021400
+08021e18 <CMDSetUPSCommand>:
+ 8021e18:	4b0b      	ldr	r3, [pc, #44]	; (8021e48 <CMDSetUPSCommand+0x30>)
+ 8021e1a:	480c      	ldr	r0, [pc, #48]	; (8021e4c <CMDSetUPSCommand+0x34>)
+ 8021e1c:	b510      	push	{r4, lr}
+ 8021e1e:	791c      	ldrb	r4, [r3, #4]
+ 8021e20:	4621      	mov	r1, r4
+ 8021e22:	f004 f995 	bl	8026150 <printf_>
+ 8021e26:	2c02      	cmp	r4, #2
+ 8021e28:	d00b      	beq.n	8021e42 <CMDSetUPSCommand+0x2a>
+ 8021e2a:	2201      	movs	r2, #1
+ 8021e2c:	2140      	movs	r1, #64	; 0x40
+ 8021e2e:	4808      	ldr	r0, [pc, #32]	; (8021e50 <CMDSetUPSCommand+0x38>)
+ 8021e30:	f005 f8c2 	bl	8026fb8 <HAL_GPIO_WritePin>
+ 8021e34:	2201      	movs	r2, #1
+ 8021e36:	2180      	movs	r1, #128	; 0x80
+ 8021e38:	4805      	ldr	r0, [pc, #20]	; (8021e50 <CMDSetUPSCommand+0x38>)
+ 8021e3a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+ 8021e3e:	f005 b8bb 	b.w	8026fb8 <HAL_GPIO_WritePin>
+ 8021e42:	2200      	movs	r2, #0
+ 8021e44:	e7f7      	b.n	8021e36 <CMDSetUPSCommand+0x1e>
+ 8021e46:	bf00      	nop
+ 8021e48:	24000254 	.word	0x24000254
+ 8021e4c:	0802b377 	.word	0x0802b377
+ 8021e50:	58021400 	.word	0x58021400
 
-08021e58 <CMDGetUPSStatus>:
- 8021e58:	2300      	movs	r3, #0
- 8021e5a:	b507      	push	{r0, r1, r2, lr}
- 8021e5c:	f44f 6180 	mov.w	r1, #1024	; 0x400
- 8021e60:	4817      	ldr	r0, [pc, #92]	; (8021ec0 <CMDGetUPSStatus+0x68>)
- 8021e62:	f88d 3007 	strb.w	r3, [sp, #7]
- 8021e66:	f005 f8a1 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021e6a:	3800      	subs	r0, #0
- 8021e6c:	f44f 7180 	mov.w	r1, #256	; 0x100
- 8021e70:	bf18      	it	ne
- 8021e72:	2001      	movne	r0, #1
- 8021e74:	f88d 0007 	strb.w	r0, [sp, #7]
- 8021e78:	4811      	ldr	r0, [pc, #68]	; (8021ec0 <CMDGetUPSStatus+0x68>)
- 8021e7a:	f005 f897 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021e7e:	2800      	cmp	r0, #0
- 8021e80:	f89d 3007 	ldrb.w	r3, [sp, #7]
- 8021e84:	f44f 7100 	mov.w	r1, #512	; 0x200
- 8021e88:	bf14      	ite	ne
- 8021e8a:	2202      	movne	r2, #2
- 8021e8c:	2200      	moveq	r2, #0
- 8021e8e:	480c      	ldr	r0, [pc, #48]	; (8021ec0 <CMDGetUPSStatus+0x68>)
- 8021e90:	4313      	orrs	r3, r2
- 8021e92:	f88d 3007 	strb.w	r3, [sp, #7]
- 8021e96:	f005 f889 	bl	8026fac <HAL_GPIO_ReadPin>
- 8021e9a:	2800      	cmp	r0, #0
- 8021e9c:	f89d 3007 	ldrb.w	r3, [sp, #7]
- 8021ea0:	f04f 0101 	mov.w	r1, #1
- 8021ea4:	f10d 0007 	add.w	r0, sp, #7
- 8021ea8:	bf14      	ite	ne
- 8021eaa:	2204      	movne	r2, #4
- 8021eac:	2200      	moveq	r2, #0
- 8021eae:	4313      	orrs	r3, r2
- 8021eb0:	f88d 3007 	strb.w	r3, [sp, #7]
- 8021eb4:	f7ff fd10 	bl	80218d8 <MakeResponse>
- 8021eb8:	b003      	add	sp, #12
- 8021eba:	f85d fb04 	ldr.w	pc, [sp], #4
- 8021ebe:	bf00      	nop
- 8021ec0:	58021400 	.word	0x58021400
+08021e54 <CMDGetUPSStatus>:
+ 8021e54:	2300      	movs	r3, #0
+ 8021e56:	b507      	push	{r0, r1, r2, lr}
+ 8021e58:	f44f 6180 	mov.w	r1, #1024	; 0x400
+ 8021e5c:	4817      	ldr	r0, [pc, #92]	; (8021ebc <CMDGetUPSStatus+0x68>)
+ 8021e5e:	f88d 3007 	strb.w	r3, [sp, #7]
+ 8021e62:	f005 f8a3 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021e66:	3800      	subs	r0, #0
+ 8021e68:	f44f 7180 	mov.w	r1, #256	; 0x100
+ 8021e6c:	bf18      	it	ne
+ 8021e6e:	2001      	movne	r0, #1
+ 8021e70:	f88d 0007 	strb.w	r0, [sp, #7]
+ 8021e74:	4811      	ldr	r0, [pc, #68]	; (8021ebc <CMDGetUPSStatus+0x68>)
+ 8021e76:	f005 f899 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021e7a:	2800      	cmp	r0, #0
+ 8021e7c:	f89d 3007 	ldrb.w	r3, [sp, #7]
+ 8021e80:	f44f 7100 	mov.w	r1, #512	; 0x200
+ 8021e84:	bf14      	ite	ne
+ 8021e86:	2202      	movne	r2, #2
+ 8021e88:	2200      	moveq	r2, #0
+ 8021e8a:	480c      	ldr	r0, [pc, #48]	; (8021ebc <CMDGetUPSStatus+0x68>)
+ 8021e8c:	4313      	orrs	r3, r2
+ 8021e8e:	f88d 3007 	strb.w	r3, [sp, #7]
+ 8021e92:	f005 f88b 	bl	8026fac <HAL_GPIO_ReadPin>
+ 8021e96:	2800      	cmp	r0, #0
+ 8021e98:	f89d 3007 	ldrb.w	r3, [sp, #7]
+ 8021e9c:	f04f 0101 	mov.w	r1, #1
+ 8021ea0:	f10d 0007 	add.w	r0, sp, #7
+ 8021ea4:	bf14      	ite	ne
+ 8021ea6:	2204      	movne	r2, #4
+ 8021ea8:	2200      	moveq	r2, #0
+ 8021eaa:	4313      	orrs	r3, r2
+ 8021eac:	f88d 3007 	strb.w	r3, [sp, #7]
+ 8021eb0:	f7ff fd12 	bl	80218d8 <MakeResponse>
+ 8021eb4:	b003      	add	sp, #12
+ 8021eb6:	f85d fb04 	ldr.w	pc, [sp], #4
+ 8021eba:	bf00      	nop
+ 8021ebc:	58021400 	.word	0x58021400
 
-08021ec4 <CheckProtocol_UART3>:
- 8021ec4:	b538      	push	{r3, r4, r5, lr}
- 8021ec6:	4d44      	ldr	r5, [pc, #272]	; (8021fd8 <CheckProtocol_UART3+0x114>)
- 8021ec8:	4c44      	ldr	r4, [pc, #272]	; (8021fdc <CheckProtocol_UART3+0x118>)
- 8021eca:	4943      	ldr	r1, [pc, #268]	; (8021fd8 <CheckProtocol_UART3+0x114>)
- 8021ecc:	2002      	movs	r0, #2
- 8021ece:	f002 f88d 	bl	8023fec <IUart_RecvByte_check>
- 8021ed2:	b908      	cbnz	r0, 8021ed8 <CheckProtocol_UART3+0x14>
- 8021ed4:	20ff      	movs	r0, #255	; 0xff
- 8021ed6:	e017      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021ed8:	7822      	ldrb	r2, [r4, #0]
- 8021eda:	782b      	ldrb	r3, [r5, #0]
- 8021edc:	2a02      	cmp	r2, #2
- 8021ede:	d11f      	bne.n	8021f20 <CheckProtocol_UART3+0x5c>
- 8021ee0:	4a3f      	ldr	r2, [pc, #252]	; (8021fe0 <CheckProtocol_UART3+0x11c>)
- 8021ee2:	2500      	movs	r5, #0
- 8021ee4:	7812      	ldrb	r2, [r2, #0]
- 8021ee6:	7025      	strb	r5, [r4, #0]
- 8021ee8:	429a      	cmp	r2, r3
- 8021eea:	4c3e      	ldr	r4, [pc, #248]	; (8021fe4 <CheckProtocol_UART3+0x120>)
- 8021eec:	6821      	ldr	r1, [r4, #0]
- 8021eee:	d10c      	bne.n	8021f0a <CheckProtocol_UART3+0x46>
- 8021ef0:	4b3d      	ldr	r3, [pc, #244]	; (8021fe8 <CheckProtocol_UART3+0x124>)
- 8021ef2:	1eca      	subs	r2, r1, #3
- 8021ef4:	789b      	ldrb	r3, [r3, #2]
- 8021ef6:	b2d1      	uxtb	r1, r2
- 8021ef8:	428b      	cmp	r3, r1
- 8021efa:	d069      	beq.n	8021fd0 <CheckProtocol_UART3+0x10c>
- 8021efc:	4619      	mov	r1, r3
- 8021efe:	483b      	ldr	r0, [pc, #236]	; (8021fec <CheckProtocol_UART3+0x128>)
- 8021f00:	f004 f926 	bl	8026150 <printf_>
- 8021f04:	200a      	movs	r0, #10
- 8021f06:	6025      	str	r5, [r4, #0]
- 8021f08:	bd38      	pop	{r3, r4, r5, pc}
- 8021f0a:	4839      	ldr	r0, [pc, #228]	; (8021ff0 <CheckProtocol_UART3+0x12c>)
- 8021f0c:	f004 f920 	bl	8026150 <printf_>
- 8021f10:	4838      	ldr	r0, [pc, #224]	; (8021ff4 <CheckProtocol_UART3+0x130>)
- 8021f12:	6822      	ldr	r2, [r4, #0]
- 8021f14:	4934      	ldr	r1, [pc, #208]	; (8021fe8 <CheckProtocol_UART3+0x124>)
- 8021f16:	f007 fe5f 	bl	8029bd8 <Print2Hex>
- 8021f1a:	2005      	movs	r0, #5
- 8021f1c:	6025      	str	r5, [r4, #0]
- 8021f1e:	e7f3      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021f20:	2b03      	cmp	r3, #3
- 8021f22:	d00b      	beq.n	8021f3c <CheckProtocol_UART3+0x78>
- 8021f24:	2b10      	cmp	r3, #16
- 8021f26:	d01c      	beq.n	8021f62 <CheckProtocol_UART3+0x9e>
- 8021f28:	2b02      	cmp	r3, #2
- 8021f2a:	d123      	bne.n	8021f74 <CheckProtocol_UART3+0xb0>
- 8021f2c:	2201      	movs	r2, #1
- 8021f2e:	7022      	strb	r2, [r4, #0]
- 8021f30:	4a2b      	ldr	r2, [pc, #172]	; (8021fe0 <CheckProtocol_UART3+0x11c>)
- 8021f32:	7013      	strb	r3, [r2, #0]
- 8021f34:	2200      	movs	r2, #0
- 8021f36:	4b2b      	ldr	r3, [pc, #172]	; (8021fe4 <CheckProtocol_UART3+0x120>)
- 8021f38:	601a      	str	r2, [r3, #0]
- 8021f3a:	e7c6      	b.n	8021eca <CheckProtocol_UART3+0x6>
- 8021f3c:	2302      	movs	r3, #2
- 8021f3e:	4a28      	ldr	r2, [pc, #160]	; (8021fe0 <CheckProtocol_UART3+0x11c>)
- 8021f40:	7023      	strb	r3, [r4, #0]
- 8021f42:	7813      	ldrb	r3, [r2, #0]
- 8021f44:	f083 0303 	eor.w	r3, r3, #3
- 8021f48:	7013      	strb	r3, [r2, #0]
- 8021f4a:	4b26      	ldr	r3, [pc, #152]	; (8021fe4 <CheckProtocol_UART3+0x120>)
- 8021f4c:	681a      	ldr	r2, [r3, #0]
- 8021f4e:	2a7f      	cmp	r2, #127	; 0x7f
- 8021f50:	ddbb      	ble.n	8021eca <CheckProtocol_UART3+0x6>
- 8021f52:	2200      	movs	r2, #0
- 8021f54:	4828      	ldr	r0, [pc, #160]	; (8021ff8 <CheckProtocol_UART3+0x134>)
- 8021f56:	7022      	strb	r2, [r4, #0]
- 8021f58:	601a      	str	r2, [r3, #0]
- 8021f5a:	f004 f8f9 	bl	8026150 <printf_>
- 8021f5e:	200c      	movs	r0, #12
- 8021f60:	e7d2      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021f62:	2a01      	cmp	r2, #1
- 8021f64:	d1f1      	bne.n	8021f4a <CheckProtocol_UART3+0x86>
- 8021f66:	2303      	movs	r3, #3
- 8021f68:	4a1d      	ldr	r2, [pc, #116]	; (8021fe0 <CheckProtocol_UART3+0x11c>)
- 8021f6a:	7023      	strb	r3, [r4, #0]
- 8021f6c:	7813      	ldrb	r3, [r2, #0]
- 8021f6e:	f083 0310 	eor.w	r3, r3, #16
- 8021f72:	e7e9      	b.n	8021f48 <CheckProtocol_UART3+0x84>
- 8021f74:	2a01      	cmp	r2, #1
- 8021f76:	d10a      	bne.n	8021f8e <CheckProtocol_UART3+0xca>
- 8021f78:	491a      	ldr	r1, [pc, #104]	; (8021fe4 <CheckProtocol_UART3+0x120>)
- 8021f7a:	680a      	ldr	r2, [r1, #0]
- 8021f7c:	1c50      	adds	r0, r2, #1
- 8021f7e:	6008      	str	r0, [r1, #0]
- 8021f80:	4919      	ldr	r1, [pc, #100]	; (8021fe8 <CheckProtocol_UART3+0x124>)
- 8021f82:	548b      	strb	r3, [r1, r2]
- 8021f84:	4a16      	ldr	r2, [pc, #88]	; (8021fe0 <CheckProtocol_UART3+0x11c>)
- 8021f86:	7810      	ldrb	r0, [r2, #0]
- 8021f88:	4058      	eors	r0, r3
- 8021f8a:	7010      	strb	r0, [r2, #0]
- 8021f8c:	e7dd      	b.n	8021f4a <CheckProtocol_UART3+0x86>
- 8021f8e:	2a03      	cmp	r2, #3
- 8021f90:	d118      	bne.n	8021fc4 <CheckProtocol_UART3+0x100>
- 8021f92:	f1a3 0242 	sub.w	r2, r3, #66	; 0x42
- 8021f96:	2a01      	cmp	r2, #1
- 8021f98:	4a12      	ldr	r2, [pc, #72]	; (8021fe4 <CheckProtocol_UART3+0x120>)
- 8021f9a:	d901      	bls.n	8021fa0 <CheckProtocol_UART3+0xdc>
- 8021f9c:	2b50      	cmp	r3, #80	; 0x50
- 8021f9e:	d109      	bne.n	8021fb4 <CheckProtocol_UART3+0xf0>
- 8021fa0:	2101      	movs	r1, #1
- 8021fa2:	7021      	strb	r1, [r4, #0]
- 8021fa4:	6811      	ldr	r1, [r2, #0]
- 8021fa6:	1c48      	adds	r0, r1, #1
- 8021fa8:	6010      	str	r0, [r2, #0]
- 8021faa:	f083 0040 	eor.w	r0, r3, #64	; 0x40
- 8021fae:	4a0e      	ldr	r2, [pc, #56]	; (8021fe8 <CheckProtocol_UART3+0x124>)
- 8021fb0:	5450      	strb	r0, [r2, r1]
- 8021fb2:	e7e7      	b.n	8021f84 <CheckProtocol_UART3+0xc0>
- 8021fb4:	2300      	movs	r3, #0
- 8021fb6:	4811      	ldr	r0, [pc, #68]	; (8021ffc <CheckProtocol_UART3+0x138>)
- 8021fb8:	7023      	strb	r3, [r4, #0]
- 8021fba:	6013      	str	r3, [r2, #0]
- 8021fbc:	f004 f8c8 	bl	8026150 <printf_>
- 8021fc0:	200d      	movs	r0, #13
- 8021fc2:	e7a1      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021fc4:	2b06      	cmp	r3, #6
- 8021fc6:	d005      	beq.n	8021fd4 <CheckProtocol_UART3+0x110>
- 8021fc8:	2b15      	cmp	r3, #21
- 8021fca:	d1be      	bne.n	8021f4a <CheckProtocol_UART3+0x86>
- 8021fcc:	2007      	movs	r0, #7
- 8021fce:	e79b      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021fd0:	4628      	mov	r0, r5
- 8021fd2:	e799      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021fd4:	4618      	mov	r0, r3
- 8021fd6:	e797      	b.n	8021f08 <CheckProtocol_UART3+0x44>
- 8021fd8:	240003d6 	.word	0x240003d6
- 8021fdc:	240003d7 	.word	0x240003d7
- 8021fe0:	240003d5 	.word	0x240003d5
- 8021fe4:	240003dc 	.word	0x240003dc
- 8021fe8:	24000254 	.word	0x24000254
- 8021fec:	0802b390 	.word	0x0802b390
- 8021ff0:	0802b3a6 	.word	0x0802b3a6
- 8021ff4:	0802bbcc 	.word	0x0802bbcc
- 8021ff8:	0802b3d4 	.word	0x0802b3d4
- 8021ffc:	0802b3c2 	.word	0x0802b3c2
+08021ec0 <CheckProtocol_UART3>:
+ 8021ec0:	b538      	push	{r3, r4, r5, lr}
+ 8021ec2:	4d44      	ldr	r5, [pc, #272]	; (8021fd4 <CheckProtocol_UART3+0x114>)
+ 8021ec4:	4c44      	ldr	r4, [pc, #272]	; (8021fd8 <CheckProtocol_UART3+0x118>)
+ 8021ec6:	4943      	ldr	r1, [pc, #268]	; (8021fd4 <CheckProtocol_UART3+0x114>)
+ 8021ec8:	2002      	movs	r0, #2
+ 8021eca:	f002 f88f 	bl	8023fec <IUart_RecvByte_check>
+ 8021ece:	b908      	cbnz	r0, 8021ed4 <CheckProtocol_UART3+0x14>
+ 8021ed0:	20ff      	movs	r0, #255	; 0xff
+ 8021ed2:	e017      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021ed4:	7822      	ldrb	r2, [r4, #0]
+ 8021ed6:	782b      	ldrb	r3, [r5, #0]
+ 8021ed8:	2a02      	cmp	r2, #2
+ 8021eda:	d11f      	bne.n	8021f1c <CheckProtocol_UART3+0x5c>
+ 8021edc:	4a3f      	ldr	r2, [pc, #252]	; (8021fdc <CheckProtocol_UART3+0x11c>)
+ 8021ede:	2500      	movs	r5, #0
+ 8021ee0:	7812      	ldrb	r2, [r2, #0]
+ 8021ee2:	7025      	strb	r5, [r4, #0]
+ 8021ee4:	429a      	cmp	r2, r3
+ 8021ee6:	4c3e      	ldr	r4, [pc, #248]	; (8021fe0 <CheckProtocol_UART3+0x120>)
+ 8021ee8:	6821      	ldr	r1, [r4, #0]
+ 8021eea:	d10c      	bne.n	8021f06 <CheckProtocol_UART3+0x46>
+ 8021eec:	4b3d      	ldr	r3, [pc, #244]	; (8021fe4 <CheckProtocol_UART3+0x124>)
+ 8021eee:	1eca      	subs	r2, r1, #3
+ 8021ef0:	789b      	ldrb	r3, [r3, #2]
+ 8021ef2:	b2d1      	uxtb	r1, r2
+ 8021ef4:	428b      	cmp	r3, r1
+ 8021ef6:	d069      	beq.n	8021fcc <CheckProtocol_UART3+0x10c>
+ 8021ef8:	4619      	mov	r1, r3
+ 8021efa:	483b      	ldr	r0, [pc, #236]	; (8021fe8 <CheckProtocol_UART3+0x128>)
+ 8021efc:	f004 f928 	bl	8026150 <printf_>
+ 8021f00:	200a      	movs	r0, #10
+ 8021f02:	6025      	str	r5, [r4, #0]
+ 8021f04:	bd38      	pop	{r3, r4, r5, pc}
+ 8021f06:	4839      	ldr	r0, [pc, #228]	; (8021fec <CheckProtocol_UART3+0x12c>)
+ 8021f08:	f004 f922 	bl	8026150 <printf_>
+ 8021f0c:	4838      	ldr	r0, [pc, #224]	; (8021ff0 <CheckProtocol_UART3+0x130>)
+ 8021f0e:	6822      	ldr	r2, [r4, #0]
+ 8021f10:	4934      	ldr	r1, [pc, #208]	; (8021fe4 <CheckProtocol_UART3+0x124>)
+ 8021f12:	f007 fe61 	bl	8029bd8 <Print2Hex>
+ 8021f16:	2005      	movs	r0, #5
+ 8021f18:	6025      	str	r5, [r4, #0]
+ 8021f1a:	e7f3      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021f1c:	2b03      	cmp	r3, #3
+ 8021f1e:	d00b      	beq.n	8021f38 <CheckProtocol_UART3+0x78>
+ 8021f20:	2b10      	cmp	r3, #16
+ 8021f22:	d01c      	beq.n	8021f5e <CheckProtocol_UART3+0x9e>
+ 8021f24:	2b02      	cmp	r3, #2
+ 8021f26:	d123      	bne.n	8021f70 <CheckProtocol_UART3+0xb0>
+ 8021f28:	2201      	movs	r2, #1
+ 8021f2a:	7022      	strb	r2, [r4, #0]
+ 8021f2c:	4a2b      	ldr	r2, [pc, #172]	; (8021fdc <CheckProtocol_UART3+0x11c>)
+ 8021f2e:	7013      	strb	r3, [r2, #0]
+ 8021f30:	2200      	movs	r2, #0
+ 8021f32:	4b2b      	ldr	r3, [pc, #172]	; (8021fe0 <CheckProtocol_UART3+0x120>)
+ 8021f34:	601a      	str	r2, [r3, #0]
+ 8021f36:	e7c6      	b.n	8021ec6 <CheckProtocol_UART3+0x6>
+ 8021f38:	2302      	movs	r3, #2
+ 8021f3a:	4a28      	ldr	r2, [pc, #160]	; (8021fdc <CheckProtocol_UART3+0x11c>)
+ 8021f3c:	7023      	strb	r3, [r4, #0]
+ 8021f3e:	7813      	ldrb	r3, [r2, #0]
+ 8021f40:	f083 0303 	eor.w	r3, r3, #3
+ 8021f44:	7013      	strb	r3, [r2, #0]
+ 8021f46:	4b26      	ldr	r3, [pc, #152]	; (8021fe0 <CheckProtocol_UART3+0x120>)
+ 8021f48:	681a      	ldr	r2, [r3, #0]
+ 8021f4a:	2a7f      	cmp	r2, #127	; 0x7f
+ 8021f4c:	ddbb      	ble.n	8021ec6 <CheckProtocol_UART3+0x6>
+ 8021f4e:	2200      	movs	r2, #0
+ 8021f50:	4828      	ldr	r0, [pc, #160]	; (8021ff4 <CheckProtocol_UART3+0x134>)
+ 8021f52:	7022      	strb	r2, [r4, #0]
+ 8021f54:	601a      	str	r2, [r3, #0]
+ 8021f56:	f004 f8fb 	bl	8026150 <printf_>
+ 8021f5a:	200c      	movs	r0, #12
+ 8021f5c:	e7d2      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021f5e:	2a01      	cmp	r2, #1
+ 8021f60:	d1f1      	bne.n	8021f46 <CheckProtocol_UART3+0x86>
+ 8021f62:	2303      	movs	r3, #3
+ 8021f64:	4a1d      	ldr	r2, [pc, #116]	; (8021fdc <CheckProtocol_UART3+0x11c>)
+ 8021f66:	7023      	strb	r3, [r4, #0]
+ 8021f68:	7813      	ldrb	r3, [r2, #0]
+ 8021f6a:	f083 0310 	eor.w	r3, r3, #16
+ 8021f6e:	e7e9      	b.n	8021f44 <CheckProtocol_UART3+0x84>
+ 8021f70:	2a01      	cmp	r2, #1
+ 8021f72:	d10a      	bne.n	8021f8a <CheckProtocol_UART3+0xca>
+ 8021f74:	491a      	ldr	r1, [pc, #104]	; (8021fe0 <CheckProtocol_UART3+0x120>)
+ 8021f76:	680a      	ldr	r2, [r1, #0]
+ 8021f78:	1c50      	adds	r0, r2, #1
+ 8021f7a:	6008      	str	r0, [r1, #0]
+ 8021f7c:	4919      	ldr	r1, [pc, #100]	; (8021fe4 <CheckProtocol_UART3+0x124>)
+ 8021f7e:	548b      	strb	r3, [r1, r2]
+ 8021f80:	4a16      	ldr	r2, [pc, #88]	; (8021fdc <CheckProtocol_UART3+0x11c>)
+ 8021f82:	7810      	ldrb	r0, [r2, #0]
+ 8021f84:	4058      	eors	r0, r3
+ 8021f86:	7010      	strb	r0, [r2, #0]
+ 8021f88:	e7dd      	b.n	8021f46 <CheckProtocol_UART3+0x86>
+ 8021f8a:	2a03      	cmp	r2, #3
+ 8021f8c:	d118      	bne.n	8021fc0 <CheckProtocol_UART3+0x100>
+ 8021f8e:	f1a3 0242 	sub.w	r2, r3, #66	; 0x42
+ 8021f92:	2a01      	cmp	r2, #1
+ 8021f94:	4a12      	ldr	r2, [pc, #72]	; (8021fe0 <CheckProtocol_UART3+0x120>)
+ 8021f96:	d901      	bls.n	8021f9c <CheckProtocol_UART3+0xdc>
+ 8021f98:	2b50      	cmp	r3, #80	; 0x50
+ 8021f9a:	d109      	bne.n	8021fb0 <CheckProtocol_UART3+0xf0>
+ 8021f9c:	2101      	movs	r1, #1
+ 8021f9e:	7021      	strb	r1, [r4, #0]
+ 8021fa0:	6811      	ldr	r1, [r2, #0]
+ 8021fa2:	1c48      	adds	r0, r1, #1
+ 8021fa4:	6010      	str	r0, [r2, #0]
+ 8021fa6:	f083 0040 	eor.w	r0, r3, #64	; 0x40
+ 8021faa:	4a0e      	ldr	r2, [pc, #56]	; (8021fe4 <CheckProtocol_UART3+0x124>)
+ 8021fac:	5450      	strb	r0, [r2, r1]
+ 8021fae:	e7e7      	b.n	8021f80 <CheckProtocol_UART3+0xc0>
+ 8021fb0:	2300      	movs	r3, #0
+ 8021fb2:	4811      	ldr	r0, [pc, #68]	; (8021ff8 <CheckProtocol_UART3+0x138>)
+ 8021fb4:	7023      	strb	r3, [r4, #0]
+ 8021fb6:	6013      	str	r3, [r2, #0]
+ 8021fb8:	f004 f8ca 	bl	8026150 <printf_>
+ 8021fbc:	200d      	movs	r0, #13
+ 8021fbe:	e7a1      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021fc0:	2b06      	cmp	r3, #6
+ 8021fc2:	d005      	beq.n	8021fd0 <CheckProtocol_UART3+0x110>
+ 8021fc4:	2b15      	cmp	r3, #21
+ 8021fc6:	d1be      	bne.n	8021f46 <CheckProtocol_UART3+0x86>
+ 8021fc8:	2007      	movs	r0, #7
+ 8021fca:	e79b      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021fcc:	4628      	mov	r0, r5
+ 8021fce:	e799      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021fd0:	4618      	mov	r0, r3
+ 8021fd2:	e797      	b.n	8021f04 <CheckProtocol_UART3+0x44>
+ 8021fd4:	240003d6 	.word	0x240003d6
+ 8021fd8:	240003d7 	.word	0x240003d7
+ 8021fdc:	240003d5 	.word	0x240003d5
+ 8021fe0:	240003dc 	.word	0x240003dc
+ 8021fe4:	24000254 	.word	0x24000254
+ 8021fe8:	0802b390 	.word	0x0802b390
+ 8021fec:	0802b3a6 	.word	0x0802b3a6
+ 8021ff0:	0802bbcc 	.word	0x0802bbcc
+ 8021ff4:	0802b3d4 	.word	0x0802b3d4
+ 8021ff8:	0802b3c2 	.word	0x0802b3c2
 
-08022000 <ProcessCommand>:
- 8022000:	b570      	push	{r4, r5, r6, lr}
- 8022002:	4b60      	ldr	r3, [pc, #384]	; (8022184 <ProcessCommand+0x184>)
- 8022004:	4c60      	ldr	r4, [pc, #384]	; (8022188 <ProcessCommand+0x188>)
- 8022006:	781b      	ldrb	r3, [r3, #0]
- 8022008:	7822      	ldrb	r2, [r4, #0]
- 802200a:	429a      	cmp	r2, r3
- 802200c:	d119      	bne.n	8022042 <ProcessCommand+0x42>
- 802200e:	4e5f      	ldr	r6, [pc, #380]	; (802218c <ProcessCommand+0x18c>)
- 8022010:	78e3      	ldrb	r3, [r4, #3]
- 8022012:	78f2      	ldrb	r2, [r6, #3]
- 8022014:	429a      	cmp	r2, r3
- 8022016:	d012      	beq.n	802203e <ProcessCommand+0x3e>
- 8022018:	4a5d      	ldr	r2, [pc, #372]	; (8022190 <ProcessCommand+0x190>)
- 802201a:	7815      	ldrb	r5, [r2, #0]
- 802201c:	429d      	cmp	r5, r3
- 802201e:	d110      	bne.n	8022042 <ProcessCommand+0x42>
- 8022020:	4628      	mov	r0, r5
- 8022022:	f7ff fc3f 	bl	80218a4 <IsCommandNeedResponse>
- 8022026:	2800      	cmp	r0, #0
- 8022028:	f000 80a9 	beq.w	802217e <ProcessCommand+0x17e>
- 802202c:	4959      	ldr	r1, [pc, #356]	; (8022194 <ProcessCommand+0x194>)
- 802202e:	78cb      	ldrb	r3, [r1, #3]
- 8022030:	42ab      	cmp	r3, r5
- 8022032:	d106      	bne.n	8022042 <ProcessCommand+0x42>
- 8022034:	788a      	ldrb	r2, [r1, #2]
- 8022036:	4630      	mov	r0, r6
- 8022038:	3203      	adds	r2, #3
- 802203a:	f007 fe49 	bl	8029cd0 <memcpy>
- 802203e:	2008      	movs	r0, #8
- 8022040:	e05e      	b.n	8022100 <ProcessCommand+0x100>
- 8022042:	f7ff fc29 	bl	8021898 <SendACK>
- 8022046:	78e3      	ldrb	r3, [r4, #3]
- 8022048:	4a51      	ldr	r2, [pc, #324]	; (8022190 <ProcessCommand+0x190>)
- 802204a:	2b65      	cmp	r3, #101	; 0x65
- 802204c:	7013      	strb	r3, [r2, #0]
- 802204e:	d847      	bhi.n	80220e0 <ProcessCommand+0xe0>
- 8022050:	2b5f      	cmp	r3, #95	; 0x5f
- 8022052:	d805      	bhi.n	8022060 <ProcessCommand+0x60>
- 8022054:	3b30      	subs	r3, #48	; 0x30
- 8022056:	b2da      	uxtb	r2, r3
- 8022058:	2a18      	cmp	r2, #24
- 802205a:	d909      	bls.n	8022070 <ProcessCommand+0x70>
- 802205c:	200b      	movs	r0, #11
- 802205e:	e04f      	b.n	8022100 <ProcessCommand+0x100>
- 8022060:	3b61      	subs	r3, #97	; 0x61
- 8022062:	2b04      	cmp	r3, #4
- 8022064:	d867      	bhi.n	8022136 <ProcessCommand+0x136>
- 8022066:	e8df f003 	tbb	[pc, r3]
- 802206a:	6c69      	.short	0x6c69
- 802206c:	726f      	.short	0x726f
- 802206e:	75          	.byte	0x75
- 802206f:	00          	.byte	0x00
- 8022070:	2b18      	cmp	r3, #24
- 8022072:	d8f3      	bhi.n	802205c <ProcessCommand+0x5c>
- 8022074:	a201      	add	r2, pc, #4	; (adr r2, 802207c <ProcessCommand+0x7c>)
- 8022076:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 802207a:	bf00      	nop
- 802207c:	080220fb 	.word	0x080220fb
- 8022080:	08022103 	.word	0x08022103
- 8022084:	08022109 	.word	0x08022109
- 8022088:	0802210f 	.word	0x0802210f
- 802208c:	08022115 	.word	0x08022115
- 8022090:	0802211b 	.word	0x0802211b
- 8022094:	0802205d 	.word	0x0802205d
- 8022098:	0802205d 	.word	0x0802205d
- 802209c:	08022121 	.word	0x08022121
- 80220a0:	0802205d 	.word	0x0802205d
- 80220a4:	0802205d 	.word	0x0802205d
- 80220a8:	0802205d 	.word	0x0802205d
- 80220ac:	0802205d 	.word	0x0802205d
- 80220b0:	0802205d 	.word	0x0802205d
- 80220b4:	0802205d 	.word	0x0802205d
- 80220b8:	0802205d 	.word	0x0802205d
- 80220bc:	08022125 	.word	0x08022125
- 80220c0:	0802212b 	.word	0x0802212b
- 80220c4:	08022131 	.word	0x08022131
- 80220c8:	0802205d 	.word	0x0802205d
- 80220cc:	0802205d 	.word	0x0802205d
- 80220d0:	0802205d 	.word	0x0802205d
- 80220d4:	0802205d 	.word	0x0802205d
- 80220d8:	0802205d 	.word	0x0802205d
- 80220dc:	080220ff 	.word	0x080220ff
- 80220e0:	f103 0270 	add.w	r2, r3, #112	; 0x70
- 80220e4:	b2d2      	uxtb	r2, r2
- 80220e6:	2a05      	cmp	r2, #5
- 80220e8:	d8b8      	bhi.n	802205c <ProcessCommand+0x5c>
- 80220ea:	3b90      	subs	r3, #144	; 0x90
- 80220ec:	2b05      	cmp	r3, #5
- 80220ee:	d8b5      	bhi.n	802205c <ProcessCommand+0x5c>
- 80220f0:	e8df f003 	tbb	[pc, r3]
- 80220f4:	3c393633 	.word	0x3c393633
- 80220f8:	423f      	.short	0x423f
- 80220fa:	f7ff fc41 	bl	8021980 <CMDSetGCUOpMode>
- 80220fe:	2000      	movs	r0, #0
- 8022100:	bd70      	pop	{r4, r5, r6, pc}
- 8022102:	f7ff fc49 	bl	8021998 <CMDGetGCUOpMode>
- 8022106:	e7fa      	b.n	80220fe <ProcessCommand+0xfe>
- 8022108:	f7ff fc52 	bl	80219b0 <CMDSetGCUParameter>
- 802210c:	e7f7      	b.n	80220fe <ProcessCommand+0xfe>
- 802210e:	f7ff fc65 	bl	80219dc <CMDGetGCUParameter>
- 8022112:	e7f4      	b.n	80220fe <ProcessCommand+0xfe>
- 8022114:	f7ff fc70 	bl	80219f8 <CMDGetVersion>
- 8022118:	e7f1      	b.n	80220fe <ProcessCommand+0xfe>
- 802211a:	f7ff fc73 	bl	8021a04 <CMDSetScadaOut>
- 802211e:	e7ee      	b.n	80220fe <ProcessCommand+0xfe>
- 8022120:	f7ff fc7c 	bl	8021a1c <CMDResetGCU>
- 8022124:	f7ff fc9e 	bl	8021a64 <CMDAuthorizePass>
- 8022128:	e7e9      	b.n	80220fe <ProcessCommand+0xfe>
- 802212a:	f7ff fcd1 	bl	8021ad0 <CMDClearAuthorization>
- 802212e:	e7e6      	b.n	80220fe <ProcessCommand+0xfe>
- 8022130:	f7ff fcdb 	bl	8021aea <CMDGetStatus>
- 8022134:	e7e3      	b.n	80220fe <ProcessCommand+0xfe>
- 8022136:	f7ff fce3 	bl	8021b00 <CMDControlAllLED>
- 802213a:	e7e0      	b.n	80220fe <ProcessCommand+0xfe>
- 802213c:	f7ff fd00 	bl	8021b40 <CMDControlBarrier>
- 8022140:	e7dd      	b.n	80220fe <ProcessCommand+0xfe>
- 8022142:	f7ff fd0b 	bl	8021b5c <CMDControlLamp>
- 8022146:	e7da      	b.n	80220fe <ProcessCommand+0xfe>
- 8022148:	f7ff fd00 	bl	8021b4c <CMDControlIndicator>
- 802214c:	e7d7      	b.n	80220fe <ProcessCommand+0xfe>
- 802214e:	f7ff fd0d 	bl	8021b6c <CMDControlBuzzer>
- 8022152:	e7d4      	b.n	80220fe <ProcessCommand+0xfe>
- 8022154:	f7ff fd18 	bl	8021b88 <CMDSafetyStop>
- 8022158:	e7d1      	b.n	80220fe <ProcessCommand+0xfe>
- 802215a:	f7ff fd21 	bl	8021ba0 <CMDWriteRegister>
- 802215e:	e7ce      	b.n	80220fe <ProcessCommand+0xfe>
- 8022160:	f7ff fdce 	bl	8021d00 <CMDReadRegister>
- 8022164:	e7cb      	b.n	80220fe <ProcessCommand+0xfe>
- 8022166:	f7ff fe3d 	bl	8021de4 <CMDGetCPLDVersion>
- 802216a:	e7c8      	b.n	80220fe <ProcessCommand+0xfe>
- 802216c:	f7ff fe46 	bl	8021dfc <CMDGetDipSwitch>
- 8022170:	e7c5      	b.n	80220fe <ProcessCommand+0xfe>
- 8022172:	f7ff fe53 	bl	8021e1c <CMDSetUPSCommand>
- 8022176:	e7c2      	b.n	80220fe <ProcessCommand+0xfe>
- 8022178:	f7ff fe6e 	bl	8021e58 <CMDGetUPSStatus>
- 802217c:	e7bf      	b.n	80220fe <ProcessCommand+0xfe>
- 802217e:	2009      	movs	r0, #9
- 8022180:	e7be      	b.n	8022100 <ProcessCommand+0x100>
- 8022182:	bf00      	nop
- 8022184:	240003d9 	.word	0x240003d9
- 8022188:	24000254 	.word	0x24000254
- 802218c:	240002d4 	.word	0x240002d4
- 8022190:	240003d8 	.word	0x240003d8
- 8022194:	24000354 	.word	0x24000354
+08021ffc <ProcessCommand>:
+ 8021ffc:	b570      	push	{r4, r5, r6, lr}
+ 8021ffe:	4b60      	ldr	r3, [pc, #384]	; (8022180 <ProcessCommand+0x184>)
+ 8022000:	4c60      	ldr	r4, [pc, #384]	; (8022184 <ProcessCommand+0x188>)
+ 8022002:	781b      	ldrb	r3, [r3, #0]
+ 8022004:	7822      	ldrb	r2, [r4, #0]
+ 8022006:	429a      	cmp	r2, r3
+ 8022008:	d119      	bne.n	802203e <ProcessCommand+0x42>
+ 802200a:	4e5f      	ldr	r6, [pc, #380]	; (8022188 <ProcessCommand+0x18c>)
+ 802200c:	78e3      	ldrb	r3, [r4, #3]
+ 802200e:	78f2      	ldrb	r2, [r6, #3]
+ 8022010:	429a      	cmp	r2, r3
+ 8022012:	d012      	beq.n	802203a <ProcessCommand+0x3e>
+ 8022014:	4a5d      	ldr	r2, [pc, #372]	; (802218c <ProcessCommand+0x190>)
+ 8022016:	7815      	ldrb	r5, [r2, #0]
+ 8022018:	429d      	cmp	r5, r3
+ 802201a:	d110      	bne.n	802203e <ProcessCommand+0x42>
+ 802201c:	4628      	mov	r0, r5
+ 802201e:	f7ff fc41 	bl	80218a4 <IsCommandNeedResponse>
+ 8022022:	2800      	cmp	r0, #0
+ 8022024:	f000 80a9 	beq.w	802217a <ProcessCommand+0x17e>
+ 8022028:	4959      	ldr	r1, [pc, #356]	; (8022190 <ProcessCommand+0x194>)
+ 802202a:	78cb      	ldrb	r3, [r1, #3]
+ 802202c:	42ab      	cmp	r3, r5
+ 802202e:	d106      	bne.n	802203e <ProcessCommand+0x42>
+ 8022030:	788a      	ldrb	r2, [r1, #2]
+ 8022032:	4630      	mov	r0, r6
+ 8022034:	3203      	adds	r2, #3
+ 8022036:	f007 fe4b 	bl	8029cd0 <memcpy>
+ 802203a:	2008      	movs	r0, #8
+ 802203c:	e05e      	b.n	80220fc <ProcessCommand+0x100>
+ 802203e:	f7ff fc2b 	bl	8021898 <SendACK>
+ 8022042:	78e3      	ldrb	r3, [r4, #3]
+ 8022044:	4a51      	ldr	r2, [pc, #324]	; (802218c <ProcessCommand+0x190>)
+ 8022046:	2b65      	cmp	r3, #101	; 0x65
+ 8022048:	7013      	strb	r3, [r2, #0]
+ 802204a:	d847      	bhi.n	80220dc <ProcessCommand+0xe0>
+ 802204c:	2b5f      	cmp	r3, #95	; 0x5f
+ 802204e:	d805      	bhi.n	802205c <ProcessCommand+0x60>
+ 8022050:	3b30      	subs	r3, #48	; 0x30
+ 8022052:	b2da      	uxtb	r2, r3
+ 8022054:	2a18      	cmp	r2, #24
+ 8022056:	d909      	bls.n	802206c <ProcessCommand+0x70>
+ 8022058:	200b      	movs	r0, #11
+ 802205a:	e04f      	b.n	80220fc <ProcessCommand+0x100>
+ 802205c:	3b61      	subs	r3, #97	; 0x61
+ 802205e:	2b04      	cmp	r3, #4
+ 8022060:	d867      	bhi.n	8022132 <ProcessCommand+0x136>
+ 8022062:	e8df f003 	tbb	[pc, r3]
+ 8022066:	6c69      	.short	0x6c69
+ 8022068:	726f      	.short	0x726f
+ 802206a:	75          	.byte	0x75
+ 802206b:	00          	.byte	0x00
+ 802206c:	2b18      	cmp	r3, #24
+ 802206e:	d8f3      	bhi.n	8022058 <ProcessCommand+0x5c>
+ 8022070:	a201      	add	r2, pc, #4	; (adr r2, 8022078 <ProcessCommand+0x7c>)
+ 8022072:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8022076:	bf00      	nop
+ 8022078:	080220f7 	.word	0x080220f7
+ 802207c:	080220ff 	.word	0x080220ff
+ 8022080:	08022105 	.word	0x08022105
+ 8022084:	0802210b 	.word	0x0802210b
+ 8022088:	08022111 	.word	0x08022111
+ 802208c:	08022117 	.word	0x08022117
+ 8022090:	08022059 	.word	0x08022059
+ 8022094:	08022059 	.word	0x08022059
+ 8022098:	0802211d 	.word	0x0802211d
+ 802209c:	08022059 	.word	0x08022059
+ 80220a0:	08022059 	.word	0x08022059
+ 80220a4:	08022059 	.word	0x08022059
+ 80220a8:	08022059 	.word	0x08022059
+ 80220ac:	08022059 	.word	0x08022059
+ 80220b0:	08022059 	.word	0x08022059
+ 80220b4:	08022059 	.word	0x08022059
+ 80220b8:	08022121 	.word	0x08022121
+ 80220bc:	08022127 	.word	0x08022127
+ 80220c0:	0802212d 	.word	0x0802212d
+ 80220c4:	08022059 	.word	0x08022059
+ 80220c8:	08022059 	.word	0x08022059
+ 80220cc:	08022059 	.word	0x08022059
+ 80220d0:	08022059 	.word	0x08022059
+ 80220d4:	08022059 	.word	0x08022059
+ 80220d8:	080220fb 	.word	0x080220fb
+ 80220dc:	f103 0270 	add.w	r2, r3, #112	; 0x70
+ 80220e0:	b2d2      	uxtb	r2, r2
+ 80220e2:	2a05      	cmp	r2, #5
+ 80220e4:	d8b8      	bhi.n	8022058 <ProcessCommand+0x5c>
+ 80220e6:	3b90      	subs	r3, #144	; 0x90
+ 80220e8:	2b05      	cmp	r3, #5
+ 80220ea:	d8b5      	bhi.n	8022058 <ProcessCommand+0x5c>
+ 80220ec:	e8df f003 	tbb	[pc, r3]
+ 80220f0:	3c393633 	.word	0x3c393633
+ 80220f4:	423f      	.short	0x423f
+ 80220f6:	f7ff fc43 	bl	8021980 <CMDSetGCUOpMode>
+ 80220fa:	2000      	movs	r0, #0
+ 80220fc:	bd70      	pop	{r4, r5, r6, pc}
+ 80220fe:	f7ff fc4b 	bl	8021998 <CMDGetGCUOpMode>
+ 8022102:	e7fa      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022104:	f7ff fc54 	bl	80219b0 <CMDSetGCUParameter>
+ 8022108:	e7f7      	b.n	80220fa <ProcessCommand+0xfe>
+ 802210a:	f7ff fc67 	bl	80219dc <CMDGetGCUParameter>
+ 802210e:	e7f4      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022110:	f7ff fc72 	bl	80219f8 <CMDGetVersion>
+ 8022114:	e7f1      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022116:	f7ff fc75 	bl	8021a04 <CMDSetScadaOut>
+ 802211a:	e7ee      	b.n	80220fa <ProcessCommand+0xfe>
+ 802211c:	f7ff fc7e 	bl	8021a1c <CMDResetGCU>
+ 8022120:	f7ff fca0 	bl	8021a64 <CMDAuthorizePass>
+ 8022124:	e7e9      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022126:	f7ff fcd3 	bl	8021ad0 <CMDClearAuthorization>
+ 802212a:	e7e6      	b.n	80220fa <ProcessCommand+0xfe>
+ 802212c:	f7ff fcdd 	bl	8021aea <CMDGetStatus>
+ 8022130:	e7e3      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022132:	f7ff fce5 	bl	8021b00 <CMDControlAllLED>
+ 8022136:	e7e0      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022138:	f7ff fd02 	bl	8021b40 <CMDControlBarrier>
+ 802213c:	e7dd      	b.n	80220fa <ProcessCommand+0xfe>
+ 802213e:	f7ff fd0d 	bl	8021b5c <CMDControlLamp>
+ 8022142:	e7da      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022144:	f7ff fd02 	bl	8021b4c <CMDControlIndicator>
+ 8022148:	e7d7      	b.n	80220fa <ProcessCommand+0xfe>
+ 802214a:	f7ff fd0f 	bl	8021b6c <CMDControlBuzzer>
+ 802214e:	e7d4      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022150:	f7ff fd1a 	bl	8021b88 <CMDSafetyStop>
+ 8022154:	e7d1      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022156:	f7ff fd21 	bl	8021b9c <CMDWriteRegister>
+ 802215a:	e7ce      	b.n	80220fa <ProcessCommand+0xfe>
+ 802215c:	f7ff fdce 	bl	8021cfc <CMDReadRegister>
+ 8022160:	e7cb      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022162:	f7ff fe3d 	bl	8021de0 <CMDGetCPLDVersion>
+ 8022166:	e7c8      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022168:	f7ff fe46 	bl	8021df8 <CMDGetDipSwitch>
+ 802216c:	e7c5      	b.n	80220fa <ProcessCommand+0xfe>
+ 802216e:	f7ff fe53 	bl	8021e18 <CMDSetUPSCommand>
+ 8022172:	e7c2      	b.n	80220fa <ProcessCommand+0xfe>
+ 8022174:	f7ff fe6e 	bl	8021e54 <CMDGetUPSStatus>
+ 8022178:	e7bf      	b.n	80220fa <ProcessCommand+0xfe>
+ 802217a:	2009      	movs	r0, #9
+ 802217c:	e7be      	b.n	80220fc <ProcessCommand+0x100>
+ 802217e:	bf00      	nop
+ 8022180:	240003d9 	.word	0x240003d9
+ 8022184:	24000254 	.word	0x24000254
+ 8022188:	240002d4 	.word	0x240002d4
+ 802218c:	240003d8 	.word	0x240003d8
+ 8022190:	24000354 	.word	0x24000354
 
-08022198 <ProcessComm_ECU>:
- 8022198:	b508      	push	{r3, lr}
- 802219a:	f7ff fe93 	bl	8021ec4 <CheckProtocol_UART3>
- 802219e:	b9e8      	cbnz	r0, 80221dc <ProcessComm_ECU+0x44>
- 80221a0:	f7ff ff2e 	bl	8022000 <ProcessCommand>
- 80221a4:	b970      	cbnz	r0, 80221c4 <ProcessComm_ECU+0x2c>
- 80221a6:	4b12      	ldr	r3, [pc, #72]	; (80221f0 <ProcessComm_ECU+0x58>)
- 80221a8:	78d8      	ldrb	r0, [r3, #3]
- 80221aa:	f7ff fb7b 	bl	80218a4 <IsCommandNeedResponse>
- 80221ae:	b1e8      	cbz	r0, 80221ec <ProcessComm_ECU+0x54>
- 80221b0:	f7ff fbb4 	bl	802191c <SendResponse>
- 80221b4:	490f      	ldr	r1, [pc, #60]	; (80221f4 <ProcessComm_ECU+0x5c>)
- 80221b6:	4810      	ldr	r0, [pc, #64]	; (80221f8 <ProcessComm_ECU+0x60>)
- 80221b8:	788a      	ldrb	r2, [r1, #2]
- 80221ba:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
- 80221be:	3203      	adds	r2, #3
- 80221c0:	f007 bd86 	b.w	8029cd0 <memcpy>
- 80221c4:	2808      	cmp	r0, #8
- 80221c6:	d103      	bne.n	80221d0 <ProcessComm_ECU+0x38>
- 80221c8:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
- 80221cc:	f7ff bba6 	b.w	802191c <SendResponse>
- 80221d0:	280b      	cmp	r0, #11
- 80221d2:	d10b      	bne.n	80221ec <ProcessComm_ECU+0x54>
- 80221d4:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
- 80221d8:	f7ff bb61 	b.w	802189e <SendNAK>
- 80221dc:	f020 0308 	bic.w	r3, r0, #8
- 80221e0:	2b05      	cmp	r3, #5
- 80221e2:	d0f7      	beq.n	80221d4 <ProcessComm_ECU+0x3c>
- 80221e4:	280a      	cmp	r0, #10
- 80221e6:	d0f5      	beq.n	80221d4 <ProcessComm_ECU+0x3c>
- 80221e8:	2807      	cmp	r0, #7
- 80221ea:	d0ed      	beq.n	80221c8 <ProcessComm_ECU+0x30>
- 80221ec:	bd08      	pop	{r3, pc}
- 80221ee:	bf00      	nop
- 80221f0:	24000254 	.word	0x24000254
- 80221f4:	240002d4 	.word	0x240002d4
- 80221f8:	24000354 	.word	0x24000354
+08022194 <ProcessComm_ECU>:
+ 8022194:	b508      	push	{r3, lr}
+ 8022196:	f7ff fe93 	bl	8021ec0 <CheckProtocol_UART3>
+ 802219a:	b9e8      	cbnz	r0, 80221d8 <ProcessComm_ECU+0x44>
+ 802219c:	f7ff ff2e 	bl	8021ffc <ProcessCommand>
+ 80221a0:	b970      	cbnz	r0, 80221c0 <ProcessComm_ECU+0x2c>
+ 80221a2:	4b12      	ldr	r3, [pc, #72]	; (80221ec <ProcessComm_ECU+0x58>)
+ 80221a4:	78d8      	ldrb	r0, [r3, #3]
+ 80221a6:	f7ff fb7d 	bl	80218a4 <IsCommandNeedResponse>
+ 80221aa:	b1e8      	cbz	r0, 80221e8 <ProcessComm_ECU+0x54>
+ 80221ac:	f7ff fbb6 	bl	802191c <SendResponse>
+ 80221b0:	490f      	ldr	r1, [pc, #60]	; (80221f0 <ProcessComm_ECU+0x5c>)
+ 80221b2:	4810      	ldr	r0, [pc, #64]	; (80221f4 <ProcessComm_ECU+0x60>)
+ 80221b4:	788a      	ldrb	r2, [r1, #2]
+ 80221b6:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+ 80221ba:	3203      	adds	r2, #3
+ 80221bc:	f007 bd88 	b.w	8029cd0 <memcpy>
+ 80221c0:	2808      	cmp	r0, #8
+ 80221c2:	d103      	bne.n	80221cc <ProcessComm_ECU+0x38>
+ 80221c4:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+ 80221c8:	f7ff bba8 	b.w	802191c <SendResponse>
+ 80221cc:	280b      	cmp	r0, #11
+ 80221ce:	d10b      	bne.n	80221e8 <ProcessComm_ECU+0x54>
+ 80221d0:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+ 80221d4:	f7ff bb63 	b.w	802189e <SendNAK>
+ 80221d8:	f020 0308 	bic.w	r3, r0, #8
+ 80221dc:	2b05      	cmp	r3, #5
+ 80221de:	d0f7      	beq.n	80221d0 <ProcessComm_ECU+0x3c>
+ 80221e0:	280a      	cmp	r0, #10
+ 80221e2:	d0f5      	beq.n	80221d0 <ProcessComm_ECU+0x3c>
+ 80221e4:	2807      	cmp	r0, #7
+ 80221e6:	d0ed      	beq.n	80221c4 <ProcessComm_ECU+0x30>
+ 80221e8:	bd08      	pop	{r3, pc}
+ 80221ea:	bf00      	nop
+ 80221ec:	24000254 	.word	0x24000254
+ 80221f0:	240002d4 	.word	0x240002d4
+ 80221f4:	24000354 	.word	0x24000354
 
-080221fc <CheckBarrierClosedStatus>:
- 80221fc:	4b05      	ldr	r3, [pc, #20]	; (8022214 <CheckBarrierClosedStatus+0x18>)
- 80221fe:	781a      	ldrb	r2, [r3, #0]
- 8022200:	4b05      	ldr	r3, [pc, #20]	; (8022218 <CheckBarrierClosedStatus+0x1c>)
- 8022202:	781b      	ldrb	r3, [r3, #0]
- 8022204:	4313      	orrs	r3, r2
- 8022206:	bf03      	ittte	eq
- 8022208:	4b04      	ldreq	r3, [pc, #16]	; (802221c <CheckBarrierClosedStatus+0x20>)
- 802220a:	7818      	ldrbeq	r0, [r3, #0]
- 802220c:	f080 0001 	eoreq.w	r0, r0, #1
- 8022210:	2000      	movne	r0, #0
- 8022212:	4770      	bx	lr
- 8022214:	24000123 	.word	0x24000123
- 8022218:	2400011c 	.word	0x2400011c
- 802221c:	24000451 	.word	0x24000451
+080221f8 <CheckBarrierClosedStatus>:
+ 80221f8:	4b05      	ldr	r3, [pc, #20]	; (8022210 <CheckBarrierClosedStatus+0x18>)
+ 80221fa:	781a      	ldrb	r2, [r3, #0]
+ 80221fc:	4b05      	ldr	r3, [pc, #20]	; (8022214 <CheckBarrierClosedStatus+0x1c>)
+ 80221fe:	781b      	ldrb	r3, [r3, #0]
+ 8022200:	4313      	orrs	r3, r2
+ 8022202:	bf03      	ittte	eq
+ 8022204:	4b04      	ldreq	r3, [pc, #16]	; (8022218 <CheckBarrierClosedStatus+0x20>)
+ 8022206:	7818      	ldrbeq	r0, [r3, #0]
+ 8022208:	f080 0001 	eoreq.w	r0, r0, #1
+ 802220c:	2000      	movne	r0, #0
+ 802220e:	4770      	bx	lr
+ 8022210:	24000123 	.word	0x24000123
+ 8022214:	2400011c 	.word	0x2400011c
+ 8022218:	24000451 	.word	0x24000451
 
-08022220 <CheckZeroAuthCount>:
- 8022220:	4b04      	ldr	r3, [pc, #16]	; (8022234 <CheckZeroAuthCount+0x14>)
- 8022222:	791a      	ldrb	r2, [r3, #4]
- 8022224:	b922      	cbnz	r2, 8022230 <CheckZeroAuthCount+0x10>
- 8022226:	7958      	ldrb	r0, [r3, #5]
- 8022228:	fab0 f080 	clz	r0, r0
- 802222c:	0940      	lsrs	r0, r0, #5
+0802221c <CheckZeroAuthCount>:
+ 802221c:	4b04      	ldr	r3, [pc, #16]	; (8022230 <CheckZeroAuthCount+0x14>)
+ 802221e:	791a      	ldrb	r2, [r3, #4]
+ 8022220:	b922      	cbnz	r2, 802222c <CheckZeroAuthCount+0x10>
+ 8022222:	7958      	ldrb	r0, [r3, #5]
+ 8022224:	fab0 f080 	clz	r0, r0
+ 8022228:	0940      	lsrs	r0, r0, #5
+ 802222a:	4770      	bx	lr
+ 802222c:	2000      	movs	r0, #0
  802222e:	4770      	bx	lr
- 8022230:	2000      	movs	r0, #0
- 8022232:	4770      	bx	lr
- 8022234:	24000410 	.word	0x24000410
+ 8022230:	24000410 	.word	0x24000410
 
-08022238 <UpdateSensorData>:
- 8022238:	4907      	ldr	r1, [pc, #28]	; (8022258 <UpdateSensorData+0x20>)
- 802223a:	f04f 43c0 	mov.w	r3, #1610612736	; 0x60000000
- 802223e:	4a07      	ldr	r2, [pc, #28]	; (802225c <UpdateSensorData+0x24>)
- 8022240:	781b      	ldrb	r3, [r3, #0]
- 8022242:	7808      	ldrb	r0, [r1, #0]
- 8022244:	7849      	ldrb	r1, [r1, #1]
- 8022246:	ea23 0300 	bic.w	r3, r3, r0
- 802224a:	7013      	strb	r3, [r2, #0]
- 802224c:	4b04      	ldr	r3, [pc, #16]	; (8022260 <UpdateSensorData+0x28>)
- 802224e:	781b      	ldrb	r3, [r3, #0]
- 8022250:	ea23 0301 	bic.w	r3, r3, r1
- 8022254:	7053      	strb	r3, [r2, #1]
- 8022256:	4770      	bx	lr
- 8022258:	240004b0 	.word	0x240004b0
- 802225c:	240003fc 	.word	0x240003fc
- 8022260:	60000100 	.word	0x60000100
+08022234 <UpdateSensorData>:
+ 8022234:	4907      	ldr	r1, [pc, #28]	; (8022254 <UpdateSensorData+0x20>)
+ 8022236:	f04f 43c0 	mov.w	r3, #1610612736	; 0x60000000
+ 802223a:	4a07      	ldr	r2, [pc, #28]	; (8022258 <UpdateSensorData+0x24>)
+ 802223c:	781b      	ldrb	r3, [r3, #0]
+ 802223e:	7808      	ldrb	r0, [r1, #0]
+ 8022240:	7849      	ldrb	r1, [r1, #1]
+ 8022242:	ea23 0300 	bic.w	r3, r3, r0
+ 8022246:	7013      	strb	r3, [r2, #0]
+ 8022248:	4b04      	ldr	r3, [pc, #16]	; (802225c <UpdateSensorData+0x28>)
+ 802224a:	781b      	ldrb	r3, [r3, #0]
+ 802224c:	ea23 0301 	bic.w	r3, r3, r1
+ 8022250:	7053      	strb	r3, [r2, #1]
+ 8022252:	4770      	bx	lr
+ 8022254:	240004b0 	.word	0x240004b0
+ 8022258:	240003fc 	.word	0x240003fc
+ 802225c:	60000100 	.word	0x60000100
 
-08022264 <StopBarrierForSwing>:
- 8022264:	4b09      	ldr	r3, [pc, #36]	; (802228c <StopBarrierForSwing+0x28>)
- 8022266:	781a      	ldrb	r2, [r3, #0]
- 8022268:	4282      	cmp	r2, r0
- 802226a:	b510      	push	{r4, lr}
- 802226c:	4604      	mov	r4, r0
- 802226e:	d00c      	beq.n	802228a <StopBarrierForSwing+0x26>
- 8022270:	7018      	strb	r0, [r3, #0]
- 8022272:	4807      	ldr	r0, [pc, #28]	; (8022290 <StopBarrierForSwing+0x2c>)
- 8022274:	b134      	cbz	r4, 8022284 <StopBarrierForSwing+0x20>
- 8022276:	f007 fcd3 	bl	8029c20 <SetTimer>
- 802227a:	4620      	mov	r0, r4
- 802227c:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8022280:	f7fe ba56 	b.w	8020730 <Brr_StopBarrier>
- 8022284:	f007 fcd4 	bl	8029c30 <ResetTimer>
- 8022288:	e7f7      	b.n	802227a <StopBarrierForSwing+0x16>
- 802228a:	bd10      	pop	{r4, pc}
- 802228c:	240003e2 	.word	0x240003e2
- 8022290:	24000224 	.word	0x24000224
+08022260 <StopBarrierForSwing>:
+ 8022260:	4b09      	ldr	r3, [pc, #36]	; (8022288 <StopBarrierForSwing+0x28>)
+ 8022262:	781a      	ldrb	r2, [r3, #0]
+ 8022264:	4282      	cmp	r2, r0
+ 8022266:	b510      	push	{r4, lr}
+ 8022268:	4604      	mov	r4, r0
+ 802226a:	d00c      	beq.n	8022286 <StopBarrierForSwing+0x26>
+ 802226c:	7018      	strb	r0, [r3, #0]
+ 802226e:	4807      	ldr	r0, [pc, #28]	; (802228c <StopBarrierForSwing+0x2c>)
+ 8022270:	b134      	cbz	r4, 8022280 <StopBarrierForSwing+0x20>
+ 8022272:	f007 fcd5 	bl	8029c20 <SetTimer>
+ 8022276:	4620      	mov	r0, r4
+ 8022278:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+ 802227c:	f7fe ba58 	b.w	8020730 <Brr_StopBarrier>
+ 8022280:	f007 fcd6 	bl	8029c30 <ResetTimer>
+ 8022284:	e7f7      	b.n	8022276 <StopBarrierForSwing+0x16>
+ 8022286:	bd10      	pop	{r4, pc}
+ 8022288:	240003e2 	.word	0x240003e2
+ 802228c:	24000224 	.word	0x24000224
 
-08022294 <InitPassageModeForSwing>:
- 8022294:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 8022296:	4b61      	ldr	r3, [pc, #388]	; (802241c <InitPassageModeForSwing+0x188>)
- 8022298:	781b      	ldrb	r3, [r3, #0]
- 802229a:	b12b      	cbz	r3, 80222a8 <InitPassageModeForSwing+0x14>
- 802229c:	4860      	ldr	r0, [pc, #384]	; (8022420 <InitPassageModeForSwing+0x18c>)
- 802229e:	f003 ff57 	bl	8026150 <printf_>
- 80222a2:	2000      	movs	r0, #0
- 80222a4:	f7ff ffde 	bl	8022264 <StopBarrierForSwing>
- 80222a8:	4d5e      	ldr	r5, [pc, #376]	; (8022424 <InitPassageModeForSwing+0x190>)
- 80222aa:	4f5f      	ldr	r7, [pc, #380]	; (8022428 <InitPassageModeForSwing+0x194>)
- 80222ac:	78ab      	ldrb	r3, [r5, #2]
- 80222ae:	2b00      	cmp	r3, #0
- 80222b0:	d042      	beq.n	8022338 <InitPassageModeForSwing+0xa4>
- 80222b2:	4b5e      	ldr	r3, [pc, #376]	; (802242c <InitPassageModeForSwing+0x198>)
- 80222b4:	781c      	ldrb	r4, [r3, #0]
- 80222b6:	2c00      	cmp	r4, #0
- 80222b8:	d13e      	bne.n	8022338 <InitPassageModeForSwing+0xa4>
- 80222ba:	485d      	ldr	r0, [pc, #372]	; (8022430 <InitPassageModeForSwing+0x19c>)
- 80222bc:	2601      	movs	r6, #1
- 80222be:	f007 fcb7 	bl	8029c30 <ResetTimer>
- 80222c2:	4b5c      	ldr	r3, [pc, #368]	; (8022434 <InitPassageModeForSwing+0x1a0>)
- 80222c4:	78a9      	ldrb	r1, [r5, #2]
- 80222c6:	711c      	strb	r4, [r3, #4]
- 80222c8:	715c      	strb	r4, [r3, #5]
- 80222ca:	4b5b      	ldr	r3, [pc, #364]	; (8022438 <InitPassageModeForSwing+0x1a4>)
- 80222cc:	485b      	ldr	r0, [pc, #364]	; (802243c <InitPassageModeForSwing+0x1a8>)
- 80222ce:	701c      	strb	r4, [r3, #0]
- 80222d0:	4b5b      	ldr	r3, [pc, #364]	; (8022440 <InitPassageModeForSwing+0x1ac>)
- 80222d2:	703e      	strb	r6, [r7, #0]
+08022290 <InitPassageModeForSwing>:
+ 8022290:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8022292:	4b61      	ldr	r3, [pc, #388]	; (8022418 <InitPassageModeForSwing+0x188>)
+ 8022294:	781b      	ldrb	r3, [r3, #0]
+ 8022296:	b12b      	cbz	r3, 80222a4 <InitPassageModeForSwing+0x14>
+ 8022298:	4860      	ldr	r0, [pc, #384]	; (802241c <InitPassageModeForSwing+0x18c>)
+ 802229a:	f003 ff59 	bl	8026150 <printf_>
+ 802229e:	2000      	movs	r0, #0
+ 80222a0:	f7ff ffde 	bl	8022260 <StopBarrierForSwing>
+ 80222a4:	4d5e      	ldr	r5, [pc, #376]	; (8022420 <InitPassageModeForSwing+0x190>)
+ 80222a6:	4f5f      	ldr	r7, [pc, #380]	; (8022424 <InitPassageModeForSwing+0x194>)
+ 80222a8:	78ab      	ldrb	r3, [r5, #2]
+ 80222aa:	2b00      	cmp	r3, #0
+ 80222ac:	d042      	beq.n	8022334 <InitPassageModeForSwing+0xa4>
+ 80222ae:	4b5e      	ldr	r3, [pc, #376]	; (8022428 <InitPassageModeForSwing+0x198>)
+ 80222b0:	781c      	ldrb	r4, [r3, #0]
+ 80222b2:	2c00      	cmp	r4, #0
+ 80222b4:	d13e      	bne.n	8022334 <InitPassageModeForSwing+0xa4>
+ 80222b6:	485d      	ldr	r0, [pc, #372]	; (802242c <InitPassageModeForSwing+0x19c>)
+ 80222b8:	2601      	movs	r6, #1
+ 80222ba:	f007 fcb9 	bl	8029c30 <ResetTimer>
+ 80222be:	4b5c      	ldr	r3, [pc, #368]	; (8022430 <InitPassageModeForSwing+0x1a0>)
+ 80222c0:	78a9      	ldrb	r1, [r5, #2]
+ 80222c2:	711c      	strb	r4, [r3, #4]
+ 80222c4:	715c      	strb	r4, [r3, #5]
+ 80222c6:	4b5b      	ldr	r3, [pc, #364]	; (8022434 <InitPassageModeForSwing+0x1a4>)
+ 80222c8:	485b      	ldr	r0, [pc, #364]	; (8022438 <InitPassageModeForSwing+0x1a8>)
+ 80222ca:	701c      	strb	r4, [r3, #0]
+ 80222cc:	4b5b      	ldr	r3, [pc, #364]	; (802243c <InitPassageModeForSwing+0x1ac>)
+ 80222ce:	703e      	strb	r6, [r7, #0]
+ 80222d0:	701c      	strb	r4, [r3, #0]
+ 80222d2:	4b5b      	ldr	r3, [pc, #364]	; (8022440 <InitPassageModeForSwing+0x1b0>)
  80222d4:	701c      	strb	r4, [r3, #0]
- 80222d6:	4b5b      	ldr	r3, [pc, #364]	; (8022444 <InitPassageModeForSwing+0x1b0>)
- 80222d8:	701c      	strb	r4, [r3, #0]
- 80222da:	4b5b      	ldr	r3, [pc, #364]	; (8022448 <InitPassageModeForSwing+0x1b4>)
- 80222dc:	601c      	str	r4, [r3, #0]
- 80222de:	4b5b      	ldr	r3, [pc, #364]	; (802244c <InitPassageModeForSwing+0x1b8>)
+ 80222d6:	4b5b      	ldr	r3, [pc, #364]	; (8022444 <InitPassageModeForSwing+0x1b4>)
+ 80222d8:	601c      	str	r4, [r3, #0]
+ 80222da:	4b5b      	ldr	r3, [pc, #364]	; (8022448 <InitPassageModeForSwing+0x1b8>)
+ 80222dc:	701c      	strb	r4, [r3, #0]
+ 80222de:	4b5b      	ldr	r3, [pc, #364]	; (802244c <InitPassageModeForSwing+0x1bc>)
  80222e0:	701c      	strb	r4, [r3, #0]
- 80222e2:	4b5b      	ldr	r3, [pc, #364]	; (8022450 <InitPassageModeForSwing+0x1bc>)
+ 80222e2:	4b5b      	ldr	r3, [pc, #364]	; (8022450 <InitPassageModeForSwing+0x1c0>)
  80222e4:	701c      	strb	r4, [r3, #0]
- 80222e6:	4b5b      	ldr	r3, [pc, #364]	; (8022454 <InitPassageModeForSwing+0x1c0>)
+ 80222e6:	4b5b      	ldr	r3, [pc, #364]	; (8022454 <InitPassageModeForSwing+0x1c4>)
  80222e8:	701c      	strb	r4, [r3, #0]
- 80222ea:	4b5b      	ldr	r3, [pc, #364]	; (8022458 <InitPassageModeForSwing+0x1c4>)
+ 80222ea:	4b5b      	ldr	r3, [pc, #364]	; (8022458 <InitPassageModeForSwing+0x1c8>)
  80222ec:	701c      	strb	r4, [r3, #0]
- 80222ee:	4b5b      	ldr	r3, [pc, #364]	; (802245c <InitPassageModeForSwing+0x1c8>)
- 80222f0:	701c      	strb	r4, [r3, #0]
- 80222f2:	f003 ff2d 	bl	8026150 <printf_>
- 80222f6:	4630      	mov	r0, r6
- 80222f8:	f7fe f9c4 	bl	8020684 <Brr_SetEmergency>
- 80222fc:	78ab      	ldrb	r3, [r5, #2]
- 80222fe:	f013 0503 	ands.w	r5, r3, #3
- 8022302:	d008      	beq.n	8022316 <InitPassageModeForSwing+0x82>
- 8022304:	2002      	movs	r0, #2
- 8022306:	4631      	mov	r1, r6
- 8022308:	f7fe fd7c 	bl	8020e04 <ControlDirectionLED>
- 802230c:	4630      	mov	r0, r6
- 802230e:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
- 8022312:	f7fe bdf7 	b.w	8020f04 <ControlIndicatorBlink>
- 8022316:	f013 0410 	ands.w	r4, r3, #16
- 802231a:	d005      	beq.n	8022328 <InitPassageModeForSwing+0x94>
- 802231c:	2102      	movs	r1, #2
- 802231e:	4608      	mov	r0, r1
- 8022320:	f7fe fd70 	bl	8020e04 <ControlDirectionLED>
- 8022324:	4628      	mov	r0, r5
- 8022326:	e7f2      	b.n	802230e <InitPassageModeForSwing+0x7a>
- 8022328:	069b      	lsls	r3, r3, #26
- 802232a:	d576      	bpl.n	802241a <InitPassageModeForSwing+0x186>
- 802232c:	4630      	mov	r0, r6
- 802232e:	4631      	mov	r1, r6
- 8022330:	f7fe fd68 	bl	8020e04 <ControlDirectionLED>
- 8022334:	4620      	mov	r0, r4
- 8022336:	e7ea      	b.n	802230e <InitPassageModeForSwing+0x7a>
- 8022338:	783c      	ldrb	r4, [r7, #0]
- 802233a:	2c01      	cmp	r4, #1
- 802233c:	d111      	bne.n	8022362 <InitPassageModeForSwing+0xce>
- 802233e:	4b3b      	ldr	r3, [pc, #236]	; (802242c <InitPassageModeForSwing+0x198>)
- 8022340:	781b      	ldrb	r3, [r3, #0]
- 8022342:	b973      	cbnz	r3, 8022362 <InitPassageModeForSwing+0xce>
- 8022344:	4846      	ldr	r0, [pc, #280]	; (8022460 <InitPassageModeForSwing+0x1cc>)
- 8022346:	f003 ff03 	bl	8026150 <printf_>
- 802234a:	4620      	mov	r0, r4
- 802234c:	2102      	movs	r1, #2
- 802234e:	f7fe fd39 	bl	8020dc4 <ControlBuzzer>
- 8022352:	4b44      	ldr	r3, [pc, #272]	; (8022464 <InitPassageModeForSwing+0x1d0>)
- 8022354:	221e      	movs	r2, #30
- 8022356:	4836      	ldr	r0, [pc, #216]	; (8022430 <InitPassageModeForSwing+0x19c>)
- 8022358:	601a      	str	r2, [r3, #0]
- 802235a:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
- 802235e:	f007 bc5f 	b.w	8029c20 <SetTimer>
- 8022362:	782b      	ldrb	r3, [r5, #0]
- 8022364:	4c33      	ldr	r4, [pc, #204]	; (8022434 <InitPassageModeForSwing+0x1a0>)
- 8022366:	b123      	cbz	r3, 8022372 <InitPassageModeForSwing+0xde>
- 8022368:	2b02      	cmp	r3, #2
- 802236a:	d104      	bne.n	8022376 <InitPassageModeForSwing+0xe2>
- 802236c:	4b3e      	ldr	r3, [pc, #248]	; (8022468 <InitPassageModeForSwing+0x1d4>)
- 802236e:	781b      	ldrb	r3, [r3, #0]
- 8022370:	b90b      	cbnz	r3, 8022376 <InitPassageModeForSwing+0xe2>
- 8022372:	2300      	movs	r3, #0
- 8022374:	7123      	strb	r3, [r4, #4]
- 8022376:	786b      	ldrb	r3, [r5, #1]
- 8022378:	b123      	cbz	r3, 8022384 <InitPassageModeForSwing+0xf0>
- 802237a:	2b02      	cmp	r3, #2
- 802237c:	d104      	bne.n	8022388 <InitPassageModeForSwing+0xf4>
- 802237e:	4b3a      	ldr	r3, [pc, #232]	; (8022468 <InitPassageModeForSwing+0x1d4>)
- 8022380:	785b      	ldrb	r3, [r3, #1]
- 8022382:	b90b      	cbnz	r3, 8022388 <InitPassageModeForSwing+0xf4>
- 8022384:	2300      	movs	r3, #0
- 8022386:	7163      	strb	r3, [r4, #5]
- 8022388:	7923      	ldrb	r3, [r4, #4]
- 802238a:	b913      	cbnz	r3, 8022392 <InitPassageModeForSwing+0xfe>
- 802238c:	7963      	ldrb	r3, [r4, #5]
- 802238e:	2b00      	cmp	r3, #0
- 8022390:	d035      	beq.n	80223fe <InitPassageModeForSwing+0x16a>
- 8022392:	7923      	ldrb	r3, [r4, #4]
- 8022394:	2b00      	cmp	r3, #0
- 8022396:	d02d      	beq.n	80223f4 <InitPassageModeForSwing+0x160>
- 8022398:	2001      	movs	r0, #1
- 802239a:	f7fe fced 	bl	8020d78 <ControlBarrier>
- 802239e:	782b      	ldrb	r3, [r5, #0]
- 80223a0:	2b00      	cmp	r3, #0
- 80223a2:	d032      	beq.n	802240a <InitPassageModeForSwing+0x176>
- 80223a4:	7962      	ldrb	r2, [r4, #5]
- 80223a6:	2a00      	cmp	r2, #0
- 80223a8:	d031      	beq.n	802240e <InitPassageModeForSwing+0x17a>
- 80223aa:	2b01      	cmp	r3, #1
- 80223ac:	bf14      	ite	ne
- 80223ae:	2001      	movne	r0, #1
- 80223b0:	2002      	moveq	r0, #2
- 80223b2:	4b2e      	ldr	r3, [pc, #184]	; (802246c <InitPassageModeForSwing+0x1d8>)
- 80223b4:	7018      	strb	r0, [r3, #0]
- 80223b6:	786b      	ldrb	r3, [r5, #1]
- 80223b8:	b35b      	cbz	r3, 8022412 <InitPassageModeForSwing+0x17e>
- 80223ba:	7922      	ldrb	r2, [r4, #4]
- 80223bc:	b35a      	cbz	r2, 8022416 <InitPassageModeForSwing+0x182>
- 80223be:	2b01      	cmp	r3, #1
- 80223c0:	bf14      	ite	ne
- 80223c2:	2101      	movne	r1, #1
- 80223c4:	2102      	moveq	r1, #2
- 80223c6:	4b2a      	ldr	r3, [pc, #168]	; (8022470 <InitPassageModeForSwing+0x1dc>)
- 80223c8:	7019      	strb	r1, [r3, #0]
- 80223ca:	f7fe fd1b 	bl	8020e04 <ControlDirectionLED>
- 80223ce:	2300      	movs	r3, #0
- 80223d0:	4928      	ldr	r1, [pc, #160]	; (8022474 <InitPassageModeForSwing+0x1e0>)
- 80223d2:	4829      	ldr	r0, [pc, #164]	; (8022478 <InitPassageModeForSwing+0x1e4>)
- 80223d4:	461a      	mov	r2, r3
- 80223d6:	7809      	ldrb	r1, [r1, #0]
- 80223d8:	7800      	ldrb	r0, [r0, #0]
- 80223da:	f7fe fd43 	bl	8020e64 <ControlIndicator>
- 80223de:	f7ff ff1f 	bl	8022220 <CheckZeroAuthCount>
- 80223e2:	b1d0      	cbz	r0, 802241a <InitPassageModeForSwing+0x186>
- 80223e4:	4825      	ldr	r0, [pc, #148]	; (802247c <InitPassageModeForSwing+0x1e8>)
- 80223e6:	f003 feb3 	bl	8026150 <printf_>
- 80223ea:	481a      	ldr	r0, [pc, #104]	; (8022454 <InitPassageModeForSwing+0x1c0>)
- 80223ec:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
- 80223f0:	f007 bc1e 	b.w	8029c30 <ResetTimer>
- 80223f4:	7963      	ldrb	r3, [r4, #5]
- 80223f6:	2b00      	cmp	r3, #0
- 80223f8:	d0d1      	beq.n	802239e <InitPassageModeForSwing+0x10a>
- 80223fa:	2002      	movs	r0, #2
- 80223fc:	e7cd      	b.n	802239a <InitPassageModeForSwing+0x106>
- 80223fe:	4b20      	ldr	r3, [pc, #128]	; (8022480 <InitPassageModeForSwing+0x1ec>)
- 8022400:	781b      	ldrb	r3, [r3, #0]
- 8022402:	2b01      	cmp	r3, #1
- 8022404:	d0f9      	beq.n	80223fa <InitPassageModeForSwing+0x166>
- 8022406:	2003      	movs	r0, #3
- 8022408:	e7c7      	b.n	802239a <InitPassageModeForSwing+0x106>
- 802240a:	2002      	movs	r0, #2
- 802240c:	e7d1      	b.n	80223b2 <InitPassageModeForSwing+0x11e>
- 802240e:	2001      	movs	r0, #1
- 8022410:	e7cf      	b.n	80223b2 <InitPassageModeForSwing+0x11e>
- 8022412:	2102      	movs	r1, #2
- 8022414:	e7d7      	b.n	80223c6 <InitPassageModeForSwing+0x132>
- 8022416:	2101      	movs	r1, #1
- 8022418:	e7d5      	b.n	80223c6 <InitPassageModeForSwing+0x132>
- 802241a:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
- 802241c:	240003e2 	.word	0x240003e2
- 8022420:	0802b3e7 	.word	0x0802b3e7
- 8022424:	24000404 	.word	0x24000404
- 8022428:	2400011c 	.word	0x2400011c
- 802242c:	24000452 	.word	0x24000452
- 8022430:	2400020c 	.word	0x2400020c
- 8022434:	24000410 	.word	0x24000410
- 8022438:	2400011b 	.word	0x2400011b
- 802243c:	0802b415 	.word	0x0802b415
- 8022440:	24000453 	.word	0x24000453
- 8022444:	24000454 	.word	0x24000454
- 8022448:	24000458 	.word	0x24000458
- 802244c:	240003e8 	.word	0x240003e8
- 8022450:	240003e9 	.word	0x240003e9
- 8022454:	2400014c 	.word	0x2400014c
- 8022458:	240001e8 	.word	0x240001e8
- 802245c:	24000218 	.word	0x24000218
- 8022460:	0802b440 	.word	0x0802b440
- 8022464:	24000018 	.word	0x24000018
- 8022468:	240003fc 	.word	0x240003fc
- 802246c:	24000121 	.word	0x24000121
- 8022470:	24000122 	.word	0x24000122
- 8022474:	2400011f 	.word	0x2400011f
- 8022478:	2400011e 	.word	0x2400011e
- 802247c:	0802b474 	.word	0x0802b474
- 8022480:	24000123 	.word	0x24000123
+ 80222ee:	f003 ff2f 	bl	8026150 <printf_>
+ 80222f2:	4630      	mov	r0, r6
+ 80222f4:	f7fe f9c6 	bl	8020684 <Brr_SetEmergency>
+ 80222f8:	78ab      	ldrb	r3, [r5, #2]
+ 80222fa:	f013 0503 	ands.w	r5, r3, #3
+ 80222fe:	d008      	beq.n	8022312 <InitPassageModeForSwing+0x82>
+ 8022300:	2002      	movs	r0, #2
+ 8022302:	4631      	mov	r1, r6
+ 8022304:	f7fe fd7e 	bl	8020e04 <ControlDirectionLED>
+ 8022308:	4630      	mov	r0, r6
+ 802230a:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
+ 802230e:	f7fe bdf9 	b.w	8020f04 <ControlIndicatorBlink>
+ 8022312:	f013 0410 	ands.w	r4, r3, #16
+ 8022316:	d005      	beq.n	8022324 <InitPassageModeForSwing+0x94>
+ 8022318:	2102      	movs	r1, #2
+ 802231a:	4608      	mov	r0, r1
+ 802231c:	f7fe fd72 	bl	8020e04 <ControlDirectionLED>
+ 8022320:	4628      	mov	r0, r5
+ 8022322:	e7f2      	b.n	802230a <InitPassageModeForSwing+0x7a>
+ 8022324:	069b      	lsls	r3, r3, #26
+ 8022326:	d576      	bpl.n	8022416 <InitPassageModeForSwing+0x186>
+ 8022328:	4630      	mov	r0, r6
+ 802232a:	4631      	mov	r1, r6
+ 802232c:	f7fe fd6a 	bl	8020e04 <ControlDirectionLED>
+ 8022330:	4620      	mov	r0, r4
+ 8022332:	e7ea      	b.n	802230a <InitPassageModeForSwing+0x7a>
+ 8022334:	783c      	ldrb	r4, [r7, #0]
+ 8022336:	2c01      	cmp	r4, #1
+ 8022338:	d111      	bne.n	802235e <InitPassageModeForSwing+0xce>
+ 802233a:	4b3b      	ldr	r3, [pc, #236]	; (8022428 <InitPassageModeForSwing+0x198>)
+ 802233c:	781b      	ldrb	r3, [r3, #0]
+ 802233e:	b973      	cbnz	r3, 802235e <InitPassageModeForSwing+0xce>
+ 8022340:	4846      	ldr	r0, [pc, #280]	; (802245c <InitPassageModeForSwing+0x1cc>)
+ 8022342:	f003 ff05 	bl	8026150 <printf_>
+ 8022346:	4620      	mov	r0, r4
+ 8022348:	2102      	movs	r1, #2
+ 802234a:	f7fe fd3b 	bl	8020dc4 <ControlBuzzer>
+ 802234e:	4b44      	ldr	r3, [pc, #272]	; (8022460 <InitPassageModeForSwing+0x1d0>)
+ 8022350:	221e      	movs	r2, #30
+ 8022352:	4836      	ldr	r0, [pc, #216]	; (802242c <InitPassageModeForSwing+0x19c>)
+ 8022354:	601a      	str	r2, [r3, #0]
+ 8022356:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
+ 802235a:	f007 bc61 	b.w	8029c20 <SetTimer>
+ 802235e:	782b      	ldrb	r3, [r5, #0]
+ 8022360:	4c33      	ldr	r4, [pc, #204]	; (8022430 <InitPassageModeForSwing+0x1a0>)
+ 8022362:	b123      	cbz	r3, 802236e <InitPassageModeForSwing+0xde>
+ 8022364:	2b02      	cmp	r3, #2
+ 8022366:	d104      	bne.n	8022372 <InitPassageModeForSwing+0xe2>
+ 8022368:	4b3e      	ldr	r3, [pc, #248]	; (8022464 <InitPassageModeForSwing+0x1d4>)
+ 802236a:	781b      	ldrb	r3, [r3, #0]
+ 802236c:	b90b      	cbnz	r3, 8022372 <InitPassageModeForSwing+0xe2>
+ 802236e:	2300      	movs	r3, #0
+ 8022370:	7123      	strb	r3, [r4, #4]
+ 8022372:	786b      	ldrb	r3, [r5, #1]
+ 8022374:	b123      	cbz	r3, 8022380 <InitPassageModeForSwing+0xf0>
+ 8022376:	2b02      	cmp	r3, #2
+ 8022378:	d104      	bne.n	8022384 <InitPassageModeForSwing+0xf4>
+ 802237a:	4b3a      	ldr	r3, [pc, #232]	; (8022464 <InitPassageModeForSwing+0x1d4>)
+ 802237c:	785b      	ldrb	r3, [r3, #1]
+ 802237e:	b90b      	cbnz	r3, 8022384 <InitPassageModeForSwing+0xf4>
+ 8022380:	2300      	movs	r3, #0
+ 8022382:	7163      	strb	r3, [r4, #5]
+ 8022384:	7923      	ldrb	r3, [r4, #4]
+ 8022386:	b913      	cbnz	r3, 802238e <InitPassageModeForSwing+0xfe>
+ 8022388:	7963      	ldrb	r3, [r4, #5]
+ 802238a:	2b00      	cmp	r3, #0
+ 802238c:	d035      	beq.n	80223fa <InitPassageModeForSwing+0x16a>
+ 802238e:	7923      	ldrb	r3, [r4, #4]
+ 8022390:	2b00      	cmp	r3, #0
+ 8022392:	d02d      	beq.n	80223f0 <InitPassageModeForSwing+0x160>
+ 8022394:	2001      	movs	r0, #1
+ 8022396:	f7fe fcef 	bl	8020d78 <ControlBarrier>
+ 802239a:	782b      	ldrb	r3, [r5, #0]
+ 802239c:	2b00      	cmp	r3, #0
+ 802239e:	d032      	beq.n	8022406 <InitPassageModeForSwing+0x176>
+ 80223a0:	7962      	ldrb	r2, [r4, #5]
+ 80223a2:	2a00      	cmp	r2, #0
+ 80223a4:	d031      	beq.n	802240a <InitPassageModeForSwing+0x17a>
+ 80223a6:	2b01      	cmp	r3, #1
+ 80223a8:	bf14      	ite	ne
+ 80223aa:	2001      	movne	r0, #1
+ 80223ac:	2002      	moveq	r0, #2
+ 80223ae:	4b2e      	ldr	r3, [pc, #184]	; (8022468 <InitPassageModeForSwing+0x1d8>)
+ 80223b0:	7018      	strb	r0, [r3, #0]
+ 80223b2:	786b      	ldrb	r3, [r5, #1]
+ 80223b4:	b35b      	cbz	r3, 802240e <InitPassageModeForSwing+0x17e>
+ 80223b6:	7922      	ldrb	r2, [r4, #4]
+ 80223b8:	b35a      	cbz	r2, 8022412 <InitPassageModeForSwing+0x182>
+ 80223ba:	2b01      	cmp	r3, #1
+ 80223bc:	bf14      	ite	ne
+ 80223be:	2101      	movne	r1, #1
+ 80223c0:	2102      	moveq	r1, #2
+ 80223c2:	4b2a      	ldr	r3, [pc, #168]	; (802246c <InitPassageModeForSwing+0x1dc>)
+ 80223c4:	7019      	strb	r1, [r3, #0]
+ 80223c6:	f7fe fd1d 	bl	8020e04 <ControlDirectionLED>
+ 80223ca:	2300      	movs	r3, #0
+ 80223cc:	4928      	ldr	r1, [pc, #160]	; (8022470 <InitPassageModeForSwing+0x1e0>)
+ 80223ce:	4829      	ldr	r0, [pc, #164]	; (8022474 <InitPassageModeForSwing+0x1e4>)
+ 80223d0:	461a      	mov	r2, r3
+ 80223d2:	7809      	ldrb	r1, [r1, #0]
+ 80223d4:	7800      	ldrb	r0, [r0, #0]
+ 80223d6:	f7fe fd45 	bl	8020e64 <ControlIndicator>
+ 80223da:	f7ff ff1f 	bl	802221c <CheckZeroAuthCount>
+ 80223de:	b1d0      	cbz	r0, 8022416 <InitPassageModeForSwing+0x186>
+ 80223e0:	4825      	ldr	r0, [pc, #148]	; (8022478 <InitPassageModeForSwing+0x1e8>)
+ 80223e2:	f003 feb5 	bl	8026150 <printf_>
+ 80223e6:	481a      	ldr	r0, [pc, #104]	; (8022450 <InitPassageModeForSwing+0x1c0>)
+ 80223e8:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
+ 80223ec:	f007 bc20 	b.w	8029c30 <ResetTimer>
+ 80223f0:	7963      	ldrb	r3, [r4, #5]
+ 80223f2:	2b00      	cmp	r3, #0
+ 80223f4:	d0d1      	beq.n	802239a <InitPassageModeForSwing+0x10a>
+ 80223f6:	2002      	movs	r0, #2
+ 80223f8:	e7cd      	b.n	8022396 <InitPassageModeForSwing+0x106>
+ 80223fa:	4b20      	ldr	r3, [pc, #128]	; (802247c <InitPassageModeForSwing+0x1ec>)
+ 80223fc:	781b      	ldrb	r3, [r3, #0]
+ 80223fe:	2b01      	cmp	r3, #1
+ 8022400:	d0f9      	beq.n	80223f6 <InitPassageModeForSwing+0x166>
+ 8022402:	2003      	movs	r0, #3
+ 8022404:	e7c7      	b.n	8022396 <InitPassageModeForSwing+0x106>
+ 8022406:	2002      	movs	r0, #2
+ 8022408:	e7d1      	b.n	80223ae <InitPassageModeForSwing+0x11e>
+ 802240a:	2001      	movs	r0, #1
+ 802240c:	e7cf      	b.n	80223ae <InitPassageModeForSwing+0x11e>
+ 802240e:	2102      	movs	r1, #2
+ 8022410:	e7d7      	b.n	80223c2 <InitPassageModeForSwing+0x132>
+ 8022412:	2101      	movs	r1, #1
+ 8022414:	e7d5      	b.n	80223c2 <InitPassageModeForSwing+0x132>
+ 8022416:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+ 8022418:	240003e2 	.word	0x240003e2
+ 802241c:	0802b3e7 	.word	0x0802b3e7
+ 8022420:	24000404 	.word	0x24000404
+ 8022424:	2400011c 	.word	0x2400011c
+ 8022428:	24000452 	.word	0x24000452
+ 802242c:	2400020c 	.word	0x2400020c
+ 8022430:	24000410 	.word	0x24000410
+ 8022434:	2400011b 	.word	0x2400011b
+ 8022438:	0802b415 	.word	0x0802b415
+ 802243c:	24000453 	.word	0x24000453
+ 8022440:	24000454 	.word	0x24000454
+ 8022444:	24000458 	.word	0x24000458
+ 8022448:	240003e8 	.word	0x240003e8
+ 802244c:	240003e9 	.word	0x240003e9
+ 8022450:	2400014c 	.word	0x2400014c
+ 8022454:	240001e8 	.word	0x240001e8
+ 8022458:	24000218 	.word	0x24000218
+ 802245c:	0802b440 	.word	0x0802b440
+ 8022460:	24000018 	.word	0x24000018
+ 8022464:	240003fc 	.word	0x240003fc
+ 8022468:	24000121 	.word	0x24000121
+ 802246c:	24000122 	.word	0x24000122
+ 8022470:	2400011f 	.word	0x2400011f
+ 8022474:	2400011e 	.word	0x2400011e
+ 8022478:	0802b474 	.word	0x0802b474
+ 802247c:	24000123 	.word	0x24000123
 
-08022484 <OpenBarrierForSwing>:
- 8022484:	4b14      	ldr	r3, [pc, #80]	; (80224d8 <OpenBarrierForSwing+0x54>)
- 8022486:	781b      	ldrb	r3, [r3, #0]
- 8022488:	b510      	push	{r4, lr}
- 802248a:	4604      	mov	r4, r0
- 802248c:	b113      	cbz	r3, 8022494 <OpenBarrierForSwing+0x10>
- 802248e:	2000      	movs	r0, #0
- 8022490:	f7ff fee8 	bl	8022264 <StopBarrierForSwing>
- 8022494:	4b11      	ldr	r3, [pc, #68]	; (80224dc <OpenBarrierForSwing+0x58>)
- 8022496:	781b      	ldrb	r3, [r3, #0]
- 8022498:	b11b      	cbz	r3, 80224a2 <OpenBarrierForSwing+0x1e>
- 802249a:	4620      	mov	r0, r4
- 802249c:	f7fe f90c 	bl	80206b8 <Brr_OpenBarrier>
- 80224a0:	e00b      	b.n	80224ba <OpenBarrierForSwing+0x36>
- 80224a2:	4a0f      	ldr	r2, [pc, #60]	; (80224e0 <OpenBarrierForSwing+0x5c>)
- 80224a4:	2c01      	cmp	r4, #1
- 80224a6:	7014      	strb	r4, [r2, #0]
- 80224a8:	d10c      	bne.n	80224c4 <OpenBarrierForSwing+0x40>
- 80224aa:	4a0e      	ldr	r2, [pc, #56]	; (80224e4 <OpenBarrierForSwing+0x60>)
+08022480 <OpenBarrierForSwing>:
+ 8022480:	4b14      	ldr	r3, [pc, #80]	; (80224d4 <OpenBarrierForSwing+0x54>)
+ 8022482:	781b      	ldrb	r3, [r3, #0]
+ 8022484:	b510      	push	{r4, lr}
+ 8022486:	4604      	mov	r4, r0
+ 8022488:	b113      	cbz	r3, 8022490 <OpenBarrierForSwing+0x10>
+ 802248a:	2000      	movs	r0, #0
+ 802248c:	f7ff fee8 	bl	8022260 <StopBarrierForSwing>
+ 8022490:	4b11      	ldr	r3, [pc, #68]	; (80224d8 <OpenBarrierForSwing+0x58>)
+ 8022492:	781b      	ldrb	r3, [r3, #0]
+ 8022494:	b11b      	cbz	r3, 802249e <OpenBarrierForSwing+0x1e>
+ 8022496:	4620      	mov	r0, r4
+ 8022498:	f7fe f90e 	bl	80206b8 <Brr_OpenBarrier>
+ 802249c:	e00b      	b.n	80224b6 <OpenBarrierForSwing+0x36>
+ 802249e:	4a0f      	ldr	r2, [pc, #60]	; (80224dc <OpenBarrierForSwing+0x5c>)
+ 80224a0:	2c01      	cmp	r4, #1
+ 80224a2:	7014      	strb	r4, [r2, #0]
+ 80224a4:	d10c      	bne.n	80224c0 <OpenBarrierForSwing+0x40>
+ 80224a6:	4a0e      	ldr	r2, [pc, #56]	; (80224e0 <OpenBarrierForSwing+0x60>)
+ 80224a8:	7013      	strb	r3, [r2, #0]
+ 80224aa:	4a0e      	ldr	r2, [pc, #56]	; (80224e4 <OpenBarrierForSwing+0x64>)
  80224ac:	7013      	strb	r3, [r2, #0]
- 80224ae:	4a0e      	ldr	r2, [pc, #56]	; (80224e8 <OpenBarrierForSwing+0x64>)
- 80224b0:	7013      	strb	r3, [r2, #0]
- 80224b2:	4b0e      	ldr	r3, [pc, #56]	; (80224ec <OpenBarrierForSwing+0x68>)
- 80224b4:	785b      	ldrb	r3, [r3, #1]
- 80224b6:	2b00      	cmp	r3, #0
- 80224b8:	d0ef      	beq.n	802249a <OpenBarrierForSwing+0x16>
- 80224ba:	480d      	ldr	r0, [pc, #52]	; (80224f0 <OpenBarrierForSwing+0x6c>)
- 80224bc:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 80224c0:	f007 bbae 	b.w	8029c20 <SetTimer>
- 80224c4:	2c02      	cmp	r4, #2
- 80224c6:	d1f8      	bne.n	80224ba <OpenBarrierForSwing+0x36>
- 80224c8:	4a0a      	ldr	r2, [pc, #40]	; (80224f4 <OpenBarrierForSwing+0x70>)
+ 80224ae:	4b0e      	ldr	r3, [pc, #56]	; (80224e8 <OpenBarrierForSwing+0x68>)
+ 80224b0:	785b      	ldrb	r3, [r3, #1]
+ 80224b2:	2b00      	cmp	r3, #0
+ 80224b4:	d0ef      	beq.n	8022496 <OpenBarrierForSwing+0x16>
+ 80224b6:	480d      	ldr	r0, [pc, #52]	; (80224ec <OpenBarrierForSwing+0x6c>)
+ 80224b8:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+ 80224bc:	f007 bbb0 	b.w	8029c20 <SetTimer>
+ 80224c0:	2c02      	cmp	r4, #2
+ 80224c2:	d1f8      	bne.n	80224b6 <OpenBarrierForSwing+0x36>
+ 80224c4:	4a0a      	ldr	r2, [pc, #40]	; (80224f0 <OpenBarrierForSwing+0x70>)
+ 80224c6:	7013      	strb	r3, [r2, #0]
+ 80224c8:	4a0a      	ldr	r2, [pc, #40]	; (80224f4 <OpenBarrierForSwing+0x74>)
  80224ca:	7013      	strb	r3, [r2, #0]
- 80224cc:	4a0a      	ldr	r2, [pc, #40]	; (80224f8 <OpenBarrierForSwing+0x74>)
- 80224ce:	7013      	strb	r3, [r2, #0]
- 80224d0:	4b06      	ldr	r3, [pc, #24]	; (80224ec <OpenBarrierForSwing+0x68>)
- 80224d2:	781b      	ldrb	r3, [r3, #0]
- 80224d4:	e7ef      	b.n	80224b6 <OpenBarrierForSwing+0x32>
- 80224d6:	bf00      	nop
- 80224d8:	240003e2 	.word	0x240003e2
- 80224dc:	24000452 	.word	0x24000452
- 80224e0:	2400011b 	.word	0x2400011b
- 80224e4:	240003eb 	.word	0x240003eb
- 80224e8:	240003e9 	.word	0x240003e9
- 80224ec:	240003fc 	.word	0x240003fc
- 80224f0:	24000164 	.word	0x24000164
- 80224f4:	240003ea 	.word	0x240003ea
- 80224f8:	240003e8 	.word	0x240003e8
+ 80224cc:	4b06      	ldr	r3, [pc, #24]	; (80224e8 <OpenBarrierForSwing+0x68>)
+ 80224ce:	781b      	ldrb	r3, [r3, #0]
+ 80224d0:	e7ef      	b.n	80224b2 <OpenBarrierForSwing+0x32>
+ 80224d2:	bf00      	nop
+ 80224d4:	240003e2 	.word	0x240003e2
+ 80224d8:	24000452 	.word	0x24000452
+ 80224dc:	2400011b 	.word	0x2400011b
+ 80224e0:	240003eb 	.word	0x240003eb
+ 80224e4:	240003e9 	.word	0x240003e9
+ 80224e8:	240003fc 	.word	0x240003fc
+ 80224ec:	24000164 	.word	0x24000164
+ 80224f0:	240003ea 	.word	0x240003ea
+ 80224f4:	240003e8 	.word	0x240003e8
 
-080224fc <CloseBarrierForSwing>:
- 80224fc:	b508      	push	{r3, lr}
- 80224fe:	4b0c      	ldr	r3, [pc, #48]	; (8022530 <CloseBarrierForSwing+0x34>)
- 8022500:	f993 300c 	ldrsb.w	r3, [r3, #12]
- 8022504:	2b00      	cmp	r3, #0
- 8022506:	db12      	blt.n	802252e <CloseBarrierForSwing+0x32>
- 8022508:	4b0a      	ldr	r3, [pc, #40]	; (8022534 <CloseBarrierForSwing+0x38>)
- 802250a:	781b      	ldrb	r3, [r3, #0]
- 802250c:	b913      	cbnz	r3, 8022514 <CloseBarrierForSwing+0x18>
- 802250e:	f7ff fe75 	bl	80221fc <CheckBarrierClosedStatus>
- 8022512:	b160      	cbz	r0, 802252e <CloseBarrierForSwing+0x32>
- 8022514:	4b08      	ldr	r3, [pc, #32]	; (8022538 <CloseBarrierForSwing+0x3c>)
- 8022516:	781b      	ldrb	r3, [r3, #0]
- 8022518:	b113      	cbz	r3, 8022520 <CloseBarrierForSwing+0x24>
- 802251a:	2000      	movs	r0, #0
- 802251c:	f7ff fea2 	bl	8022264 <StopBarrierForSwing>
- 8022520:	f7fe f8ec 	bl	80206fc <Brr_CloseBarrier>
- 8022524:	4805      	ldr	r0, [pc, #20]	; (802253c <CloseBarrierForSwing+0x40>)
- 8022526:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
- 802252a:	f007 bb79 	b.w	8029c20 <SetTimer>
- 802252e:	bd08      	pop	{r3, pc}
- 8022530:	24000410 	.word	0x24000410
- 8022534:	24000452 	.word	0x24000452
- 8022538:	240003e2 	.word	0x240003e2
- 802253c:	24000164 	.word	0x24000164
+080224f8 <CloseBarrierForSwing>:
+ 80224f8:	b508      	push	{r3, lr}
+ 80224fa:	4b0c      	ldr	r3, [pc, #48]	; (802252c <CloseBarrierForSwing+0x34>)
+ 80224fc:	f993 300c 	ldrsb.w	r3, [r3, #12]
+ 8022500:	2b00      	cmp	r3, #0
+ 8022502:	db12      	blt.n	802252a <CloseBarrierForSwing+0x32>
+ 8022504:	4b0a      	ldr	r3, [pc, #40]	; (8022530 <CloseBarrierForSwing+0x38>)
+ 8022506:	781b      	ldrb	r3, [r3, #0]
+ 8022508:	b913      	cbnz	r3, 8022510 <CloseBarrierForSwing+0x18>
+ 802250a:	f7ff fe75 	bl	80221f8 <CheckBarrierClosedStatus>
+ 802250e:	b160      	cbz	r0, 802252a <CloseBarrierForSwing+0x32>
+ 8022510:	4b08      	ldr	r3, [pc, #32]	; (8022534 <CloseBarrierForSwing+0x3c>)
+ 8022512:	781b      	ldrb	r3, [r3, #0]
+ 8022514:	b113      	cbz	r3, 802251c <CloseBarrierForSwing+0x24>
+ 8022516:	2000      	movs	r0, #0
+ 8022518:	f7ff fea2 	bl	8022260 <StopBarrierForSwing>
+ 802251c:	f7fe f8ee 	bl	80206fc <Brr_CloseBarrier>
+ 8022520:	4805      	ldr	r0, [pc, #20]	; (8022538 <CloseBarrierForSwing+0x40>)
+ 8022522:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
+ 8022526:	f007 bb7b 	b.w	8029c20 <SetTimer>
+ 802252a:	bd08      	pop	{r3, pc}
+ 802252c:	24000410 	.word	0x24000410
+ 8022530:	24000452 	.word	0x24000452
+ 8022534:	240003e2 	.word	0x240003e2
+ 8022538:	24000164 	.word	0x24000164
 
-08022540 <CheckBarrierOperation>:
- 8022540:	b570      	push	{r4, r5, r6, lr}
- 8022542:	4c76      	ldr	r4, [pc, #472]	; (802271c <CheckBarrierOperation+0x1dc>)
- 8022544:	7823      	ldrb	r3, [r4, #0]
- 8022546:	b173      	cbz	r3, 8022566 <CheckBarrierOperation+0x26>
- 8022548:	4b75      	ldr	r3, [pc, #468]	; (8022720 <CheckBarrierOperation+0x1e0>)
- 802254a:	2164      	movs	r1, #100	; 0x64
- 802254c:	4620      	mov	r0, r4
- 802254e:	681b      	ldr	r3, [r3, #0]
- 8022550:	4359      	muls	r1, r3
- 8022552:	f007 fb71 	bl	8029c38 <IsTimeout>
- 8022556:	2800      	cmp	r0, #0
- 8022558:	f000 80df 	beq.w	802271a <CheckBarrierOperation+0x1da>
- 802255c:	4620      	mov	r0, r4
- 802255e:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
- 8022562:	f007 bb65 	b.w	8029c30 <ResetTimer>
- 8022566:	4b6f      	ldr	r3, [pc, #444]	; (8022724 <CheckBarrierOperation+0x1e4>)
- 8022568:	781b      	ldrb	r3, [r3, #0]
- 802256a:	2b00      	cmp	r3, #0
- 802256c:	f040 80d0 	bne.w	8022710 <CheckBarrierOperation+0x1d0>
- 8022570:	4c6d      	ldr	r4, [pc, #436]	; (8022728 <CheckBarrierOperation+0x1e8>)
- 8022572:	7823      	ldrb	r3, [r4, #0]
- 8022574:	2b00      	cmp	r3, #0
- 8022576:	f000 80cb 	beq.w	8022710 <CheckBarrierOperation+0x1d0>
- 802257a:	4b6c      	ldr	r3, [pc, #432]	; (802272c <CheckBarrierOperation+0x1ec>)
- 802257c:	2164      	movs	r1, #100	; 0x64
- 802257e:	4620      	mov	r0, r4
- 8022580:	681b      	ldr	r3, [r3, #0]
- 8022582:	4359      	muls	r1, r3
- 8022584:	f007 fb58 	bl	8029c38 <IsTimeout>
- 8022588:	2800      	cmp	r0, #0
- 802258a:	f000 80c6 	beq.w	802271a <CheckBarrierOperation+0x1da>
- 802258e:	4d68      	ldr	r5, [pc, #416]	; (8022730 <CheckBarrierOperation+0x1f0>)
- 8022590:	4620      	mov	r0, r4
- 8022592:	f007 fb4d 	bl	8029c30 <ResetTimer>
- 8022596:	792a      	ldrb	r2, [r5, #4]
- 8022598:	0710      	lsls	r0, r2, #28
- 802259a:	f100 80a8 	bmi.w	80226ee <CheckBarrierOperation+0x1ae>
- 802259e:	4c65      	ldr	r4, [pc, #404]	; (8022734 <CheckBarrierOperation+0x1f4>)
- 80225a0:	7923      	ldrb	r3, [r4, #4]
- 80225a2:	0719      	lsls	r1, r3, #28
- 80225a4:	f100 80a3 	bmi.w	80226ee <CheckBarrierOperation+0x1ae>
- 80225a8:	4963      	ldr	r1, [pc, #396]	; (8022738 <CheckBarrierOperation+0x1f8>)
- 80225aa:	7808      	ldrb	r0, [r1, #0]
- 80225ac:	1e41      	subs	r1, r0, #1
- 80225ae:	2901      	cmp	r1, #1
- 80225b0:	d903      	bls.n	80225ba <CheckBarrierOperation+0x7a>
- 80225b2:	4962      	ldr	r1, [pc, #392]	; (802273c <CheckBarrierOperation+0x1fc>)
- 80225b4:	7809      	ldrb	r1, [r1, #0]
- 80225b6:	2901      	cmp	r1, #1
- 80225b8:	d12a      	bne.n	8022610 <CheckBarrierOperation+0xd0>
- 80225ba:	f002 0207 	and.w	r2, r2, #7
- 80225be:	2a05      	cmp	r2, #5
- 80225c0:	d103      	bne.n	80225ca <CheckBarrierOperation+0x8a>
- 80225c2:	f003 0307 	and.w	r3, r3, #7
- 80225c6:	2b05      	cmp	r3, #5
- 80225c8:	d008      	beq.n	80225dc <CheckBarrierOperation+0x9c>
- 80225ca:	4b5d      	ldr	r3, [pc, #372]	; (8022740 <CheckBarrierOperation+0x200>)
- 80225cc:	781b      	ldrb	r3, [r3, #0]
- 80225ce:	b90b      	cbnz	r3, 80225d4 <CheckBarrierOperation+0x94>
- 80225d0:	f7fe fbd2 	bl	8020d78 <ControlBarrier>
- 80225d4:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
- 80225d8:	f7fe ba5a 	b.w	8020a90 <Brr_Inq_Status>
- 80225dc:	4b59      	ldr	r3, [pc, #356]	; (8022744 <CheckBarrierOperation+0x204>)
- 80225de:	781b      	ldrb	r3, [r3, #0]
- 80225e0:	2b00      	cmp	r3, #0
- 80225e2:	d1f7      	bne.n	80225d4 <CheckBarrierOperation+0x94>
- 80225e4:	4a58      	ldr	r2, [pc, #352]	; (8022748 <CheckBarrierOperation+0x208>)
- 80225e6:	6013      	str	r3, [r2, #0]
- 80225e8:	4b58      	ldr	r3, [pc, #352]	; (802274c <CheckBarrierOperation+0x20c>)
- 80225ea:	7b1a      	ldrb	r2, [r3, #12]
- 80225ec:	f022 020f 	bic.w	r2, r2, #15
- 80225f0:	731a      	strb	r2, [r3, #12]
- 80225f2:	2211      	movs	r2, #17
- 80225f4:	741a      	strb	r2, [r3, #16]
- 80225f6:	f7ff fe01 	bl	80221fc <CheckBarrierClosedStatus>
- 80225fa:	2800      	cmp	r0, #0
- 80225fc:	d0ea      	beq.n	80225d4 <CheckBarrierOperation+0x94>
- 80225fe:	f7ff fe0f 	bl	8022220 <CheckZeroAuthCount>
- 8022602:	2800      	cmp	r0, #0
- 8022604:	d0e6      	beq.n	80225d4 <CheckBarrierOperation+0x94>
- 8022606:	4852      	ldr	r0, [pc, #328]	; (8022750 <CheckBarrierOperation+0x210>)
- 8022608:	f003 fda2 	bl	8026150 <printf_>
- 802260c:	2003      	movs	r0, #3
- 802260e:	e7df      	b.n	80225d0 <CheckBarrierOperation+0x90>
- 8022610:	2803      	cmp	r0, #3
- 8022612:	d1df      	bne.n	80225d4 <CheckBarrierOperation+0x94>
- 8022614:	f002 0207 	and.w	r2, r2, #7
- 8022618:	2a02      	cmp	r2, #2
- 802261a:	d103      	bne.n	8022624 <CheckBarrierOperation+0xe4>
- 802261c:	f003 0307 	and.w	r3, r3, #7
- 8022620:	2b02      	cmp	r3, #2
- 8022622:	d03b      	beq.n	802269c <CheckBarrierOperation+0x15c>
- 8022624:	f7ff fdea 	bl	80221fc <CheckBarrierClosedStatus>
- 8022628:	2800      	cmp	r0, #0
- 802262a:	d0d3      	beq.n	80225d4 <CheckBarrierOperation+0x94>
- 802262c:	7922      	ldrb	r2, [r4, #4]
- 802262e:	7929      	ldrb	r1, [r5, #4]
- 8022630:	f002 0207 	and.w	r2, r2, #7
- 8022634:	4847      	ldr	r0, [pc, #284]	; (8022754 <CheckBarrierOperation+0x214>)
- 8022636:	f001 0107 	and.w	r1, r1, #7
- 802263a:	f003 fd89 	bl	8026150 <printf_>
- 802263e:	4b46      	ldr	r3, [pc, #280]	; (8022758 <CheckBarrierOperation+0x218>)
- 8022640:	781b      	ldrb	r3, [r3, #0]
- 8022642:	2b00      	cmp	r3, #0
- 8022644:	d1c6      	bne.n	80225d4 <CheckBarrierOperation+0x94>
- 8022646:	4e40      	ldr	r6, [pc, #256]	; (8022748 <CheckBarrierOperation+0x208>)
- 8022648:	6833      	ldr	r3, [r6, #0]
- 802264a:	3301      	adds	r3, #1
- 802264c:	2b08      	cmp	r3, #8
- 802264e:	6033      	str	r3, [r6, #0]
- 8022650:	d1c0      	bne.n	80225d4 <CheckBarrierOperation+0x94>
- 8022652:	4b42      	ldr	r3, [pc, #264]	; (802275c <CheckBarrierOperation+0x21c>)
- 8022654:	781b      	ldrb	r3, [r3, #0]
- 8022656:	b91b      	cbnz	r3, 8022660 <CheckBarrierOperation+0x120>
- 8022658:	4b3c      	ldr	r3, [pc, #240]	; (802274c <CheckBarrierOperation+0x20c>)
- 802265a:	7b1b      	ldrb	r3, [r3, #12]
- 802265c:	071b      	lsls	r3, r3, #28
- 802265e:	d104      	bne.n	802266a <CheckBarrierOperation+0x12a>
- 8022660:	4b3f      	ldr	r3, [pc, #252]	; (8022760 <CheckBarrierOperation+0x220>)
- 8022662:	2001      	movs	r0, #1
- 8022664:	78d9      	ldrb	r1, [r3, #3]
- 8022666:	f7fe fbad 	bl	8020dc4 <ControlBuzzer>
- 802266a:	792b      	ldrb	r3, [r5, #4]
- 802266c:	f003 0307 	and.w	r3, r3, #7
- 8022670:	2b02      	cmp	r3, #2
- 8022672:	d005      	beq.n	8022680 <CheckBarrierOperation+0x140>
- 8022674:	4b35      	ldr	r3, [pc, #212]	; (802274c <CheckBarrierOperation+0x20c>)
- 8022676:	2102      	movs	r1, #2
- 8022678:	7b1a      	ldrb	r2, [r3, #12]
- 802267a:	f361 0201 	bfi	r2, r1, #0, #2
- 802267e:	731a      	strb	r2, [r3, #12]
- 8022680:	7923      	ldrb	r3, [r4, #4]
- 8022682:	f003 0307 	and.w	r3, r3, #7
- 8022686:	2b02      	cmp	r3, #2
- 8022688:	d005      	beq.n	8022696 <CheckBarrierOperation+0x156>
- 802268a:	4b30      	ldr	r3, [pc, #192]	; (802274c <CheckBarrierOperation+0x20c>)
- 802268c:	2102      	movs	r1, #2
- 802268e:	7b1a      	ldrb	r2, [r3, #12]
- 8022690:	f361 0283 	bfi	r2, r1, #2, #2
- 8022694:	731a      	strb	r2, [r3, #12]
- 8022696:	2300      	movs	r3, #0
- 8022698:	6033      	str	r3, [r6, #0]
- 802269a:	e7b7      	b.n	802260c <CheckBarrierOperation+0xcc>
- 802269c:	4b29      	ldr	r3, [pc, #164]	; (8022744 <CheckBarrierOperation+0x204>)
- 802269e:	781b      	ldrb	r3, [r3, #0]
- 80226a0:	2b00      	cmp	r3, #0
- 80226a2:	d197      	bne.n	80225d4 <CheckBarrierOperation+0x94>
- 80226a4:	4a28      	ldr	r2, [pc, #160]	; (8022748 <CheckBarrierOperation+0x208>)
- 80226a6:	6013      	str	r3, [r2, #0]
- 80226a8:	4b28      	ldr	r3, [pc, #160]	; (802274c <CheckBarrierOperation+0x20c>)
- 80226aa:	7b1a      	ldrb	r2, [r3, #12]
- 80226ac:	f022 020f 	bic.w	r2, r2, #15
- 80226b0:	731a      	strb	r2, [r3, #12]
- 80226b2:	2222      	movs	r2, #34	; 0x22
- 80226b4:	741a      	strb	r2, [r3, #16]
- 80226b6:	791a      	ldrb	r2, [r3, #4]
- 80226b8:	b10a      	cbz	r2, 80226be <CheckBarrierOperation+0x17e>
- 80226ba:	2001      	movs	r0, #1
- 80226bc:	e788      	b.n	80225d0 <CheckBarrierOperation+0x90>
- 80226be:	795b      	ldrb	r3, [r3, #5]
- 80226c0:	b10b      	cbz	r3, 80226c6 <CheckBarrierOperation+0x186>
- 80226c2:	2002      	movs	r0, #2
- 80226c4:	e784      	b.n	80225d0 <CheckBarrierOperation+0x90>
- 80226c6:	4b27      	ldr	r3, [pc, #156]	; (8022764 <CheckBarrierOperation+0x224>)
- 80226c8:	781b      	ldrb	r3, [r3, #0]
- 80226ca:	2b01      	cmp	r3, #1
- 80226cc:	d0f9      	beq.n	80226c2 <CheckBarrierOperation+0x182>
- 80226ce:	4b26      	ldr	r3, [pc, #152]	; (8022768 <CheckBarrierOperation+0x228>)
- 80226d0:	8818      	ldrh	r0, [r3, #0]
- 80226d2:	f420 7040 	bic.w	r0, r0, #768	; 0x300
- 80226d6:	f020 0003 	bic.w	r0, r0, #3
- 80226da:	b280      	uxth	r0, r0
- 80226dc:	b910      	cbnz	r0, 80226e4 <CheckBarrierOperation+0x1a4>
- 80226de:	f7ff fdc1 	bl	8022264 <StopBarrierForSwing>
- 80226e2:	e777      	b.n	80225d4 <CheckBarrierOperation+0x94>
- 80226e4:	4821      	ldr	r0, [pc, #132]	; (802276c <CheckBarrierOperation+0x22c>)
- 80226e6:	f003 fd33 	bl	8026150 <printf_>
- 80226ea:	2001      	movs	r0, #1
- 80226ec:	e7f7      	b.n	80226de <CheckBarrierOperation+0x19e>
- 80226ee:	4b20      	ldr	r3, [pc, #128]	; (8022770 <CheckBarrierOperation+0x230>)
- 80226f0:	781b      	ldrb	r3, [r3, #0]
- 80226f2:	b94b      	cbnz	r3, 8022708 <CheckBarrierOperation+0x1c8>
- 80226f4:	4b15      	ldr	r3, [pc, #84]	; (802274c <CheckBarrierOperation+0x20c>)
- 80226f6:	791a      	ldrb	r2, [r3, #4]
- 80226f8:	b932      	cbnz	r2, 8022708 <CheckBarrierOperation+0x1c8>
- 80226fa:	795b      	ldrb	r3, [r3, #5]
- 80226fc:	b923      	cbnz	r3, 8022708 <CheckBarrierOperation+0x1c8>
- 80226fe:	f7ff fd7d 	bl	80221fc <CheckBarrierClosedStatus>
- 8022702:	2800      	cmp	r0, #0
- 8022704:	f47f af66 	bne.w	80225d4 <CheckBarrierOperation+0x94>
- 8022708:	4b0f      	ldr	r3, [pc, #60]	; (8022748 <CheckBarrierOperation+0x208>)
- 802270a:	2200      	movs	r2, #0
- 802270c:	601a      	str	r2, [r3, #0]
- 802270e:	e761      	b.n	80225d4 <CheckBarrierOperation+0x94>
- 8022710:	4805      	ldr	r0, [pc, #20]	; (8022728 <CheckBarrierOperation+0x1e8>)
- 8022712:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
- 8022716:	f007 ba83 	b.w	8029c20 <SetTimer>
- 802271a:	bd70      	pop	{r4, r5, r6, pc}
- 802271c:	24000164 	.word	0x24000164
- 8022720:	24000008 	.word	0x24000008
- 8022724:	24000452 	.word	0x24000452
- 8022728:	24000158 	.word	0x24000158
- 802272c:	24000004 	.word	0x24000004
- 8022730:	24000434 	.word	0x24000434
- 8022734:	24000440 	.word	0x24000440
- 8022738:	24000028 	.word	0x24000028
- 802273c:	2400011c 	.word	0x2400011c
- 8022740:	240003e5 	.word	0x240003e5
- 8022744:	240003ed 	.word	0x240003ed
- 8022748:	240003f4 	.word	0x240003f4
- 802274c:	24000410 	.word	0x24000410
- 8022750:	0802b49a 	.word	0x0802b49a
- 8022754:	0802b4c3 	.word	0x0802b4c3
- 8022758:	240003e4 	.word	0x240003e4
- 802275c:	240003ec 	.word	0x240003ec
- 8022760:	24000408 	.word	0x24000408
- 8022764:	24000123 	.word	0x24000123
- 8022768:	240003fc 	.word	0x240003fc
+0802253c <CheckBarrierOperation>:
+ 802253c:	b570      	push	{r4, r5, r6, lr}
+ 802253e:	4c76      	ldr	r4, [pc, #472]	; (8022718 <CheckBarrierOperation+0x1dc>)
+ 8022540:	7823      	ldrb	r3, [r4, #0]
+ 8022542:	b173      	cbz	r3, 8022562 <CheckBarrierOperation+0x26>
+ 8022544:	4b75      	ldr	r3, [pc, #468]	; (802271c <CheckBarrierOperation+0x1e0>)
+ 8022546:	2164      	movs	r1, #100	; 0x64
+ 8022548:	4620      	mov	r0, r4
+ 802254a:	681b      	ldr	r3, [r3, #0]
+ 802254c:	4359      	muls	r1, r3
+ 802254e:	f007 fb73 	bl	8029c38 <IsTimeout>
+ 8022552:	2800      	cmp	r0, #0
+ 8022554:	f000 80de 	beq.w	8022714 <CheckBarrierOperation+0x1d8>
+ 8022558:	4620      	mov	r0, r4
+ 802255a:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
+ 802255e:	f007 bb67 	b.w	8029c30 <ResetTimer>
+ 8022562:	4b6f      	ldr	r3, [pc, #444]	; (8022720 <CheckBarrierOperation+0x1e4>)
+ 8022564:	781b      	ldrb	r3, [r3, #0]
+ 8022566:	2b00      	cmp	r3, #0
+ 8022568:	f040 80cf 	bne.w	802270a <CheckBarrierOperation+0x1ce>
+ 802256c:	4c6d      	ldr	r4, [pc, #436]	; (8022724 <CheckBarrierOperation+0x1e8>)
+ 802256e:	7823      	ldrb	r3, [r4, #0]
+ 8022570:	2b00      	cmp	r3, #0
+ 8022572:	f000 80ca 	beq.w	802270a <CheckBarrierOperation+0x1ce>
+ 8022576:	4b6c      	ldr	r3, [pc, #432]	; (8022728 <CheckBarrierOperation+0x1ec>)
+ 8022578:	2164      	movs	r1, #100	; 0x64
+ 802257a:	4620      	mov	r0, r4
+ 802257c:	681b      	ldr	r3, [r3, #0]
+ 802257e:	4359      	muls	r1, r3
+ 8022580:	f007 fb5a 	bl	8029c38 <IsTimeout>
+ 8022584:	2800      	cmp	r0, #0
+ 8022586:	f000 80c5 	beq.w	8022714 <CheckBarrierOperation+0x1d8>
+ 802258a:	4d68      	ldr	r5, [pc, #416]	; (802272c <CheckBarrierOperation+0x1f0>)
+ 802258c:	4620      	mov	r0, r4
+ 802258e:	f007 fb4f 	bl	8029c30 <ResetTimer>
+ 8022592:	792a      	ldrb	r2, [r5, #4]
+ 8022594:	0710      	lsls	r0, r2, #28
+ 8022596:	f100 80a7 	bmi.w	80226e8 <CheckBarrierOperation+0x1ac>
+ 802259a:	4c65      	ldr	r4, [pc, #404]	; (8022730 <CheckBarrierOperation+0x1f4>)
+ 802259c:	7923      	ldrb	r3, [r4, #4]
+ 802259e:	0719      	lsls	r1, r3, #28
+ 80225a0:	f100 80a2 	bmi.w	80226e8 <CheckBarrierOperation+0x1ac>
+ 80225a4:	4963      	ldr	r1, [pc, #396]	; (8022734 <CheckBarrierOperation+0x1f8>)
+ 80225a6:	7808      	ldrb	r0, [r1, #0]
+ 80225a8:	1e41      	subs	r1, r0, #1
+ 80225aa:	2901      	cmp	r1, #1
+ 80225ac:	d903      	bls.n	80225b6 <CheckBarrierOperation+0x7a>
+ 80225ae:	4962      	ldr	r1, [pc, #392]	; (8022738 <CheckBarrierOperation+0x1fc>)
+ 80225b0:	7809      	ldrb	r1, [r1, #0]
+ 80225b2:	2901      	cmp	r1, #1
+ 80225b4:	d12a      	bne.n	802260c <CheckBarrierOperation+0xd0>
+ 80225b6:	f002 0207 	and.w	r2, r2, #7
+ 80225ba:	2a05      	cmp	r2, #5
+ 80225bc:	d103      	bne.n	80225c6 <CheckBarrierOperation+0x8a>
+ 80225be:	f003 0307 	and.w	r3, r3, #7
+ 80225c2:	2b05      	cmp	r3, #5
+ 80225c4:	d008      	beq.n	80225d8 <CheckBarrierOperation+0x9c>
+ 80225c6:	4b5d      	ldr	r3, [pc, #372]	; (802273c <CheckBarrierOperation+0x200>)
+ 80225c8:	781b      	ldrb	r3, [r3, #0]
+ 80225ca:	b90b      	cbnz	r3, 80225d0 <CheckBarrierOperation+0x94>
+ 80225cc:	f7fe fbd4 	bl	8020d78 <ControlBarrier>
+ 80225d0:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
+ 80225d4:	f7fe ba5c 	b.w	8020a90 <Brr_Inq_Status>
+ 80225d8:	4b59      	ldr	r3, [pc, #356]	; (8022740 <CheckBarrierOperation+0x204>)
+ 80225da:	781b      	ldrb	r3, [r3, #0]
+ 80225dc:	2b00      	cmp	r3, #0
+ 80225de:	d1f7      	bne.n	80225d0 <CheckBarrierOperation+0x94>
+ 80225e0:	4a58      	ldr	r2, [pc, #352]	; (8022744 <CheckBarrierOperation+0x208>)
+ 80225e2:	6013      	str	r3, [r2, #0]
+ 80225e4:	4b58      	ldr	r3, [pc, #352]	; (8022748 <CheckBarrierOperation+0x20c>)
+ 80225e6:	7b1a      	ldrb	r2, [r3, #12]
+ 80225e8:	f022 020f 	bic.w	r2, r2, #15
+ 80225ec:	731a      	strb	r2, [r3, #12]
+ 80225ee:	2211      	movs	r2, #17
+ 80225f0:	741a      	strb	r2, [r3, #16]
+ 80225f2:	f7ff fe01 	bl	80221f8 <CheckBarrierClosedStatus>
+ 80225f6:	2800      	cmp	r0, #0
+ 80225f8:	d0ea      	beq.n	80225d0 <CheckBarrierOperation+0x94>
+ 80225fa:	f7ff fe0f 	bl	802221c <CheckZeroAuthCount>
+ 80225fe:	2800      	cmp	r0, #0
+ 8022600:	d0e6      	beq.n	80225d0 <CheckBarrierOperation+0x94>
+ 8022602:	4852      	ldr	r0, [pc, #328]	; (802274c <CheckBarrierOperation+0x210>)
+ 8022604:	f003 fda4 	bl	8026150 <printf_>
+ 8022608:	2003      	movs	r0, #3
+ 802260a:	e7df      	b.n	80225cc <CheckBarrierOperation+0x90>
+ 802260c:	2803      	cmp	r0, #3
+ 802260e:	d1df      	bne.n	80225d0 <CheckBarrierOperation+0x94>
+ 8022610:	f002 0207 	and.w	r2, r2, #7
+ 8022614:	2a02      	cmp	r2, #2
+ 8022616:	d103      	bne.n	8022620 <CheckBarrierOperation+0xe4>
+ 8022618:	f003 0307 	and.w	r3, r3, #7
+ 802261c:	2b02      	cmp	r3, #2
+ 802261e:	d03b      	beq.n	8022698 <CheckBarrierOperation+0x15c>
+ 8022620:	f7ff fdea 	bl	80221f8 <CheckBarrierClosedStatus>
+ 8022624:	2800      	cmp	r0, #0
+ 8022626:	d0d3      	beq.n	80225d0 <CheckBarrierOperation+0x94>
+ 8022628:	7922      	ldrb	r2, [r4, #4]
+ 802262a:	7929      	ldrb	r1, [r5, #4]
+ 802262c:	f002 0207 	and.w	r2, r2, #7
+ 8022630:	4847      	ldr	r0, [pc, #284]	; (8022750 <CheckBarrierOperation+0x214>)
+ 8022632:	f001 0107 	and.w	r1, r1, #7
+ 8022636:	f003 fd8b 	bl	8026150 <printf_>
+ 802263a:	4b46      	ldr	r3, [pc, #280]	; (8022754 <CheckBarrierOperation+0x218>)
+ 802263c:	781b      	ldrb	r3, [r3, #0]
+ 802263e:	2b00      	cmp	r3, #0
+ 8022640:	d1c6      	bne.n	80225d0 <CheckBarrierOperation+0x94>
+ 8022642:	4e40      	ldr	r6, [pc, #256]	; (8022744 <CheckBarrierOperation+0x208>)
+ 8022644:	6833      	ldr	r3, [r6, #0]
+ 8022646:	3301      	adds	r3, #1
+ 8022648:	2b08      	cmp	r3, #8
+ 802264a:	6033      	str	r3, [r6, #0]
+ 802264c:	d1c0      	bne.n	80225d0 <CheckBarrierOperation+0x94>
+ 802264e:	4b42      	ldr	r3, [pc, #264]	; (8022758 <CheckBarrierOperation+0x21c>)
+ 8022650:	781b      	ldrb	r3, [r3, #0]
+ 8022652:	b91b      	cbnz	r3, 802265c <CheckBarrierOperation+0x120>
+ 8022654:	4b3c      	ldr	r3, [pc, #240]	; (8022748 <CheckBarrierOperation+0x20c>)
+ 8022656:	7b1b      	ldrb	r3, [r3, #12]
+ 8022658:	071b      	lsls	r3, r3, #28
+ 802265a:	d104      	bne.n	8022666 <CheckBarrierOperation+0x12a>
+ 802265c:	4b3f      	ldr	r3, [pc, #252]	; (802275c <CheckBarrierOperation+0x220>)
+ 802265e:	2001      	movs	r0, #1
+ 8022660:	78d9      	ldrb	r1, [r3, #3]
+ 8022662:	f7fe fbaf 	bl	8020dc4 <ControlBuzzer>
+ 8022666:	792b      	ldrb	r3, [r5, #4]
+ 8022668:	f003 0307 	and.w	r3, r3, #7
+ 802266c:	2b02      	cmp	r3, #2
+ 802266e:	d005      	beq.n	802267c <CheckBarrierOperation+0x140>
+ 8022670:	4b35      	ldr	r3, [pc, #212]	; (8022748 <CheckBarrierOperation+0x20c>)
+ 8022672:	2102      	movs	r1, #2
+ 8022674:	7b1a      	ldrb	r2, [r3, #12]
+ 8022676:	f361 0201 	bfi	r2, r1, #0, #2
+ 802267a:	731a      	strb	r2, [r3, #12]
+ 802267c:	7923      	ldrb	r3, [r4, #4]
+ 802267e:	f003 0307 	and.w	r3, r3, #7
+ 8022682:	2b02      	cmp	r3, #2
+ 8022684:	d005      	beq.n	8022692 <CheckBarrierOperation+0x156>
+ 8022686:	4b30      	ldr	r3, [pc, #192]	; (8022748 <CheckBarrierOperation+0x20c>)
+ 8022688:	2102      	movs	r1, #2
+ 802268a:	7b1a      	ldrb	r2, [r3, #12]
+ 802268c:	f361 0283 	bfi	r2, r1, #2, #2
+ 8022690:	731a      	strb	r2, [r3, #12]
+ 8022692:	2300      	movs	r3, #0
+ 8022694:	6033      	str	r3, [r6, #0]
+ 8022696:	e7b7      	b.n	8022608 <CheckBarrierOperation+0xcc>
+ 8022698:	4b29      	ldr	r3, [pc, #164]	; (8022740 <CheckBarrierOperation+0x204>)
+ 802269a:	781b      	ldrb	r3, [r3, #0]
+ 802269c:	2b00      	cmp	r3, #0
+ 802269e:	d197      	bne.n	80225d0 <CheckBarrierOperation+0x94>
+ 80226a0:	4a28      	ldr	r2, [pc, #160]	; (8022744 <CheckBarrierOperation+0x208>)
+ 80226a2:	6013      	str	r3, [r2, #0]
+ 80226a4:	4b28      	ldr	r3, [pc, #160]	; (8022748 <CheckBarrierOperation+0x20c>)
+ 80226a6:	7b1a      	ldrb	r2, [r3, #12]
+ 80226a8:	f022 020f 	bic.w	r2, r2, #15
+ 80226ac:	731a      	strb	r2, [r3, #12]
+ 80226ae:	2222      	movs	r2, #34	; 0x22
+ 80226b0:	741a      	strb	r2, [r3, #16]
+ 80226b2:	791a      	ldrb	r2, [r3, #4]
+ 80226b4:	b10a      	cbz	r2, 80226ba <CheckBarrierOperation+0x17e>
+ 80226b6:	2001      	movs	r0, #1
+ 80226b8:	e788      	b.n	80225cc <CheckBarrierOperation+0x90>
+ 80226ba:	795b      	ldrb	r3, [r3, #5]
+ 80226bc:	b10b      	cbz	r3, 80226c2 <CheckBarrierOperation+0x186>
+ 80226be:	2002      	movs	r0, #2
+ 80226c0:	e784      	b.n	80225cc <CheckBarrierOperation+0x90>
+ 80226c2:	4b27      	ldr	r3, [pc, #156]	; (8022760 <CheckBarrierOperation+0x224>)
+ 80226c4:	781b      	ldrb	r3, [r3, #0]
+ 80226c6:	2b01      	cmp	r3, #1
+ 80226c8:	d0f9      	beq.n	80226be <CheckBarrierOperation+0x182>
+ 80226ca:	4b26      	ldr	r3, [pc, #152]	; (8022764 <CheckBarrierOperation+0x228>)
+ 80226cc:	881b      	ldrh	r3, [r3, #0]
+ 80226ce:	b913      	cbnz	r3, 80226d6 <CheckBarrierOperation+0x19a>
+ 80226d0:	4b25      	ldr	r3, [pc, #148]	; (8022768 <CheckBarrierOperation+0x22c>)
+ 80226d2:	781c      	ldrb	r4, [r3, #0]
+ 80226d4:	b11c      	cbz	r4, 80226de <CheckBarrierOperation+0x1a2>
+ 80226d6:	2001      	movs	r0, #1
+ 80226d8:	f7ff fdc2 	bl	8022260 <StopBarrierForSwing>
+ 80226dc:	e778      	b.n	80225d0 <CheckBarrierOperation+0x94>
+ 80226de:	4823      	ldr	r0, [pc, #140]	; (802276c <CheckBarrierOperation+0x230>)
+ 80226e0:	f003 fd36 	bl	8026150 <printf_>
+ 80226e4:	4620      	mov	r0, r4
+ 80226e6:	e7f7      	b.n	80226d8 <CheckBarrierOperation+0x19c>
+ 80226e8:	4b21      	ldr	r3, [pc, #132]	; (8022770 <CheckBarrierOperation+0x234>)
+ 80226ea:	781b      	ldrb	r3, [r3, #0]
+ 80226ec:	b94b      	cbnz	r3, 8022702 <CheckBarrierOperation+0x1c6>
+ 80226ee:	4b16      	ldr	r3, [pc, #88]	; (8022748 <CheckBarrierOperation+0x20c>)
+ 80226f0:	791a      	ldrb	r2, [r3, #4]
+ 80226f2:	b932      	cbnz	r2, 8022702 <CheckBarrierOperation+0x1c6>
+ 80226f4:	795b      	ldrb	r3, [r3, #5]
+ 80226f6:	b923      	cbnz	r3, 8022702 <CheckBarrierOperation+0x1c6>
+ 80226f8:	f7ff fd7e 	bl	80221f8 <CheckBarrierClosedStatus>
+ 80226fc:	2800      	cmp	r0, #0
+ 80226fe:	f47f af67 	bne.w	80225d0 <CheckBarrierOperation+0x94>
+ 8022702:	4b10      	ldr	r3, [pc, #64]	; (8022744 <CheckBarrierOperation+0x208>)
+ 8022704:	2200      	movs	r2, #0
+ 8022706:	601a      	str	r2, [r3, #0]
+ 8022708:	e762      	b.n	80225d0 <CheckBarrierOperation+0x94>
+ 802270a:	4806      	ldr	r0, [pc, #24]	; (8022724 <CheckBarrierOperation+0x1e8>)
+ 802270c:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
+ 8022710:	f007 ba86 	b.w	8029c20 <SetTimer>
+ 8022714:	bd70      	pop	{r4, r5, r6, pc}
+ 8022716:	bf00      	nop
+ 8022718:	24000164 	.word	0x24000164
+ 802271c:	24000008 	.word	0x24000008
+ 8022720:	24000452 	.word	0x24000452
+ 8022724:	24000158 	.word	0x24000158
+ 8022728:	24000004 	.word	0x24000004
+ 802272c:	24000434 	.word	0x24000434
+ 8022730:	24000440 	.word	0x24000440
+ 8022734:	24000028 	.word	0x24000028
+ 8022738:	2400011c 	.word	0x2400011c
+ 802273c:	240003e5 	.word	0x240003e5
+ 8022740:	240003ed 	.word	0x240003ed
+ 8022744:	240003f4 	.word	0x240003f4
+ 8022748:	24000410 	.word	0x24000410
+ 802274c:	0802b49a 	.word	0x0802b49a
+ 8022750:	0802b4c3 	.word	0x0802b4c3
+ 8022754:	240003e4 	.word	0x240003e4
+ 8022758:	240003ec 	.word	0x240003ec
+ 802275c:	24000408 	.word	0x24000408
+ 8022760:	24000123 	.word	0x24000123
+ 8022764:	240003fc 	.word	0x240003fc
+ 8022768:	24000450 	.word	0x24000450
  802276c:	0802b4e3 	.word	0x0802b4e3
  8022770:	24000230 	.word	0x24000230
 
@@ -4403,12 +4404,12 @@ Disassembly of section .text:
  8022d36:	f013 0ff3 	tst.w	r3, #243	; 0xf3
  8022d3a:	d007      	beq.n	8022d4c <CheckCounterEnterTimer+0x40>
  8022d3c:	2001      	movs	r0, #1
- 8022d3e:	f7ff fa91 	bl	8022264 <StopBarrierForSwing>
+ 8022d3e:	f7ff fa8f 	bl	8022260 <StopBarrierForSwing>
  8022d42:	4809      	ldr	r0, [pc, #36]	; (8022d68 <CheckCounterEnterTimer+0x5c>)
  8022d44:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  8022d48:	f006 bf6a 	b.w	8029c20 <SetTimer>
  8022d4c:	2000      	movs	r0, #0
- 8022d4e:	f7ff fa89 	bl	8022264 <StopBarrierForSwing>
+ 8022d4e:	f7ff fa87 	bl	8022260 <StopBarrierForSwing>
  8022d52:	f7fd fcd3 	bl	80206fc <Brr_CloseBarrier>
  8022d56:	4b08      	ldr	r3, [pc, #32]	; (8022d78 <CheckCounterEnterTimer+0x6c>)
  8022d58:	2200      	movs	r2, #0
@@ -4561,9 +4562,9 @@ Disassembly of section .text:
  8022eb8:	3b01      	subs	r3, #1
  8022eba:	b2db      	uxtb	r3, r3
  8022ebc:	7123      	strb	r3, [r4, #4]
- 8022ebe:	f7ff f9af 	bl	8022220 <CheckZeroAuthCount>
+ 8022ebe:	f7ff f9ad 	bl	802221c <CheckZeroAuthCount>
  8022ec2:	b1b0      	cbz	r0, 8022ef2 <CheckTGTimerForSwing+0x86>
- 8022ec4:	f7ff fb1a 	bl	80224fc <CloseBarrierForSwing>
+ 8022ec4:	f7ff fb18 	bl	80224f8 <CloseBarrierForSwing>
  8022ec8:	480f      	ldr	r0, [pc, #60]	; (8022f08 <CheckTGTimerForSwing+0x9c>)
  8022eca:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  8022ece:	f003 b93f 	b.w	8026150 <printf_>
@@ -4604,7 +4605,7 @@ Disassembly of section .text:
  8022f28:	4874      	ldr	r0, [pc, #464]	; (80230fc <CheckSafetyTimerForSwing+0x1ec>)
  8022f2a:	f003 f911 	bl	8026150 <printf_>
  8022f2e:	2000      	movs	r0, #0
- 8022f30:	f7ff f998 	bl	8022264 <StopBarrierForSwing>
+ 8022f30:	f7ff f996 	bl	8022260 <StopBarrierForSwing>
  8022f34:	4628      	mov	r0, r5
  8022f36:	f006 fe7b 	bl	8029c30 <ResetTimer>
  8022f3a:	4871      	ldr	r0, [pc, #452]	; (8023100 <CheckSafetyTimerForSwing+0x1f0>)
@@ -4672,7 +4673,7 @@ Disassembly of section .text:
  8022fc6:	f3c2 02c0 	ubfx	r2, r2, #3, #1
  8022fca:	f003 f8c1 	bl	8026150 <printf_>
  8022fce:	2001      	movs	r0, #1
- 8022fd0:	f7ff f948 	bl	8022264 <StopBarrierForSwing>
+ 8022fd0:	f7ff f946 	bl	8022260 <StopBarrierForSwing>
  8022fd4:	484a      	ldr	r0, [pc, #296]	; (8023100 <CheckSafetyTimerForSwing+0x1f0>)
  8022fd6:	f006 fe2b 	bl	8029c30 <ResetTimer>
  8022fda:	4846      	ldr	r0, [pc, #280]	; (80230f4 <CheckSafetyTimerForSwing+0x1e4>)
@@ -4683,8 +4684,8 @@ Disassembly of section .text:
  8022fe6:	e7d1      	b.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
  8022fe8:	4b51      	ldr	r3, [pc, #324]	; (8023130 <CheckSafetyTimerForSwing+0x220>)
  8022fea:	781b      	ldrb	r3, [r3, #0]
- 8022fec:	2b00      	cmp	r3, #0
- 8022fee:	d1cd      	bne.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
+ 8022fec:	07dd      	lsls	r5, r3, #31
+ 8022fee:	d4cd      	bmi.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
  8022ff0:	4b44      	ldr	r3, [pc, #272]	; (8023104 <CheckSafetyTimerForSwing+0x1f4>)
  8022ff2:	781a      	ldrb	r2, [r3, #0]
  8022ff4:	2a00      	cmp	r2, #0
@@ -4697,8 +4698,8 @@ Disassembly of section .text:
  8023002:	d1db      	bne.n	8022fbc <CheckSafetyTimerForSwing+0xac>
  8023004:	4b4a      	ldr	r3, [pc, #296]	; (8023130 <CheckSafetyTimerForSwing+0x220>)
  8023006:	781b      	ldrb	r3, [r3, #0]
- 8023008:	2b00      	cmp	r3, #0
- 802300a:	d1bf      	bne.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
+ 8023008:	07dc      	lsls	r4, r3, #31
+ 802300a:	d4bf      	bmi.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
  802300c:	4b3d      	ldr	r3, [pc, #244]	; (8023104 <CheckSafetyTimerForSwing+0x1f4>)
  802300e:	781a      	ldrb	r2, [r3, #0]
  8023010:	2a00      	cmp	r2, #0
@@ -4706,7 +4707,7 @@ Disassembly of section .text:
  8023014:	74c2      	strb	r2, [r0, #19]
  8023016:	7019      	strb	r1, [r3, #0]
  8023018:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
- 802301c:	f7ff ba6e 	b.w	80224fc <CloseBarrierForSwing>
+ 802301c:	f7ff ba6c 	b.w	80224f8 <CloseBarrierForSwing>
  8023020:	2902      	cmp	r1, #2
  8023022:	d14d      	bne.n	80230c0 <CheckSafetyTimerForSwing+0x1b0>
  8023024:	4840      	ldr	r0, [pc, #256]	; (8023128 <CheckSafetyTimerForSwing+0x218>)
@@ -4727,7 +4728,7 @@ Disassembly of section .text:
  8023042:	f3c2 02c0 	ubfx	r2, r2, #3, #1
  8023046:	f003 f883 	bl	8026150 <printf_>
  802304a:	4628      	mov	r0, r5
- 802304c:	f7ff f90a 	bl	8022264 <StopBarrierForSwing>
+ 802304c:	f7ff f908 	bl	8022260 <StopBarrierForSwing>
  8023050:	482b      	ldr	r0, [pc, #172]	; (8023100 <CheckSafetyTimerForSwing+0x1f0>)
  8023052:	f006 fded 	bl	8029c30 <ResetTimer>
  8023056:	4827      	ldr	r0, [pc, #156]	; (80230f4 <CheckSafetyTimerForSwing+0x1e4>)
@@ -4737,8 +4738,8 @@ Disassembly of section .text:
  8023060:	e794      	b.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
  8023062:	4b33      	ldr	r3, [pc, #204]	; (8023130 <CheckSafetyTimerForSwing+0x220>)
  8023064:	781b      	ldrb	r3, [r3, #0]
- 8023066:	2b00      	cmp	r3, #0
- 8023068:	d190      	bne.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
+ 8023066:	07d8      	lsls	r0, r3, #31
+ 8023068:	d490      	bmi.n	8022f8c <CheckSafetyTimerForSwing+0x7c>
  802306a:	4b26      	ldr	r3, [pc, #152]	; (8023104 <CheckSafetyTimerForSwing+0x1f4>)
  802306c:	781a      	ldrb	r2, [r3, #0]
  802306e:	2a00      	cmp	r2, #0
@@ -4757,7 +4758,7 @@ Disassembly of section .text:
  8023088:	f3c2 02c0 	ubfx	r2, r2, #3, #1
  802308c:	f003 f860 	bl	8026150 <printf_>
  8023090:	4620      	mov	r0, r4
- 8023092:	f7ff f8e7 	bl	8022264 <StopBarrierForSwing>
+ 8023092:	f7ff f8e5 	bl	8022260 <StopBarrierForSwing>
  8023096:	481a      	ldr	r0, [pc, #104]	; (8023100 <CheckSafetyTimerForSwing+0x1f0>)
  8023098:	f006 fdca 	bl	8029c30 <ResetTimer>
  802309c:	4815      	ldr	r0, [pc, #84]	; (80230f4 <CheckSafetyTimerForSwing+0x1e4>)
@@ -4767,8 +4768,8 @@ Disassembly of section .text:
  80230a6:	e74b      	b.n	8022f40 <CheckSafetyTimerForSwing+0x30>
  80230a8:	4b21      	ldr	r3, [pc, #132]	; (8023130 <CheckSafetyTimerForSwing+0x220>)
  80230aa:	781b      	ldrb	r3, [r3, #0]
- 80230ac:	2b00      	cmp	r3, #0
- 80230ae:	f47f af6d 	bne.w	8022f8c <CheckSafetyTimerForSwing+0x7c>
+ 80230ac:	07da      	lsls	r2, r3, #31
+ 80230ae:	f53f af6d 	bmi.w	8022f8c <CheckSafetyTimerForSwing+0x7c>
  80230b2:	4b14      	ldr	r3, [pc, #80]	; (8023104 <CheckSafetyTimerForSwing+0x1f4>)
  80230b4:	781a      	ldrb	r2, [r3, #0]
  80230b6:	2a00      	cmp	r2, #0
@@ -4786,8 +4787,8 @@ Disassembly of section .text:
  80230d4:	e7dc      	b.n	8023090 <CheckSafetyTimerForSwing+0x180>
  80230d6:	4b16      	ldr	r3, [pc, #88]	; (8023130 <CheckSafetyTimerForSwing+0x220>)
  80230d8:	781b      	ldrb	r3, [r3, #0]
- 80230da:	2b00      	cmp	r3, #0
- 80230dc:	f47f af56 	bne.w	8022f8c <CheckSafetyTimerForSwing+0x7c>
+ 80230da:	07db      	lsls	r3, r3, #31
+ 80230dc:	f53f af56 	bmi.w	8022f8c <CheckSafetyTimerForSwing+0x7c>
  80230e0:	4b08      	ldr	r3, [pc, #32]	; (8023104 <CheckSafetyTimerForSwing+0x1f4>)
  80230e2:	781a      	ldrb	r2, [r3, #0]
  80230e4:	2a00      	cmp	r2, #0
@@ -4877,7 +4878,7 @@ Disassembly of section .text:
  80231da:	f043 030a 	orr.w	r3, r3, #10
  80231de:	7313      	strb	r3, [r2, #12]
  80231e0:	e8bd 43f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
- 80231e4:	f7ff b856 	b.w	8022294 <InitPassageModeForSwing>
+ 80231e4:	f7ff b854 	b.w	8022290 <InitPassageModeForSwing>
  80231e8:	481b      	ldr	r0, [pc, #108]	; (8023258 <CheckResetTimer+0x110>)
  80231ea:	f002 ffb1 	bl	8026150 <printf_>
  80231ee:	4b1b      	ldr	r3, [pc, #108]	; (802325c <CheckResetTimer+0x114>)
@@ -5061,14 +5062,14 @@ Disassembly of section .text:
 
 080233c0 <PassageProcessForSwing>:
  80233c0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80233c2:	f7fe ff39 	bl	8022238 <UpdateSensorData>
+ 80233c2:	f7fe ff37 	bl	8022234 <UpdateSensorData>
  80233c6:	4b37      	ldr	r3, [pc, #220]	; (80234a4 <PassageProcessForSwing+0xe4>)
  80233c8:	4f37      	ldr	r7, [pc, #220]	; (80234a8 <PassageProcessForSwing+0xe8>)
  80233ca:	781a      	ldrb	r2, [r3, #0]
  80233cc:	4b37      	ldr	r3, [pc, #220]	; (80234ac <PassageProcessForSwing+0xec>)
  80233ce:	4d38      	ldr	r5, [pc, #224]	; (80234b0 <PassageProcessForSwing+0xf0>)
  80233d0:	751a      	strb	r2, [r3, #20]
- 80233d2:	f7ff f8b5 	bl	8022540 <CheckBarrierOperation>
+ 80233d2:	f7ff f8b3 	bl	802253c <CheckBarrierOperation>
  80233d6:	f7ff fd9b 	bl	8022f10 <CheckSafetyTimerForSwing>
  80233da:	f7fd feff 	bl	80211dc <CheckIndicatorTimer>
  80233de:	f7fe f931 	bl	8021644 <CheckBlinkTimer>
@@ -8276,7 +8277,7 @@ Disassembly of section .text:
 08025330 <SerialProcess>:
  8025330:	b508      	push	{r3, lr}
  8025332:	f7fb fb21 	bl	8020978 <ProcessComm_Barrier>
- 8025336:	f7fc ff2f 	bl	8022198 <ProcessComm_ECU>
+ 8025336:	f7fc ff2d 	bl	8022194 <ProcessComm_ECU>
  802533a:	e7fa      	b.n	8025332 <SerialProcess+0x2>
 
 0802533c <main>:

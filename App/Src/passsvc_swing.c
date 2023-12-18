@@ -367,12 +367,12 @@ void CheckBarrierOperation(void)
                             // Total Locking 20230823
                             if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
                             {
-                                StopBarrierForSwing(FALSE);
+                                StopBarrierForSwing(TRUE);
                             }
                             else
                             {
                                 printf(" [CheckBarrier] Total Locking!!! \n");
-                                StopBarrierForSwing(TRUE);
+                                StopBarrierForSwing(FALSE);
                             }
                         }
                     }
