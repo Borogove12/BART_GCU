@@ -170,7 +170,7 @@ void Brr_StopBarrier(bool isStop)
     BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
     Brr_SetBreak_P(isStop);
     Brr_SetBreak_S(isStop);
-    printf(" [%02X] command\n", cmd);
+    // printf(" [%02X] command\n", cmd);
 }
 
 /*******************************************************************************

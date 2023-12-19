@@ -15,6 +15,7 @@ void PassageProcessForSwing(void);
 void StopBarrierForSwing(bool isStop); 
 void CloseBarrierForSwing(void);
 void CheckBarrierOperation(void);
+void CheckLocking(void);
 void ClearPassHistory(void);
 void CheckEntranceSwing(void);
 void CheckPassReadySwing(void);

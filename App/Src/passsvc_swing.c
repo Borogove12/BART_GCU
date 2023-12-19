@@ -208,20 +208,22 @@ void InitPassageModeForSwing(void)
 
 void StopBarrierForSwing(bool isStop)
 {
+    BYTE barrierBrake = (*(BYTE *)READ04_ADR) & BRR_STAT_BRAKE_MASK;
+
     if (isBarrierStop != isStop)
     {
-        isBarrierStop = isStop;
+        isBarrierStop = isStop;        
 
-        if (isBarrierStop == TRUE)
+        if (isBarrierStop == TRUE && !barrierBrake)
         {
             SetTimer(&timerStopHolding);
+            Brr_StopBarrier(TRUE);
         }
-        else
+        else if (isBarrierStop == FALSE && barrierBrake)
         {
             ResetTimer(&timerStopHolding);
+            Brr_StopBarrier(FALSE);
         }
-
-        Brr_StopBarrier(isStop);
     }
 }
 
@@ -412,7 +414,7 @@ void CheckLocking(void)
 {
     BYTE barrierIO = (*(BYTE *)READ04_ADR) & BRR_STAT_POSITION_MASK;
 
-    if (gbBarrierCmd == BARRIER_CLOSE && barrierIO) 
+    if (gbBarrierCmd == BARRIER_CLOSE && barrierIO)
     {
         if (isSafetyOn4Init == FALSE)
         {
@@ -422,7 +424,6 @@ void CheckLocking(void)
                 // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
                 if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
                 {
-                    printf(" [CheckBarrier] Total Locking!!! \n");
                     StopBarrierForSwing(TRUE);
                 }
                 else
@@ -1255,6 +1256,7 @@ void PassageProcessForSwing()
     gGCUStatus.bSCADA = (*(BYTE *)READ03_ADR);
 
     CheckBarrierOperation();
+    CheckLocking();
     CheckSafetyTimerForSwing();
     CheckIndicatorTimer();
     CheckBlinkTimer();
