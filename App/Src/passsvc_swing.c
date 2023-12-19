@@ -368,20 +368,20 @@ void CheckBarrierOperation(void)
                         {
                             ControlBarrier(BARRIER_OPEN_FOR_EX);
                         }
-                        else
-                        {
-                            // Total Locking 20230823
-                            // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
-                            if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
-                            {
-                                printf(" [CheckBarrier] Total Locking!!! \n");
-                                StopBarrierForSwing(TRUE);
-                            }
-                            else
-                            {
-                                StopBarrierForSwing(FALSE);
-                            }
-                        }
+                        // else
+                        // {
+                        //     // Total Locking 20230823
+                        //     // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
+                        //     if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
+                        //     {
+                        //         printf(" [CheckBarrier] Total Locking!!! \n");
+                        //         StopBarrierForSwing(TRUE);
+                        //     }
+                        //     else
+                        //     {
+                        //         StopBarrierForSwing(FALSE);
+                        //     }
+                        // }
                     }
                 }
             }
@@ -405,6 +405,32 @@ void CheckBarrierOperation(void)
     else
     {
         SetTimer(&timerBarrierCheck);
+    }
+}
+
+void CheckLocking(void)
+{
+    BYTE barrierIO = (*(BYTE *)READ04_ADR) & BRR_STAT_POSITION_MASK;
+
+    if (gbBarrierCmd == BARRIER_CLOSE && barrierIO) 
+    {
+        if (isSafetyOn4Init == FALSE)
+        {
+            if (!gGCUStatus.bAuthCount_EN && !gGCUStatus.bAuthCount_EX && gbPowerFailFlag == FLG_OFF)
+            {
+                // Total Locking 20230823
+                // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
+                if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
+                {
+                    printf(" [CheckBarrier] Total Locking!!! \n");
+                    StopBarrierForSwing(TRUE);
+                }
+                else
+                {
+                    StopBarrierForSwing(FALSE);
+                }
+            }
+        }
     }
 }
 

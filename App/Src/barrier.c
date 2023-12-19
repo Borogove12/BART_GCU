@@ -8,7 +8,6 @@
  *******************************************************************************/
 
 #include <string.h>
-// #include "71x_lib.h"
 #include "userlib.h"
 #include "serial.h"
 #include "barrier.h"
@@ -81,7 +80,8 @@ void Brr_ResetBarrier(bool isMain) // not used pms
 void Brr_SetEmergency(bool isActive)
 {
     static clock_t ms;
-    BYTE cmd = isActive ? CMD_SET_EMEREGENCY : CMD_RESET_EMEREGENCY;
+    BYTE cmd = isActive ? CMD_SET_EMEREGENCY : CMD_RESET_EMEREGENCY;    
+    gfisBarrierEmg = isActive;
     Brr_SetEmergency_P(isActive);
     Brr_SetEmergency_S(isActive);
     printf(" [%02X] command\n",cmd);

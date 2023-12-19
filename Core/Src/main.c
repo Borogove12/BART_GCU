@@ -128,8 +128,6 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-
-
 word dip_sw(void)
 {
 	word	idata;
@@ -157,8 +155,8 @@ void GCUInitialize(void)
 	SetDefaultOpMode();
 	SetDefaultParameter();
 	SetDefaultStatus();
-	Brr_OpenBarrier(BARRIER_OPEN_FOR_EX);    
-
+	Brr_SetEmergency(TRUE);
+    gbEmergencyFlag = TRUE;
 	ControlStatusLED_En(DIR_RED);
 	ControlStatusLED_Ex(DIR_RED);
 	ControlOverHeadDisplay_En(DIR_RED);

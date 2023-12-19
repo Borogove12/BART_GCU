@@ -403,6 +403,7 @@ void CMDClearAuthorization(void)
 *******************************************************************************/
 void CMDGetStatus(void)
 {
+    
 	T_GCU_STATUS_RES GurStatus;
 
 	GetGCUStatus(&GurStatus);

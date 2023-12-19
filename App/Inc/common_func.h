@@ -30,6 +30,7 @@ extern BYTE gbPrevEmgSignal;
 
 extern bool gfModeChanged;
 extern bool gfisAuthTimeout;
+extern bool gfisBarrierEmg;
 
 extern DWORD gdwBuzzerTimeout;
 extern DWORD gdwTimeoutIndicator;

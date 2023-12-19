@@ -42,6 +42,7 @@ BYTE gbPrevUPSStatus = 0;
 
 bool gfModeChanged = FALSE; // mode change state
 bool gfisAuthTimeout = FALSE;
+bool gfisBarrierEmg = FALSE; // Barrier EMG signal status
 
 DWORD gdwBuzzerTimeout;
 DWORD gdwTimeoutIndicator;

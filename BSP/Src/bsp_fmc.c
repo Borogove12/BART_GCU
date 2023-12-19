@@ -23,7 +23,7 @@ void BuzzerOn(void)
     if (!(bDipSW & MASK_SELF_TEST))
     {
         HAL_GPIO_WritePin(BUZZ_CON_GPIO_Port, BUZZ_CON_Pin, GPIO_PIN_SET);
-    }    
+    }
 }
 
 void BuzzerOff(void)
