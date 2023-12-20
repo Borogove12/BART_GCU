@@ -370,20 +370,19 @@ void CheckBarrierOperation(void)
                         {
                             ControlBarrier(BARRIER_OPEN_FOR_EX);
                         }
-                        // else
-                        // {
-                        //     // Total Locking 20230823
-                        //     // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
-                        //     if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
-                        //     {
-                        //         printf(" [CheckBarrier] Total Locking!!! \n");
-                        //         StopBarrierForSwing(TRUE);
-                        //     }
-                        //     else
-                        //     {
-                        //         StopBarrierForSwing(FALSE);
-                        //     }
-                        // }
+                        else
+                        {
+                            // Total Locking 20230823
+                            // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
+                            if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
+                            {
+                                StopBarrierForSwing(TRUE);
+                            }
+                            else
+                            {
+                                StopBarrierForSwing(FALSE);
+                            }
+                        }
                     }
                 }
             }
@@ -416,7 +415,7 @@ void CheckLocking(void)
 
     if (gbBarrierCmd == BARRIER_CLOSE && barrierIO)
     {
-        if (isSafetyOn4Init == FALSE)
+        if (gfisBarrierEmg == FALSE && isCalibrationStart == FALSE && isSafetyOn4Init == FALSE)
         {
             if (!gGCUStatus.bAuthCount_EN && !gGCUStatus.bAuthCount_EX && gbPowerFailFlag == FLG_OFF)
             {
@@ -1107,6 +1106,7 @@ void CheckResetTimer(void)
                 {
                     printf(" [CheckResetTimer] Check point 1 \n");
                     isCalibrationStart = TRUE;
+                    Brr_StopBarrier(FALSE);
                     isSafetyOn4Init = FALSE;
                     Brr_SetEmergency(FALSE);
                     gbEmergencyFlag = FLG_OFF;
@@ -1256,7 +1256,7 @@ void PassageProcessForSwing()
     gGCUStatus.bSCADA = (*(BYTE *)READ03_ADR);
 
     CheckBarrierOperation();
-    CheckLocking();
+    // CheckLocking();
     CheckSafetyTimerForSwing();
     CheckIndicatorTimer();
     CheckBlinkTimer();
