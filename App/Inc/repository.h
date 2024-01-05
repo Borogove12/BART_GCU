@@ -17,8 +17,7 @@
 /* Global variables ----------------------------------------------------------*/
 extern BYTE gbPrevDir;
 extern BYTE gbBarrierCmd;
-extern BYTE gbDoorForecedOpen;
-extern BYTE gbBarrierType;
+extern BYTE gfAIDetection;
 
 extern bool gisEntryPassenger;
 extern bool gisExitPassenger;
@@ -27,7 +26,6 @@ extern bool gfFreeMode;
 extern bool gfTestMode;
 extern bool gfPeopleCount_EN;
 extern bool gfPeopleCount_EX;
-extern bool gfAISafetyOn;
 
 extern int gnPassPattern;
 extern int gnSignalCount;
@@ -45,9 +43,6 @@ extern T_GCU_OP_MODE gNewGCUOpMode;
 
 extern B_BARRIER_STATUS gMainBarrierStatus;
 extern B_BARRIER_STATUS gSubBarrierStatus;
-
-extern bool gfMainBarrierRunning;
-extern bool gfSubBarrierRunning;
 
 #endif  // __REPOSITORY_H_
 /******* COPYRIGHT �� 2022 STraffic Co., Ltd.  ********END OF FILE****/

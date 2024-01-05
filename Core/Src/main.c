@@ -50,14 +50,14 @@ bool bDip_SW_Flag = FALSE;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+const char GCUDate[] __attribute__((section (".gcu_date"))) = {0x20, 0x23, 0x10, 0x26, 0x12, 0x00, 0x00};
 /* USER CODE END PV */
-
+time_t  SysInitTime;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_GPIO_Init(void);
 void MX_FMC_Init(void);
-void MX_SPI1_Init(void);
+void MX_SPI1_Init(void);     
 void MX_TIM7_Init(void);
 word dip_sw(void);
 extern void CMD_Test(byte bVal);
@@ -68,6 +68,8 @@ dword extAddr[4] = {
 		WRITE00_ADR,WRITE01_ADR,WRITE02_ADR,WRITE03_ADR};
 
 uint8_t bData[5] = {0,};
+
+CONFIG  config;    //configuration
 
 /* USER CODE END PFP */
 
@@ -91,16 +93,16 @@ int main(void)
 
   SCB_EnableICache();
   SCB_EnableDCache();
+
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
   SystemClock_Config();
 
   /* USER CODE BEGIN Init */
-  //PeriphCommonClock_Config();
-  /* USER CODE END Init */
   InitPeripherals();
-  /* Configure the system clock */
+  /* USER CODE END Init */
 
+  /* Configure the system clock */
 
   /* USER CODE BEGIN SysInit */
 
@@ -110,6 +112,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   bsp_InitTimer();
   bsp_InitUart();
+  bsp_InitSpiFlash();
   bDip_SW_Flag = TRUE;
   GCUInitialize();
   SerialProcess();
@@ -119,23 +122,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  //outb(WRITE00_ADR, 0x11);
-	  //outb(WRITE00_ADR, 0x22);
-	  //outb(WRITE00_ADR, 0x44);
-	  //outb(WRITE00_ADR, 0x88);
-
-
-	 // wnP_LED_CS_ADDR = 0x11;
-	 // wnP_LED_CS_ADDR = 0x22;
-
-	 //wnP_LED_CS_ADDR = 0x88;
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
-
-
 
 word dip_sw(void)
 {
@@ -155,39 +146,31 @@ word dip_sw(void)
 * Return:   void
 * comments:
 *******************************************************************************/
+
 void GCUInitialize(void)
 {
-	//EcuEmergencyOff();
-	BuzzerOff();
-
-	//ControlStatusLED_En(DIR_RED);
-	//ControlStatusLED_Ex(DIR_RED);
-	ControlIndicatorLight_En(LAMP_OFF);
-	ControlIndicatorLight_Ex(LAMP_OFF);
-	//ControlUPS(UPS_CMD_CHK);
-	//ok ms
+    BuzzerOff();
+	ControlUPS_CheckOn();
+	ControlUPS_ShutDownOff();
 	SetDefaultOpMode();
 	SetDefaultParameter();
 	SetDefaultStatus();
-	Brr_SetSerialComm(TRUE);
-	Brr_OpenBarrier(BARRIER_OPEN_FOR_EX);
+	Brr_SetEmergency(TRUE);
+    gbEmergencyFlag = TRUE;
+	ControlStatusLED_En(DIR_RED);
+	ControlStatusLED_Ex(DIR_RED);
+	ControlOverHeadDisplay_En(DIR_RED);
+	ControlOverHeadDisplay_Ex(DIR_RED);
 }
-
 
 inline void SerialProcess(void)
 {
 	for (;;)
 	{
-	//	#if BART_IO
-	//	Brr_Status_IO();			//barrier.c CMD_GET_STATUS_MAIN 에서 들어오는 정보만 유효
-	//	#else
-			ProcessComm_Barrier();
-	//	#endif
-
+		ProcessComm_Barrier();
 		ProcessComm_ECU();
 	}
 }
-
 
 byte extinb(byte Add)			//test Read Address
 {
@@ -199,111 +182,6 @@ byte extinb(byte Add)			//test Read Address
 	return (bData[Add]);
 }
 
-
-
-#if 0
-void SystemClock_Config(void)
-{
-
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  /** Supply configuration update enable
-  */
-  HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
-
-  /** Configure the main internal regulator output voltage
-  */
-
-  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 5;
-  RCC_OscInitStruct.PLL.PLLN = 192;
-  RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 5;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
-  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
-  RCC_OscInitStruct.PLL.PLLFRACN = 0;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
-  RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
-/**
-  * @brief SPI1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_SPI1_Init(void)
-{
-
-  /* USER CODE BEGIN SPI1_Init 0 */
-
-  /* USER CODE END SPI1_Init 0 */
-
-  /* USER CODE BEGIN SPI1_Init 1 */
-
-  /* USER CODE END SPI1_Init 1 */
-  /* SPI1 parameter configuration*/
-  hspi1.Instance = SPI1;
-  hspi1.Init.Mode = SPI_MODE_MASTER;
-  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
-  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi1.Init.CRCPolynomial = 0x0;
-  hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
-  hspi1.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
-  hspi1.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
-  hspi1.Init.TxCRCInitializationPattern = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
-  hspi1.Init.RxCRCInitializationPattern = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
-  hspi1.Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_00CYCLE;
-  hspi1.Init.MasterInterDataIdleness = SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
-  hspi1.Init.MasterReceiverAutoSusp = SPI_MASTER_RX_AUTOSUSP_DISABLE;
-  hspi1.Init.MasterKeepIOState = SPI_MASTER_KEEP_IO_STATE_DISABLE;
-  hspi1.Init.IOSwap = SPI_IO_SWAP_DISABLE;
-  if (HAL_SPI_Init(&hspi1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN SPI1_Init 2 */
-
-  /* USER CODE END SPI1_Init 2 */
-
-}
-#endif
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */

@@ -59,7 +59,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define UPS_CHK_Pin GPIO_PIN_6
 #define UPS_SHDN_Pin GPIO_PIN_7
-#define nUPS_LINE_FAIL_Pin GPIO_PIN_8
+#define nUPS_PWR_FAIL_Pin GPIO_PIN_8
 #define nUPS_LOW_BAT_Pin GPIO_PIN_9
 #define nUPS_CONN_Pin GPIO_PIN_10
 #define nUPS_GPIO_Port GPIOF
@@ -100,9 +100,28 @@ void Error_Handler(void);
 #define EMG_Pin GPIO_PIN_9
 #define EMG_GPIO_Port GPIOB
 
+
+#define WDT_CONTROL_Pin GPIO_PIN_8
+#define WDT_CONTROL_GPIO_Port GPIOA
+
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
+
+
+//serial flash (8Mbyte) 사용 방밥 안내 		pms 20231027
+
+// wirte  : 	int flash_write(siz_t addr, byte *buf, siz_t size) 이용
+
+//예시 			BYTE buf1[2] = {2,0}; 선언
+// 				flash_write(0x4000, (byte *)&buf1, 2);					address는 0x0 ~ 0x800000-1 범위 까지 사용 가능
+
+// read  : 		int flash_read(siz_t addr, byte *buf, siz_t size) 이용
+
+//예시			BYTE buf2[3] = {0,0,0}; 선언
+//  			flash_read(0x4000, (byte *)&buf2, 3);
+//				printf("buf2[%08lX][%08lX][%08lX] \n", buf2[0],buf2[1],buf2[2]);		//buf2[2][0][0] 출력
 
 #ifdef __cplusplus
 }

@@ -30,8 +30,9 @@ extern BYTE gbPrevEmgSignal;
 
 extern bool gfModeChanged;
 extern bool gfisAuthTimeout;
+extern bool gfisBarrierEmg;
 
-extern DWORD gdwBuzzerTimeout[BUZZER_COUNT];
+extern DWORD gdwBuzzerTimeout;
 extern DWORD gdwTimeoutIndicator;
 extern DWORD gdwTimeoutSafety;
 extern DWORD gdwTimeoutLuggage;
@@ -55,12 +56,13 @@ extern TTIMER timerSafety;
 extern TTIMER timerJumping;
 extern TTIMER timerTailgating;
 extern TTIMER timerBarrierStop;
-extern TTIMER timerForceOpenClear;
 extern TTIMER timerInverseEnter;
 extern TTIMER timerReset;
 extern TTIMER timerCloseWait;
+extern TTIMER timerStopHolding;
 extern TTIMER timerTgFilter;
-extern TTIMER timerBuzzer[BUZZER_COUNT];
+extern TTIMER timerBuzzer;
+extern TTIMER timerBarrierCmdWait;
 
 extern void SetDefaultOpMode(void);
 extern void SetDefaultParameter(void);
@@ -78,7 +80,7 @@ extern void IncreaseAuthCount(BYTE bDir);
 extern void ClearAuthCount(void);
 
 extern void ControlBarrier(BYTE bFDoorControl);
-extern void ControlBuzzer(BYTE bBuzzerNo, BYTE bBuzzerControl, BYTE bDuration);
+extern void ControlBuzzer(BYTE bBuzzerControl, BYTE bDuration);
 extern void ControlDirectionLED(BYTE bLEDControl_EN, BYTE bLEDControl_EX);
 extern void ControlStatusLED(BYTE bLEDControl_EN, BYTE bLEDControl_EX);
 extern void ControlOverheadDisplay(BYTE bLEDControl_EN, BYTE bLEDControl_EX);

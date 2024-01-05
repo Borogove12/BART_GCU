@@ -14,13 +14,13 @@ typedef union {
 	volatile BYTE bVal;
 	struct {
 		volatile int fRFU:			 		 1;
-		volatile int fTestDir:		 		 1;
-		volatile int fTestLamp:		 		 1;
-		volatile int fRFUforEMGSiganl:		 1;
-		volatile int fTestOverHeadLamp:		 1;
-		volatile int fTestBarrier:		 	 1;
-		volatile int fTestBuzzer:	 		 1;
-		volatile int fTestSol:		 		 1;
+		volatile int fTestDir:		 		 1;	//2
+		volatile int fTestLamp:		 		 1;	//3
+		volatile int fRFUforEMGSiganl:		 1;	//4
+		volatile int fTestOverHeadLamp:		 1;	//5
+		volatile int fTestBarrier:		 	 1;	//6
+		volatile int fTestBuzzer:	 		 1;	//7
+		volatile int fTestSol:		 		 1;	//8
 	} b;
 } T_TEST_OPTION;
 

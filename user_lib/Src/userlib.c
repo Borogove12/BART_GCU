@@ -205,6 +205,7 @@ int strntoi(char *sz, int nLen)
 
 	return nValue;
 }
+
 #if 0
 void DEBUG_WaitTxFifo()
 {

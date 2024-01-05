@@ -15,20 +15,21 @@ void PassageProcessForSwing(void);
 void StopBarrierForSwing(bool isStop); 
 void CloseBarrierForSwing(void);
 void CheckBarrierOperation(void);
+void CheckLocking(void);
 void ClearPassHistory(void);
 void CheckEntranceSwing(void);
 void CheckPassReadySwing(void);
 void CheckPassingSwing(void);
+bool CheckPassOverSensor(void);
 void CheckCounterEnterTimer(void); 
-void CheckIllegalEnterSwing(void);
+void CheckIllegalEnter(void);
 void CheckTGTimerForSwing(void);
-void CheckForceOpen(void);
-void CheckBarrierStop(void);
 void CheckSafetyTimerForSwing(void);
 void CheckResetTimer(void);
 void CheckLuggageWaitTimerSwing(void);
 void CheckTailgateFilterTimer(void);
 void CheckCloseWaitTimer(void);
+void CheckStopHoldingTimer(void);
 
 #endif // __PASSSVC_SWING_H_
     /*****END OF FILE****/

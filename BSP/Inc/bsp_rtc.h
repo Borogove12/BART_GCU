@@ -20,7 +20,8 @@
 
 
 #define RTCSET_MAGIC    0x55AA32F4
-
+#define RTCSET_ECU    	0xAA55F432
+#define NOMAL_GCU    	0x32F455AA
 
 void bsp_InitRTC(void);
 

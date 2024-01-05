@@ -8,7 +8,6 @@
  *******************************************************************************/
 
 #include <string.h>
-//#include "71x_lib.h"
 #include "userlib.h"
 #include "serial.h"
 #include "barrier.h"
@@ -17,16 +16,17 @@
 #include "bsp.h"
 #include "common_func.h"
 
-B_PROTOCOL_FRAME rsp_U4;			//Primary barrier rsp_U1 -> rsp_U4
-B_PROTOCOL_FRAME rsp_U5;			//Secondary barrier rsp_U3 -> rsp_U5
-
+B_PROTOCOL_FRAME rsp_U4; // Primary barrier rsp_U1 -> rsp_U4
+B_PROTOCOL_FRAME rsp_U5; // Secondary barrier rsp_U3 -> rsp_U5
 
 B_PROTOCOL_FRAME req;
 
 BYTE gbLastMainSeq_Swing;
 BYTE gbLastHostCMD_Swing;
+BOOL gIsOpenCmdIssued;
+BOOL gIsCloseCmdIssued;
 
-extern IUART_T 	iUartTable[IUART_MAXPORT];
+extern IUART_T iUartTable[IUART_MAXPORT];
 extern uint8_t Add_200_Value;
 
 /*******************************************************************************
@@ -38,35 +38,35 @@ extern uint8_t Add_200_Value;
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_SetParam(bool isMain, B_BARRIER_PARAMETER param)				//not used pms
+void Brr_SetParam(bool isMain, B_BARRIER_PARAMETER param) // not used pms
 {
-	#if BART_IO
+#if BART_IO
 
-	#else
+#else
 
-		BYTE cmd = isMain ? CMD_SET_PARAM_MAIN : CMD_SET_PARAM_SUB;
-		BYTE *data = NULL;
-		memcpy(data, &param.Buff, 6);
-		MakeRequest(cmd, data, 6);
-	#endif
+    BYTE cmd = isMain ? CMD_SET_PARAM_MAIN : CMD_SET_PARAM_SUB;
+    BYTE *data = NULL;
+    memcpy(data, &param.Buff, 6);
+    MakeRequest(cmd, data, 6);
+#endif
 }
 
 /*******************************************************************************
  * Name:     Brr_ResetBarrier
  * Function: 72H/73H command
  * Length:   0 bytes
- * In:       bool isMain: indicator for main/sub 
+ * In:       bool isMain: indicator for main/sub
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_ResetBarrier(bool isMain)				//not used pms
+void Brr_ResetBarrier(bool isMain) // not used pms
 {
-	#if BART_IO
+#if BART_IO
 
-	#else
-		BYTE cmd = isMain ? CMD_RESET_MAIN : CMD_RESET_SUB;
-		MakeRequest(cmd, NULL, 0);
-	#endif
+#else
+    BYTE cmd = isMain ? CMD_RESET_MAIN : CMD_RESET_SUB;
+    MakeRequest(cmd, NULL, 0);
+#endif
 }
 
 /*******************************************************************************
@@ -79,18 +79,16 @@ void Brr_ResetBarrier(bool isMain)				//not used pms
  *******************************************************************************/
 void Brr_SetEmergency(bool isActive)
 {
+    static clock_t ms;
+    BYTE cmd = isActive ? CMD_SET_EMEREGENCY : CMD_RESET_EMEREGENCY;    
+    gfisBarrierEmg = isActive;
+    Brr_SetEmergency_P(isActive);
+    Brr_SetEmergency_S(isActive);
+    printf(" [%02X] command\n",cmd);
 
-	BYTE cmd = isActive ? CMD_SET_EMEREGENCY : CMD_RESET_EMEREGENCY;
-	#if BART_IO
-	Brr_SetEmergency_P(isActive);
-	Brr_SetEmergency_S(isActive);
-	printf("[%d] command  \n", cmd);
-	#else
-
-		MakeRequest(cmd, NULL, 0);
-		PRINTL("[%d] command", cmd);
-
-	#endif
+    // 100ms 단위로 printf 발생   //너무 많은 접근으로 버퍼가 터지는 문제가 있음 해당 구문이 문제 없다면 다른 printf에도 적용 예정
+    if (!mstimeout(&ms, 100))
+        return;
 }
 
 /*******************************************************************************
@@ -101,12 +99,11 @@ void Brr_SetEmergency(bool isActive)
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_SetSerialComm(bool isEnabled)			//	not used pms
+void Brr_SetSerialComm(bool isEnabled) //	not used pms
 {
-	BYTE cmd = isEnabled ? CMD_SET_SERIAL_COMM : CMD_RESET_SERIAL_COMM;
-	MakeRequest(cmd, NULL, 0);
-	//PRINTL("[%d] command", cmd);
-	printf("[%d] command  \n", cmd);
+    BYTE cmd = isEnabled ? CMD_SET_SERIAL_COMM : CMD_RESET_SERIAL_COMM;
+    MakeRequest(cmd, NULL, 0);
+    printf(" [%02X] command\n", cmd);
 }
 
 /*******************************************************************************
@@ -119,25 +116,25 @@ void Brr_SetSerialComm(bool isEnabled)			//	not used pms
  *******************************************************************************/
 void Brr_OpenBarrier(BYTE direction)
 {
-	#if BART_IO
-		switch(direction)
-		{
-		case BARRIER_OPEN_FOR_EN:
-			Brr_ControlBarrier_P(ENTRY_OPEN);
-			Brr_ControlBarrier_S(ENTRY_OPEN);
-			break;
+    switch (direction)
+    {
+    case BARRIER_OPEN_FOR_EX:
+        Brr_ControlBarrier_P(ENTRY_OPEN);
+        Brr_ControlBarrier_S(ENTRY_OPEN);
+        break;
 
-		case BARRIER_OPEN_FOR_EX:
-			Brr_ControlBarrier_P(EXIT_OPEN);
-			Brr_ControlBarrier_S(EXIT_OPEN);
-			break;
-		}
+    case BARRIER_OPEN_FOR_EN:
+        Brr_ControlBarrier_P(EXIT_OPEN);
+        Brr_ControlBarrier_S(EXIT_OPEN);
+        break;
+    }
 
-		printf("[%d] command  \n", CMD_OPEN_BARRIER);
-	#else
-		MakeRequest(CMD_OPEN_BARRIER, &direction, 1);
-		PRINTL("[%d] command", CMD_OPEN_BARRIER);
-	#endif
+    if (gIsOpenCmdIssued == FALSE)
+    {
+        printf(" [%02X] command\n", CMD_OPEN_BARRIER);
+        gIsOpenCmdIssued = TRUE;
+        gIsCloseCmdIssued = FALSE;
+    }
 }
 
 /*******************************************************************************
@@ -150,17 +147,14 @@ void Brr_OpenBarrier(BYTE direction)
  *******************************************************************************/
 void Brr_CloseBarrier(void)
 {
-	#if BART_IO
-		Brr_ControlBarrier_P(CLOSE);
-		Brr_ControlBarrier_S(CLOSE);
-		printf("[%d] command  \n", CMD_CLOSE_BARRIER);
-	#else
-		// if (isSentClose == FALSE)
-		{
-			MakeRequest(CMD_CLOSE_BARRIER, NULL, 0);
-			PRINTL("[%d] command", CMD_CLOSE_BARRIER);
-		}
-	#endif
+    Brr_ControlBarrier_P(CLOSE);
+    Brr_ControlBarrier_S(CLOSE);
+    if (gIsCloseCmdIssued == FALSE)
+    {
+        printf(" [%02X] command\n", CMD_CLOSE_BARRIER);
+        gIsOpenCmdIssued = FALSE;
+        gIsCloseCmdIssued = TRUE;
+    }
 }
 
 /*******************************************************************************
@@ -173,16 +167,10 @@ void Brr_CloseBarrier(void)
  *******************************************************************************/
 void Brr_StopBarrier(bool isStop)
 {
-	BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
-	#if BART_IO
-		Brr_SetBreak_P(isStop);
-		Brr_SetBreak_S(isStop);
-		printf("[%d] command  \n", cmd);
-	#else
-		BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
-		MakeRequest(cmd, NULL, 0);
-		PRINTL("[%d] command", cmd);
-	#endif
+    BYTE cmd = isStop ? CMD_SET_STOP_BARRIER : CMD_RESET_STOP_BARRIER;
+    Brr_SetBreak_P(isStop);
+    Brr_SetBreak_S(isStop);
+    printf(" [%02X] command\n", cmd);
 }
 
 /*******************************************************************************
@@ -193,11 +181,9 @@ void Brr_StopBarrier(bool isStop)
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_Inq_Status(void)			// 현재 barrier 에서는 IO input 만 받는 상태이므로 해당 통신은 하지 않음
-{									// FAULT, ANOMALY, BRAKED, GSTATUS를 input으로 받는데 FAULT ANOMALY의 신호가 정확하
-	MakeRequest(CMD_GET_STATUS_MAIN, NULL, 0);
-	// PRINTL("[%d] command", CMD_GET_STATUS_MAIN);
-	printf("[%d] command  \n", CMD_GET_STATUS_MAIN);
+void Brr_Inq_Status(void)
+{
+    MakeRequest(CMD_GET_STATUS_MAIN, NULL, 0);
 }
 
 /*******************************************************************************
@@ -208,24 +194,19 @@ void Brr_Inq_Status(void)			// 현재 barrier 에서는 IO input 만 받는 상�
  * Out:      None
  * Return:   void
  *******************************************************************************/
-void Brr_Res_Status(bool isMain)			//isMain : TRUE - UART1 / FALSE - UART3
+void Brr_Res_Status(bool isMain) // isMain : TRUE - UART1 / FALSE - UART3
 {
-    if (isMain) 		//UART4
+    if (isMain) // UART4
     {
         memcpy(&gMainBarrierStatus, (B_BARRIER_STATUS *)rsp_U4.d.data, sizeof(B_BARRIER_STATUS));
-        // PRINTL(" Receive Main Status %d/%d/%d", gMainBarrierStatus.B.status0, gMainBarrierStatus.B.status3, gMainBarrierStatus.B.status4);
-        printf(" Receive Main Status %d/%d/%d  \n", gMainBarrierStatus.B.status0, gMainBarrierStatus.B.status3, gMainBarrierStatus.B.status4);
+        // printf(" Receive Main Status %d/%d/%d  \n", gMainBarrierStatus.B.status0, gMainBarrierStatus.B.status3, gMainBarrierStatus.B.status4);
     }
-    else				//UART5
+    else // UART5
     {
         memcpy(&gSubBarrierStatus, (B_BARRIER_STATUS *)rsp_U5.d.data, sizeof(B_BARRIER_STATUS));
-        // PRINTL(" Receive Sub Status %d/%d/%d", gSubBarrierStatus.B.status0, gSubBarrierStatus.B.status3, gSubBarrierStatus.B.status4);
-
-        printf(" Receive Sub Status %d/%d/%d  \n", gSubBarrierStatus.B.status0, gSubBarrierStatus.B.status3, gSubBarrierStatus.B.status4);
+        // printf(" Receive Sub Status %d/%d/%d  \n", gSubBarrierStatus.B.status0, gSubBarrierStatus.B.status3, gSubBarrierStatus.B.status4);
     }
 }
-
-
 
 /*******************************************************************************
  * Name:     Brr_Status_IO
@@ -265,45 +246,22 @@ void Brr_Status_IO(void)				//pms
 
 void WaitTX(void)
 {
-    if (gfSubBarrierRunning == TRUE)
-    {
-        U5_TxWait();
-    }
-
-    if (gfMainBarrierRunning == TRUE)
-    {
-        U4_TxWait();
-    }
+    U5_TxWait();
+    U4_TxWait();
 }
 
 void SendSTX(void)
 {
     WaitTX();
-
-    if (gfSubBarrierRunning == TRUE)
-    {
-        U5_Putch(0xAA);
-    }
-
-    if (gfMainBarrierRunning == TRUE)
-    {
-        U4_Putch(0xAA);
-    }
+    U5_Putch(0xAA);
+    U4_Putch(0xAA);
 }
 
 void SendBCC(BYTE bBCC)
 {
     WaitTX();
-
-    if (gfSubBarrierRunning == TRUE)
-    {
-        U5_Putch(bBCC);
-    }
-
-    if (gfMainBarrierRunning == TRUE)
-    {
-        U4_Putch(bBCC);
-    }
+    U5_Putch(bBCC);
+    U4_Putch(bBCC);
 }
 
 BYTE SendData(void)
@@ -319,15 +277,8 @@ BYTE SendData(void)
     while (nReqLen--)
     {
         WaitTX();
-        if (gfSubBarrierRunning == TRUE)
-        {
-            U5_Putch(*pbReqBuff);
-        }
-
-        if (gfMainBarrierRunning == TRUE)
-        {
-            U4_Putch(*pbReqBuff);
-        }
+        U5_Putch(*pbReqBuff);
+        U4_Putch(*pbReqBuff);
 
         bBCC ^= *pbReqBuff; // BCC calculation
         pbReqBuff++;
@@ -360,7 +311,6 @@ void MakeRequest(BYTE command, BYTE *data, int nOptionLen)
     if (nOptionLen)
         memcpy(req.d.data, data, nOptionLen);
 
-
     SendSTX();
     bBCC = SendData();
     SendBCC(bBCC);
@@ -380,48 +330,43 @@ void SendRequest(void)
     BYTE *pbReqBuff;
     int nReqLen;
 
+    // Secondary barrier first
     bBCC = 0;
     pbReqBuff = req.Buff;
     nReqLen = req.d.dataLen + FRAME_HEADER_LEN;
-    // Secondary Barrier First
-    if (gfSubBarrierRunning == TRUE)
+    // send STX
+    U5_Putch(0xAA);
+
+    // send data
+    while (nReqLen--)
     {
-        // send STX
-        U5_Putch(0xAA);
+        U5_Putch(*pbReqBuff);
 
-        // send data
-        while (nReqLen--)
-        {
-            U5_Putch(*pbReqBuff);
-
-            bBCC ^= *pbReqBuff; // BCC calculation
-            pbReqBuff++;
-        }
-
-        // send BCC
-        U5_Putch(bBCC);
+        bBCC ^= *pbReqBuff; // BCC calculation
+        pbReqBuff++;
     }
 
+    // send BCC
+    U5_Putch(bBCC);
+
+    // Primary barrier last
     bBCC = 0;
     pbReqBuff = req.Buff;
     nReqLen = req.d.dataLen + FRAME_HEADER_LEN;
-    if (gfMainBarrierRunning == TRUE)
+    // send STX
+    U4_Putch(0xAA);
+
+    // send data
+    while (nReqLen--)
     {
-        // send STX
-        U4_Putch(0xAA);
+        U4_Putch(*pbReqBuff);
 
-        // send data
-        while (nReqLen--)
-        {
-            U4_Putch(*pbReqBuff);
-
-            bBCC ^= *pbReqBuff; // BCC calculation
-            pbReqBuff++;
-        }
-
-        // send BCC
-        U4_Putch(bBCC);
+        bBCC ^= *pbReqBuff; // BCC calculation
+        pbReqBuff++;
     }
+
+    // send BCC
+    U4_Putch(bBCC);
 }
 
 /*******************************************************************************
@@ -443,19 +388,17 @@ int CheckProtocol_UART4(void)
     static int packetLen_U4 = 0;
     BYTE rcvData;
 
-
-
-  //  while (U1_Getch(&rcvData))			//스타트는 [AA] 다음 [len]이 들어오고 다음[Data]
-	 while (IUart_RecvByte_check(COM4,&rcvData))
+    //  while (U1_Getch(&rcvData))			//스타트는 [AA] 다음 [len]이 들어오고 다음[Data]
+    while (IUart_RecvByte_check(COM4, &rcvData))
     {
         if (rcvData == 0xAA)
         {
-        	packetLen_U4 = 0;
-        	len_U4 = 0;
+            packetLen_U4 = 0;
+            len_U4 = 0;
             BCC_U4 = 0;
             rcvState_U4 = STATE_DATA_HEAD;
         }
-        else 
+        else
         {
             switch (rcvState_U4)
             {
@@ -464,35 +407,34 @@ int CheckProtocol_UART4(void)
                 BCC_U4 ^= rcvData;
                 if (packetLen_U4 == 3)
                 {
-                	len_U4 = rcvData;
+                    len_U4 = rcvData;
                     if (len_U4 == 0)
                     {
-                    	rcvState_U4 = STATE_DATA_BCC;
+                        rcvState_U4 = STATE_DATA_BCC;
                     }
                     else
                     {
-                    	rcvState_U4 = STATE_DATA_BODY;
+                        rcvState_U4 = STATE_DATA_BODY;
                     }
                 }
                 break;
             case STATE_DATA_BODY:
-            	rsp_U4.Buff[packetLen_U4++] = rcvData;
-            	BCC_U4 ^= rcvData;
-            	len_U4--;
+                rsp_U4.Buff[packetLen_U4++] = rcvData;
+                BCC_U4 ^= rcvData;
+                len_U4--;
 
                 if (len_U4 == 0)
                 {
-                	rcvState_U4 = STATE_DATA_BCC;
+                    rcvState_U4 = STATE_DATA_BCC;
                 }
                 break;
             case STATE_DATA_BCC:
-            	rcvState_U4 = STATE_STX_WAIT;
+                rcvState_U4 = STATE_STX_WAIT;
                 if (BCC_U4 == rcvData)
                 {
                     if (rsp_U4.d.dataLen != (BYTE)(packetLen_U4 - FRAME_HEADER_LEN))
                     {
-                       // PRINTL("U4 LENGTH ERR: %d - %d", rsp_U4.d.dataLen, (packetLen_U4 - FRAME_HEADER_LEN));
-                    	 printf("U4 LENGTH ERR: %d - %d  \n", rsp_U4.d.dataLen, (packetLen_U4 - FRAME_HEADER_LEN));
+                        printf("U4 LENGTH ERR: %d - %d  \n", rsp_U4.d.dataLen, (packetLen_U4 - FRAME_HEADER_LEN));
                         return ERR_WRONG_CMD_LEN;
                     }
                     else
@@ -501,15 +443,16 @@ int CheckProtocol_UART4(void)
                     }
                 }
                 else
-                {
-                    //PRINTL("U1 BCC ERR. len: %d, BCC: %d, rcv: %d", rsp_U4.d.dataLen, BCC_U4, rcvData);
-                	 printf("U4 BCC ERR. len: %d, BCC: %d, rcv: %d  \n", rsp_U4.d.dataLen, BCC_U4, rcvData);
-                    Print2Hex("", rsp_U4.Buff, packetLen_U4);
-                    return ERR_BCC;
+                {   if (rsp_U4.d.command != 6)
+                    {
+                        printf("U4 BCC ERR. len: %02X, BCC: %02X, cmd: %02X  \n", rsp_U4.d.dataLen, BCC_U4, rsp_U4.d.command);
+                        Print2Hex("", rsp_U4.Buff, packetLen_U4);
+                    }
+
+                    return ERR_BCC;                    
                 }
             }
         }
-        
     }
 
     return FAIL;
@@ -531,15 +474,14 @@ int CheckProtocol_UART5(void)
     static BYTE BCC_U5 = 0;
     static int len_U5 = 0;
     static int packetLen_U5 = 0;
+    int temp_Len = 0;
     BYTE rcvData;
 
-   // while (U3_Getch(&rcvData))
-
-	while (IUart_RecvByte_check(COM5,&rcvData))
+    while (IUart_RecvByte_check(COM5, &rcvData))
     {
         if (rcvData == 0xAA)
         {
-        	packetLen_U5 = 0;
+            packetLen_U5 = 0;
             len_U5 = 0;
             BCC_U5 = 0;
             rcvState_U5 = STATE_DATA_HEAD;
@@ -553,35 +495,34 @@ int CheckProtocol_UART5(void)
                 BCC_U5 ^= rcvData;
                 if (packetLen_U5 == 3)
                 {
-                	len_U5 = rcvData;
+                    len_U5 = rcvData;
                     if (len_U5 == 0)
                     {
-                    	rcvState_U5 = STATE_DATA_BCC;
+                        rcvState_U5 = STATE_DATA_BCC;
                     }
                     else
                     {
-                    	rcvState_U5 = STATE_DATA_BODY;
+                        rcvState_U5 = STATE_DATA_BODY;
                     }
                 }
                 break;
             case STATE_DATA_BODY:
-            	rsp_U5.Buff[packetLen_U5++] = rcvData;
+                rsp_U5.Buff[packetLen_U5++] = rcvData;
                 BCC_U5 ^= rcvData;
                 len_U5--;
 
                 if (len_U5 == 0)
                 {
-                	rcvState_U5 = STATE_DATA_BCC;
+                    rcvState_U5 = STATE_DATA_BCC;
                 }
                 break;
             case STATE_DATA_BCC:
-            	rcvState_U5 = STATE_STX_WAIT;
+                rcvState_U5 = STATE_STX_WAIT;
                 if (BCC_U5 == rcvData)
                 {
                     if (rsp_U5.d.dataLen != (BYTE)(packetLen_U5 - FRAME_HEADER_LEN))
                     {
-                        //PRINTL("U3 LENGTH ERR: %d - %d", rsp_U5.d.dataLen, (packetLen_U5 - FRAME_HEADER_LEN));
-                    	 printf("U5 LENGTH ERR: %d - %d  \n", rsp_U5.d.dataLen, (packetLen_U5 - FRAME_HEADER_LEN));
+                        printf("U5 LENGTH ERR: %d - %d  \n", rsp_U5.d.dataLen, (packetLen_U5 - FRAME_HEADER_LEN));
                         return ERR_WRONG_CMD_LEN;
                     }
                     else
@@ -591,9 +532,12 @@ int CheckProtocol_UART5(void)
                 }
                 else
                 {
-                   // PRINTL("U3 BCC ERR. len: %d, BCC: %d, rcv: %d", rsp_U5.d.dataLen, BCC_U5, rcvData);
-                	 printf("U5 BCC ERR. len: %d, BCC: %d, rcv: %d  \n", rsp_U5.d.dataLen, BCC_U5, rcvData);
-                    Print2Hex("", rsp_U5.Buff, packetLen_U5);
+                    if (rsp_U5.d.command != 6)
+                    {
+                        printf("U5 BCC ERR. len: %02X, BCC: %02X, cmd: %02X  \n", rsp_U5.d.dataLen, BCC_U5, rsp_U5.d.command);
+                        Print2Hex("", rsp_U5.Buff, packetLen_U5);
+                    }
+
                     return ERR_BCC;
                 }
             }
@@ -690,9 +634,8 @@ void ProcessComm_Barrier(void)
     {
         if (ProcessCommand_Barrier(FALSE) != SUCCESS)
         {
-            //PRINTL("UART3 ERR");
-        	printf("UART5 ERR  \n");
-        }        
+            printf("UART5 ERR  \n");
+        }
     }
 
     nError = CheckProtocol_UART4();
@@ -701,67 +644,60 @@ void ProcessComm_Barrier(void)
         if (ProcessCommand_Barrier(TRUE) != SUCCESS)
         {
             // TODO: Do we need the retry logic?
-        	printf("UART4 ERR  \n");
+            printf("UART4 ERR  \n");
         }
     }
 }
 
-
-
 /*
 void U4_TxWait(void)
 {
-	while(!LL_USART_IsActiveFlag_TXE(UART4))
-		;
+    while(!LL_USART_IsActiveFlag_TXE(UART4))
+        ;
 }
 
 
 void U5_TxWait(void)
 {
-	while(!LL_USART_IsActiveFlag_TXE(UART5))
-		;
+    while(!LL_USART_IsActiveFlag_TXE(UART5))
+        ;
 }
 
 void U4_Putch(BYTE c)
 {
-	 while(!LL_USART_IsActiveFlag_TXE(UART4))
-		 ;
-	  LL_USART_TransmitData8(UART4, c);
+     while(!LL_USART_IsActiveFlag_TXE(UART4))
+         ;
+      LL_USART_TransmitData8(UART4, c);
 }
 
 void U5_Putch(BYTE c)
 {
-	 while(!LL_USART_IsActiveFlag_TXE(UART5))
-		 ;
-	  LL_USART_TransmitData8(UART5, c);
+     while(!LL_USART_IsActiveFlag_TXE(UART5))
+         ;
+      LL_USART_TransmitData8(UART5, c);
 }
 */
 
-
 void U4_TxWait(void)
 {
-	while ((iUartTable[COM4].hUart->Instance->ISR & UART_FLAG_TXE) == RESET)
-		;
+    while ((iUartTable[COM4].hUart->Instance->ISR & UART_FLAG_TXE) == RESET)
+        ;
 }
-
 
 void U5_TxWait(void)
 {
-	while ((iUartTable[COM5].hUart->Instance->ISR & UART_FLAG_TXE) == RESET)
-		;
+    while ((iUartTable[COM5].hUart->Instance->ISR & UART_FLAG_TXE) == RESET)
+        ;
 }
 
 void U4_Putch(BYTE c)
 {
-	IUart_SendByte(COM4, (uint8_t)c);
+    IUart_SendByte(COM4, (uint8_t)c);
 }
 
 void U5_Putch(BYTE c)
 {
-	IUart_SendByte(COM5, (uint8_t)c);
+    IUart_SendByte(COM5, (uint8_t)c);
 }
-
-
-
 
 /*****END OF FILE****/

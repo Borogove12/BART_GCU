@@ -43,13 +43,13 @@ extern RTC_HandleTypeDef hrtc;
 
 // Porting 함수 쪽에서 정의 되어야 함
 // BootLoader를 위한 임시 버전
-__attribute__((weak)) time_t SystemInitTime(void)
+/*__attribute__((weak)) time_t SystemInitTime(void)
 {
-    BYTE    bcdDTime[7] = { 0x20, 0x22, 0x12, 0x17, 0x12, 0x00, 0x00 };
+    BYTE    bcdDTime[7] = { 0x20, 0x23, 0x10, 0x25, 0x12, 0x00, 0x00 };
 
     return (bsp_BcdDtimeToTime(bcdDTime));
 }
-
+*/
 
 void bsp_SetDefaultTime(void)
 {

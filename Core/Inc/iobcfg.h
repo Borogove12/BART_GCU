@@ -139,52 +139,23 @@
 #define MAXFND			4
 
 // 인터럽트 처리 라인
-#define USB_INT_LINE    EXTI_Line1
-#define USB_INT_PORT    GPIO_PortSourceGPIOB
-#define USB_INT_PIN     GPIO_PinSource1
-#define USB_INT_IRQn    EXTI1_IRQn
+
 
 // 내부 UART
 #define COM1_UART      	USART1
 #define COM1_IRQn       USART1_IRQn
 #define COM2_UART       USART2
 #define COM2_IRQn       USART2_IRQn
-//#define COM3_UART       USART3
-//#define COM3_IRQn       USART3_IRQn
+#define COM3_UART       USART3
+#define COM3_IRQn       USART3_IRQn
 #define COM4_UART       UART4
 #define COM4_IRQn       UART4_IRQn
 #define COM5_UART       UART5
 #define COM5_IRQn       UART5_IRQn
-#define COM6_UART       USART6
-#define COM6_IRQn       USART6_IRQn
+
 
 #define HI(port, idx) do{(port)->BSRR = 1UL<<(idx);}while(0)
 #define LO(port, idx) do{(port)->BSRR = 1UL<<(16+idx);}while(0)
-
-// SPI 장치 제어
-#define USB_DE()		(GPIOB->BSRRL = USB_CS)     // 1
-#define USB_EN()		(GPIOB->BSRRH = USB_CS)     // 0
-#define USB_RST_DE()	(GPIOB->BSRRH = USB_RST)    // 0
-#define USB_RST_EN()	(GPIOB->BSRRL = USB_RST)    // 1
-#define VBUS_DE()		(GPIOA->BSRRH = USB_VBUS)   // 0
-#define VBUS_EN()		(GPIOA->BSRRL = USB_VBUS)   // 1
-#define EEP_DE()		(GPIOA->BSRRH = EEPR_CS)    // 0
-#define EEP_EN()		(GPIOA->BSRRL = EEPR_CS)    // 1
-//#define SF_DE()			HI(GPIOA,SF_CS)//(GPIOA->BSRRL = SF_CS)      // 1
-//#define SF_EN()			LO(GPIOA,SF_CS)//(GPIOA->BSRRH = SF_CS)      // 0
-#define UART_RST_DE()	(GPIOG->BSRRH = UART_RST)   // 0
-#define UART_RST_EN()	(GPIOG->BSRRL = UART_RST)   // 1
-#define HUB_RST_DE()	HI(GPIOC,HUB_RST)//(GPIOC->BSRRL = HUB_RST)    // 1
-#define HUB_RST_EN()	LO(GPIOC,HUB_RST)//(GPIOG->BSRRH = HUB_RST)    // 0
-#define LAN_DE()		HI(GPIOA,LAN_CS) //(GPIOB->BSRRL = LAN_CS)     // 1
-#define LAN_EN()		LO(GPIOA,LAN_CS) //(GPIOB->BSRRH = LAN_CS)    	// 0
-#define HUB_DE()		LO(GPIOA,HUB_CS)//(GPIOA->BSRRL = HUB_CS)     // 1
-#define HUB_EN()		HI(GPIOA,HUB_CS)//(GPIOA->BSRRH = HUB_CS)    	// 0
-
-
-#define SF_EN()    (HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_RESET))
-#define SF_DE()    (HAL_GPIO_WritePin(GPIOF,GPIO_PIN_6,GPIO_PIN_SET))
-
 
 
 /* 외부 IO 장치 어드레스 맵 */
@@ -388,7 +359,7 @@ Bank1 : 4 x 64MB  NOR/PSRM Memory Map(0x60000000 ~ 0x6FFFFFFF)
 #define MODE_SW_O_C		0x20
 
 
-
+#if 0
 
 #define AT25DF_DUMMY_BYTE           0x00
 // Read Copmmands
@@ -426,6 +397,6 @@ Bank1 : 4 x 64MB  NOR/PSRM Memory Map(0x60000000 ~ 0x6FFFFFFF)
 
 #define AT25DF_STATUS_DONE_MASK     0x01
 
-
+#endif
 
 #endif /* INC_IOBCFG_H_ */

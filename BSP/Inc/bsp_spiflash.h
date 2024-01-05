@@ -27,6 +27,8 @@
 
 
 
+
+
 // status register format - byte1 define
 #define bSPRL   7   // (R/W) Sector Protection Registers Locked
                     // 0 Sector Protection Registers are unlocked (default).

@@ -14,13 +14,8 @@
 BYTE gbPrevDir = 0;
 
 // Barrier command
-BYTE gbBarrierCmd = BARRIER_CLOSE_S;
-
-// Barrier force open
-BYTE gbDoorForecedOpen = OFF;
-
-// Barrier type
-BYTE gbBarrierType = BARRIER_SWING;
+BYTE gbBarrierCmd = BARRIER_CLOSE;
+BYTE gfAIDetection = 0;
 
 bool gisEntryPassenger = FALSE; // passenger detection state at enter of Entry
 bool gisExitPassenger = FALSE;  // passenger detection state at enter of Exit
@@ -29,7 +24,6 @@ bool gfFreeMode = FALSE;        // For Free mode
 bool gfTestMode = FALSE;        // For Test mode
 bool gfPeopleCount_EN = FALSE;
 bool gfPeopleCount_EX = FALSE;
-bool gfAISafetyOn = FALSE;
 
 int gnPassPattern = PASS_PATN_NONE; // pass pattern at safety zone
 int gnSignalCount = 0;
@@ -47,8 +41,5 @@ T_GCU_OP_MODE gNewGCUOpMode;
 
 B_BARRIER_STATUS gMainBarrierStatus;
 B_BARRIER_STATUS gSubBarrierStatus;
-
-bool gfMainBarrierRunning;
-bool gfSubBarrierRunning;
 
 /******* COPYRIGHT �� 2022 STraffic Co., Ltd.  ********END OF FILE****/
