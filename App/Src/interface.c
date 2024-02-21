@@ -403,9 +403,10 @@ void CMDClearAuthorization(void)
 *******************************************************************************/
 void CMDGetStatus(void)
 {
-    
 	T_GCU_STATUS_RES GurStatus;
-
+    T_CMD_SAFETY_STOP *pcmdSafetyStop = (T_CMD_SAFETY_STOP *)GCUCommand.d.mbOptionData;
+	gfAIDetection = pcmdSafetyStop->bSafety;
+    
 	GetGCUStatus(&GurStatus);
 
 	MakeResponse((BYTE*)&GurStatus, sizeof(T_GCU_STATUS_RES));
