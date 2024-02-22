@@ -332,7 +332,7 @@ void CheckBarrierOperation(void)
                             {
                                 nBarrierErrorCnt++;
 
-                                if (nBarrierErrorCnt == 8) // After 4 sec, Barrier fault is generated.
+                                if (nBarrierErrorCnt == 20) // After 4 sec, Barrier fault is generated.
                                 {
                                     if (isSafetyOn == TRUE || (gGCUStatus.ModuleAlarm.b.nFDoor1 == FDOOR_ALARM_NONE && gGCUStatus.ModuleAlarm.b.nFDoor2 == FDOOR_ALARM_NONE))
                                     {
