@@ -12,7 +12,7 @@
 
 #include "global.h"
 /* FW Version String ---------------------------------------------------------*/
-#define GCU_FW_VERSION "1.1.2.21"
+#define GCU_FW_VERSION "1.1.3.5"
 #define TG_TIMER 2		// 2 s
 #define GCU_BAUD		57600
 
