@@ -665,18 +665,18 @@ void CheckPassingSwing(void)
 
                 if (gGCUStatus.bAuthCount_EN == 1)
                 {
-                    if (psenNewSwing.section.upper_EN)
+                    if (psenNewSwing.b.s13 || psenNewSwing.b.s14)
                     {
                         isPassReady_EN = TRUE;
                         isPassOver_EN = TRUE;
 
-                        if (!psenNewSwing.b.s13 && !psenNewSwing.b.s14 && !psenNewSwing.b.s15)
-                        {
-                            if (gGCUStatus.IllegalPass.b.nTailgating_EN == FLG_OFF && timerTgFilter.fStart == FALSE)
-                            {
-                                SetTimer(&timerTgFilter);
-                            }
-                        }
+                        // if (!psenNewSwing.b.s13 && !psenNewSwing.b.s14 && !psenNewSwing.b.s15)
+                        // {
+                        //     if (gGCUStatus.IllegalPass.b.nTailgating_EN == FLG_OFF && timerTgFilter.fStart == FALSE)
+                        //     {
+                        //         SetTimer(&timerTgFilter);
+                        //     }
+                        // }
                     }
                     else
                     {
@@ -723,18 +723,18 @@ void CheckPassingSwing(void)
 
                 if (gGCUStatus.bAuthCount_EX == 1)
                 {
-                    if (psenNewSwing.section.upper_EX)
+                    if (psenNewSwing.b.s05 || psenNewSwing.b.s06)
                     {
                         isPassReady_EX = TRUE;
                         isPassOver_EX = TRUE;
 
-                        if (!psenNewSwing.b.s05 && !psenNewSwing.b.s06 && !psenNewSwing.b.s07)
-                        { // If not detected on the upper sensors, no tailgating
-                            if (gGCUStatus.IllegalPass.b.nTailgating_EX == FLG_OFF && timerTgFilter.fStart == FALSE)
-                            {
-                                SetTimer(&timerTgFilter);
-                            }
-                        }
+                        // if (!psenNewSwing.b.s05 && !psenNewSwing.b.s06 && !psenNewSwing.b.s07)
+                        // { // If not detected on the upper sensors, no tailgating
+                        //     if (gGCUStatus.IllegalPass.b.nTailgating_EX == FLG_OFF && timerTgFilter.fStart == FALSE)
+                        //     {
+                        //         SetTimer(&timerTgFilter);
+                        //     }
+                        // }
                     }
                     else
                     {

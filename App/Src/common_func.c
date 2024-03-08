@@ -173,7 +173,14 @@ void GetCurrentOpMode(T_GCU_OP_MODE *pCurMode)
 
 void SetGCUParameter(T_GCU_PARAMETER *pNewParameter, int nLen)
 {
-    gdwTimeoutSafety = SAFETY_TIMEOUT_STD;
+    if (pNewParameter->bGateType == WIDE)
+    {
+        gdwTimeoutSafety = SAFETY_TIMEOUT_WDE;
+    }
+    else 
+    {
+        gdwTimeoutSafety = SAFETY_TIMEOUT_STD;
+    }
     gdwTimeoutLuggage = LUGGAGE_LIMIT_STD;
 
     printf(" SetGCUParameter = %d/%d/%d/%d/%d \n", pNewParameter->bAlarmTimeout, pNewParameter->bAuthTimeOut, pNewParameter->bEMGTimeout, pNewParameter->bIllegalEntryTimeout);
