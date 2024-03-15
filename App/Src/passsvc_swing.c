@@ -659,20 +659,6 @@ void CheckPassingSwing(void)
 
                 if (gGCUStatus.bAuthCount_EN == 1)
                 {
-                    // if (psenNewSwing.b.s13 || psenNewSwing.b.s14)
-                    // {
-                    //     isPassReady_EN = TRUE;
-                    //     isPassOver_EN = TRUE;
-
-                    //     if (!psenNewSwing.b.s13 && !psenNewSwing.b.s14 && !psenNewSwing.b.s15)
-                    //     {
-                    //         if (gGCUStatus.IllegalPass.b.nTailgating_EN == FLG_OFF && timerTgFilter.fStart == FALSE)
-                    //         {
-                    //             SetTimer(&timerTgFilter);
-                    //         }
-                    //     }
-                    // }
-                    // else
                     {
                         gGCUStatus.bAuthCount_EN--;
                         ControlBarrier(BARRIER_CLOSE);
@@ -717,20 +703,6 @@ void CheckPassingSwing(void)
 
                 if (gGCUStatus.bAuthCount_EX == 1)
                 {
-                    // if (psenNewSwing.b.s05 || psenNewSwing.b.s06)
-                    // {
-                    //     isPassReady_EX = TRUE;
-                    //     isPassOver_EX = TRUE;
-
-                    //     if (!psenNewSwing.b.s05 && !psenNewSwing.b.s06 && !psenNewSwing.b.s07)
-                    //     { // If not detected on the upper sensors, no tailgating
-                    //         if (gGCUStatus.IllegalPass.b.nTailgating_EX == FLG_OFF && timerTgFilter.fStart == FALSE)
-                    //         {
-                    //             SetTimer(&timerTgFilter);
-                    //         }
-                    //     }
-                    // }
-                    // else
                     {
                         gGCUStatus.bAuthCount_EX--;
                         ControlBarrier(BARRIER_CLOSE);
@@ -770,9 +742,7 @@ bool CheckPassOverSensor(void)
     {
         if (isPassOver_EN)
         {
-            // if (psenNewSwing.b.s10 && !psenNewSwing.b.s13)
-            // if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
-            if (psenNewSwing.b.s10)
+            if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
             {
                 printf(" [EN] Check PassOver - WIDE\n");
                 return TRUE;
@@ -780,9 +750,7 @@ bool CheckPassOverSensor(void)
         }
         else if (isPassOver_EX)
         {
-            // if (psenNewSwing.b.s02 && !psenNewSwing.b.s05)
-            // if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
-            if (psenNewSwing.b.s02)
+            if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
             {
                 printf(" [EX] Check PassOver - WIDE\n");
                 return TRUE;
@@ -793,9 +761,7 @@ bool CheckPassOverSensor(void)
     {
         if (isPassOver_EN)
         {
-            // if ((psenNewSwing.b.s10 || psenNewSwing.b.s13) && !psenNewSwing.b.s11 && !psenNewSwing.b.s14)
-            // if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
-            if (psenNewSwing.b.s10)
+            if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
             {
                 printf(" [EN] Check PassOver - STANDARD\n");
                 return TRUE;
@@ -803,9 +769,7 @@ bool CheckPassOverSensor(void)
         }
         else if (isPassOver_EX)
         {
-            // if ((psenNewSwing.b.s02 || psenNewSwing.b.s05) && !psenNewSwing.b.s03 && !psenNewSwing.b.s06)
-            // if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
-            if (psenNewSwing.b.s02)
+            if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
             {
                 printf(" [EX] Check PassOver - STANDARD\n");
                 return TRUE;
@@ -992,9 +956,8 @@ void CheckSafetyTimerForSwing(void)
 
                     if (gGCUParameter.bGateType == WIDE)
                     {
-                        // if (psenNewSwing.section.lower_EX || psenNewSwing.b.s04 || psenNewSwing.b.s08)
-                        // if (psenNewSwing.dirEntry.end || psenNewSwing.dirEntry.lower || psenNewSwing.dirEntry.passage)
-                        if (psenNewSwing.b.s11 || psenNewSwing.b.s14 || psenNewSwing.b.s15 || psenNewSwing.b.s16)
+                        if (psenNewSwing.dirEntry.end || psenNewSwing.dirEntry.lower || psenNewSwing.dirEntry.passage)
+                        // if (psenNewSwing.b.s11 || psenNewSwing.b.s14 || psenNewSwing.b.s15 || psenNewSwing.b.s16)
                         {
                             printf(" [EN] Safety Activation [%02X/%02X/%02X] \n", psenNewSwing.section.lower_EX, psenNewSwing.b.s04, psenNewSwing.b.s08);
                             StopBarrierForSwing(TRUE);
@@ -1002,10 +965,10 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
-                        else if (isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
+                        // else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
@@ -1015,9 +978,8 @@ void CheckSafetyTimerForSwing(void)
                     }
                     else
                     {
-                        // if (psenNewSwing.b.s14 || psenNewSwing.b.s15 || psenNewSwing.b.s16 || psenNewSwing.b.s04 || psenNewSwing.b.s08)
-                        // if (psenNewSwing.dirEntry.end || psenNewSwing.dirEntry.lower || psenNewSwing.dirEntry.passage)
-                        if (psenNewSwing.b.s11 || psenNewSwing.b.s14 || psenNewSwing.b.s15 || psenNewSwing.b.s16)
+                        if (psenNewSwing.dirEntry.end || psenNewSwing.dirEntry.lower || psenNewSwing.dirEntry.passage)
+                        // if (psenNewSwing.b.s11 || psenNewSwing.b.s14 || psenNewSwing.b.s15 || psenNewSwing.b.s16)
                         {
                             printf(" [EN] Safety Activation [%02X/%02X/%02X] \n", psenNewSwing.section.lower_EX, psenNewSwing.b.s04, psenNewSwing.b.s08);
                             StopBarrierForSwing(TRUE);
@@ -1025,10 +987,10 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
-                        else if (isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
+                        // else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
@@ -1043,9 +1005,8 @@ void CheckSafetyTimerForSwing(void)
 
                     if (gGCUParameter.bGateType == WIDE)
                     {
-                        // if (psenNewSwing.section.lower_EN || psenNewSwing.b.s12 || psenNewSwing.b.s16)
-                        // if (psenNewSwing.dirExit.end || psenNewSwing.dirExit.lower || psenNewSwing.dirExit.passage)
-                        if (psenNewSwing.b.s03 || psenNewSwing.b.s06 || psenNewSwing.b.s07 || psenNewSwing.b.s08)
+                        if (psenNewSwing.dirExit.end || psenNewSwing.dirExit.lower || psenNewSwing.dirExit.passage)
+                        // if (psenNewSwing.b.s03 || psenNewSwing.b.s06 || psenNewSwing.b.s07 || psenNewSwing.b.s08)
                         {
                             printf(" [EX] Safety Activation [%02X/%02X/%02X] \n", psenNewSwing.section.lower_EN, psenNewSwing.b.s12, psenNewSwing.b.s16);
                             StopBarrierForSwing(TRUE);
@@ -1053,10 +1014,10 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
-                        else if (isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
+                        // else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
@@ -1066,9 +1027,8 @@ void CheckSafetyTimerForSwing(void)
                     }
                     else
                     {
-                        // if (psenNewSwing.b.s06 || psenNewSwing.b.s07 || psenNewSwing.b.s08 || psenNewSwing.b.s12 || psenNewSwing.b.s16)
-                        // if (psenNewSwing.dirExit.end || psenNewSwing.dirExit.lower || psenNewSwing.dirExit.passage)
-                        if (psenNewSwing.b.s03 || psenNewSwing.b.s06 || psenNewSwing.b.s07 || psenNewSwing.b.s08)
+                        if (psenNewSwing.dirExit.end || psenNewSwing.dirExit.lower || psenNewSwing.dirExit.passage)
+                        // if (psenNewSwing.b.s03 || psenNewSwing.b.s06 || psenNewSwing.b.s07 || psenNewSwing.b.s08)
                         {
                             printf(" [EX] Safety Activation [%02X/%02X/%02X] \n", psenNewSwing.section.lower_EN, psenNewSwing.b.s12, psenNewSwing.b.s16);
                             StopBarrierForSwing(TRUE);
@@ -1077,10 +1037,10 @@ void CheckSafetyTimerForSwing(void)
                             isSafetyOn = TRUE;
                             isSentClose = FALSE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
-                        else if (isSentClose == FALSE)
+                        else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
+                        // else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
