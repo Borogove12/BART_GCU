@@ -175,9 +175,7 @@ void InitPassageModeForSwing(void)
             }
             else
             {
-                if (gbPowerFailFlag == FLG_SET)
-                    ControlBarrier(BARRIER_OPEN_FOR_EX);
-                else
+                if (gbPowerFailFlag == FLG_OFF)
                     ControlBarrier(BARRIER_CLOSE);
             }
 
@@ -362,10 +360,6 @@ void CheckBarrierOperation(void)
                             ControlBarrier(BARRIER_OPEN_FOR_EN);
                         }
                         else if (gGCUStatus.bAuthCount_EX)
-                        {
-                            ControlBarrier(BARRIER_OPEN_FOR_EX);
-                        }
-                        else if (gbPowerFailFlag == FLG_SET)
                         {
                             ControlBarrier(BARRIER_OPEN_FOR_EX);
                         }
@@ -665,20 +659,20 @@ void CheckPassingSwing(void)
 
                 if (gGCUStatus.bAuthCount_EN == 1)
                 {
-                    if (psenNewSwing.b.s13 || psenNewSwing.b.s14)
-                    {
-                        isPassReady_EN = TRUE;
-                        isPassOver_EN = TRUE;
+                    // if (psenNewSwing.b.s13 || psenNewSwing.b.s14)
+                    // {
+                    //     isPassReady_EN = TRUE;
+                    //     isPassOver_EN = TRUE;
 
-                        // if (!psenNewSwing.b.s13 && !psenNewSwing.b.s14 && !psenNewSwing.b.s15)
-                        // {
-                        //     if (gGCUStatus.IllegalPass.b.nTailgating_EN == FLG_OFF && timerTgFilter.fStart == FALSE)
-                        //     {
-                        //         SetTimer(&timerTgFilter);
-                        //     }
-                        // }
-                    }
-                    else
+                    //     if (!psenNewSwing.b.s13 && !psenNewSwing.b.s14 && !psenNewSwing.b.s15)
+                    //     {
+                    //         if (gGCUStatus.IllegalPass.b.nTailgating_EN == FLG_OFF && timerTgFilter.fStart == FALSE)
+                    //         {
+                    //             SetTimer(&timerTgFilter);
+                    //         }
+                    //     }
+                    // }
+                    // else
                     {
                         gGCUStatus.bAuthCount_EN--;
                         ControlBarrier(BARRIER_CLOSE);
@@ -723,20 +717,20 @@ void CheckPassingSwing(void)
 
                 if (gGCUStatus.bAuthCount_EX == 1)
                 {
-                    if (psenNewSwing.b.s05 || psenNewSwing.b.s06)
-                    {
-                        isPassReady_EX = TRUE;
-                        isPassOver_EX = TRUE;
+                    // if (psenNewSwing.b.s05 || psenNewSwing.b.s06)
+                    // {
+                    //     isPassReady_EX = TRUE;
+                    //     isPassOver_EX = TRUE;
 
-                        // if (!psenNewSwing.b.s05 && !psenNewSwing.b.s06 && !psenNewSwing.b.s07)
-                        // { // If not detected on the upper sensors, no tailgating
-                        //     if (gGCUStatus.IllegalPass.b.nTailgating_EX == FLG_OFF && timerTgFilter.fStart == FALSE)
-                        //     {
-                        //         SetTimer(&timerTgFilter);
-                        //     }
-                        // }
-                    }
-                    else
+                    //     if (!psenNewSwing.b.s05 && !psenNewSwing.b.s06 && !psenNewSwing.b.s07)
+                    //     { // If not detected on the upper sensors, no tailgating
+                    //         if (gGCUStatus.IllegalPass.b.nTailgating_EX == FLG_OFF && timerTgFilter.fStart == FALSE)
+                    //         {
+                    //             SetTimer(&timerTgFilter);
+                    //         }
+                    //     }
+                    // }
+                    // else
                     {
                         gGCUStatus.bAuthCount_EX--;
                         ControlBarrier(BARRIER_CLOSE);
@@ -973,7 +967,7 @@ void CheckSafetyTimerForSwing(void)
     {
         if (IsTimeout(&timerSafety, gdwTimeoutSafety * TICK_COUNT_100MS))
         {
-            printf(" [CheckSafetyTimerForSwing] Safety Time Out! \n");
+            printf(" [CheckSafetyTimerForSwing] Safety Time Out! [%02X] \n", gbAuthDirection);
             ResetTimer(&timerSafety);
             if (isSentClose == FALSE)
             {
@@ -1012,7 +1006,6 @@ void CheckSafetyTimerForSwing(void)
                         else if (isSentClose == FALSE)
                         {
                             // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
-                            if (gfisAuthTimeout == FALSE)
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
@@ -1036,7 +1029,6 @@ void CheckSafetyTimerForSwing(void)
                         else if (isSentClose == FALSE)
                         {
                             // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
-                            if (gfisAuthTimeout == FALSE)
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
@@ -1065,7 +1057,6 @@ void CheckSafetyTimerForSwing(void)
                         else if (isSentClose == FALSE)
                         {
                             // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
-                            if (gfisAuthTimeout == FALSE)
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
@@ -1090,7 +1081,6 @@ void CheckSafetyTimerForSwing(void)
                         else if (isSentClose == FALSE)
                         {
                             // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
-                            if (gfisAuthTimeout == FALSE)
                             {
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
