@@ -304,17 +304,20 @@ void CheckBarrierOperation(void)
                             ControlBarrier(gbBarrierCmd);
                         }
                     }
-                    else if (isSafetyOn4Init == FALSE)
+                    else if (gMainBarrierStatus.param.posStatus == SDOOR_OPEN && gSubBarrierStatus.param.posStatus == SDOOR_OPEN)
                     {
-                        nBarrierErrorCnt = 0;
-                        gGCUStatus.ModuleAlarm.b.nFDoor1 = FDOOR_ALARM_NONE;
-                        gGCUStatus.ModuleAlarm.b.nFDoor2 = FDOOR_ALARM_NONE;
-                        gGCUStatus.bBarrierSw = 0x11;
-
-                        if (CheckBarrierClosedStatus() && CheckZeroAuthCount())
+                        if (isSafetyOn4Init == FALSE)
                         {
-                            printf(" [CheckBarrier] Current Status is open \n");
-                            ControlBarrier(BARRIER_CLOSE);
+                            nBarrierErrorCnt = 0;
+                            gGCUStatus.ModuleAlarm.b.nFDoor1 = FDOOR_ALARM_NONE;
+                            gGCUStatus.ModuleAlarm.b.nFDoor2 = FDOOR_ALARM_NONE;
+                            gGCUStatus.bBarrierSw = 0x11;
+
+                            if (CheckBarrierClosedStatus() && CheckZeroAuthCount())
+                            {
+                                printf(" [CheckBarrier] Current Status is open \n");
+                                ControlBarrier(BARRIER_CLOSE);
+                            }
                         }
                     }
                 }
@@ -348,32 +351,36 @@ void CheckBarrierOperation(void)
                             }
                         }
                     }
-                    else if (isSafetyOn4Init == FALSE)
+                    else if (gMainBarrierStatus.param.posStatus == SDOOR_CLOSE && gSubBarrierStatus.param.posStatus == SDOOR_CLOSE)
                     {
-                        nBarrierErrorCnt = 0;
-                        gGCUStatus.ModuleAlarm.b.nFDoor1 = FDOOR_ALARM_NONE;
-                        gGCUStatus.ModuleAlarm.b.nFDoor2 = FDOOR_ALARM_NONE;
-                        gGCUStatus.bBarrierSw = 0x22;
+                        if (isSafetyOn4Init == FALSE && gbPowerFailFlag == FLG_OFF)
+                        {
+                            nBarrierErrorCnt = 0;
+                            gGCUStatus.ModuleAlarm.b.nFDoor1 = FDOOR_ALARM_NONE;
+                            gGCUStatus.ModuleAlarm.b.nFDoor2 = FDOOR_ALARM_NONE;
+                            gGCUStatus.bBarrierSw = 0x22;
 
-                        if (gGCUStatus.bAuthCount_EN)
-                        {
-                            ControlBarrier(BARRIER_OPEN_FOR_EN);
-                        }
-                        else if (gGCUStatus.bAuthCount_EX)
-                        {
-                            ControlBarrier(BARRIER_OPEN_FOR_EX);
-                        }
-                        else
-                        {
-                            // Total Locking 20230823
-                            // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
-                            if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
+                            if (gGCUStatus.bAuthCount_EN)
                             {
-                                StopBarrierForSwing(TRUE);
+                                ControlBarrier(BARRIER_OPEN_FOR_EN);
+                            }
+                            else if (gGCUStatus.bAuthCount_EX)
+                            {
+                                ControlBarrier(BARRIER_OPEN_FOR_EX);
                             }
                             else
                             {
-                                StopBarrierForSwing(FALSE);
+                                // Total Locking 20230823
+                                // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
+                                if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
+                                {
+                                    printf(" == Stop Analysis 1 ==  gfAIDetection: %02X \n", gfAIDetection);
+                                    StopBarrierForSwing(TRUE);
+                                }
+                                else
+                                {
+                                    StopBarrierForSwing(FALSE);
+                                }
                             }
                         }
                     }
@@ -416,6 +423,7 @@ void CheckLocking(void)
                 // if (psenNewSwing.side.entry || psenNewSwing.side.exit || gfAIDetection)
                 if (psenNewSwing.dirEntry.passage || psenNewSwing.dirExit.passage || (gfAIDetection & 0x01))
                 {
+                    printf(" == Stop Analysis 2 ==  gfAIDetection: %02X \n", gfAIDetection);
                     StopBarrierForSwing(TRUE);
                 }
                 else
@@ -792,6 +800,7 @@ void CheckCounterEnterTimer(void)
             {
                 if (psenNewSwing.section.enter_EX || psenNewSwing.section.lower_EX)
                 {
+                    printf(" == Stop Analysis 3 ==  gfAIDetection: %02X \n", gfAIDetection);
                     StopBarrierForSwing(TRUE);
                     SetTimer(&timerInverseEnter);
                 }
@@ -806,6 +815,7 @@ void CheckCounterEnterTimer(void)
             {
                 if (psenNewSwing.section.enter_EN || psenNewSwing.section.lower_EN)
                 {
+                    printf(" == Stop Analysis 4 ==  gfAIDetection: %02X \n", gfAIDetection);
                     StopBarrierForSwing(TRUE);
                     SetTimer(&timerInverseEnter);
                 }
