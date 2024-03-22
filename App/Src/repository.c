@@ -26,7 +26,7 @@ bool gfPeopleCount_EN = FALSE;
 bool gfPeopleCount_EX = FALSE;
 
 int gnPassPattern = PASS_PATN_NONE; // pass pattern at safety zone
-int gnSignalCount = 0;
+int gnSignalCount = 1;
 
 DWORD gdwPSensorError = 0;
 DWORD mdwTickPSensorBlock[20] = {0,};

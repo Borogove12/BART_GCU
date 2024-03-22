@@ -12,7 +12,7 @@
 
 #include "global.h"
 /* FW Version String ---------------------------------------------------------*/
-#define GCU_FW_VERSION "1.1.2.21"
+#define GCU_FW_VERSION "1.1.3.15"
 #define TG_TIMER 2		// 2 s
 #define GCU_BAUD		57600
 
@@ -446,7 +446,7 @@ enum
 	AUTH_TYPE_TTL = 1,
 
 	// Timeouts
-	DEFAULT_POWER_FAIL_TIMEOUT = 5, // sec
+	DEFAULT_POWER_FAIL_TIMEOUT = 3, // sec
 	DEFAULT_FDOOR_TIMEOUT_TICK = 3, // sec
 	DEFAULT_AUTH_TIMEOUT = 20,		// sec
 	DEFAULT_EMG_TIMEOUT = 45,		// sec
@@ -487,8 +487,8 @@ enum
 	LUGGAGE_LIMIT_STD = 150,
 	LUGGAGE_LIMIT_WDE = 150, // unit 10 ms
 
-	SAFETY_TIMEOUT_STD = 10,
-	SAFETY_TIMEOUT_WDE = 5,
+	SAFETY_TIMEOUT_STD = 5,
+	SAFETY_TIMEOUT_WDE = 8,
 };
 
 typedef struct {
