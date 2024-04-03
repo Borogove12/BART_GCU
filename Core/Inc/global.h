@@ -171,6 +171,8 @@ extern SPI_HandleTypeDef hspi1;
 #define AT25DF_DEEP_POWER_DOWN      0xB9    // Deep Power-Down
 #define AT25DF_RESUME_POWER_DOWN    0xAB    // Resume from Deep Power-Down
 
+char left_rotate( unsigned char x, int l );
+char ReverseByte(unsigned char byte);
 
 void Buzzer(UINT8 nBuzzerControl);
 #endif

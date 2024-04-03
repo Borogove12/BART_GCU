@@ -360,4 +360,23 @@ DWORD GetTick(void)
 {
 	return gdwTick;
 }
+
+char left_rotate(unsigned char x, int l)
+{
+        return ((x<<l) & 0xff) | ((x>>(8-l)) & 0xff);
+}
+
+char ReverseByte(unsigned char byte)
+{
+    unsigned char x = byte;
+	unsigned char y = 0;
+
+    y = left_rotate(x,4);
+    x = (x & 0xcc) | (y & 0x33);
+    y = left_rotate(x,1);
+    x = left_rotate(y,2);
+    y = (x & 0xaa) | (y & 0x55);
+
+	return y;
+}
 /****END OF FILE****/
