@@ -216,17 +216,21 @@ void SysTick_Handler(void)
         {
             TestAging();
         }
-        else if (gbDipSW & MASK_JIG_TEST) // Command test mode by keyboard
+        else if (gbDipSW & MASK_JIG_TEST) // GCU Jig test
+        {
+        }
+        else if (gbDipSW & MASK_CONSOLE_TEST) // Command test mode by keyboard
         {
             while (IUart_RecvByte_check(COM1, &ch))
             {
                 CMD_Test(ch);
             }
         }
-        else if (!(gbDipSW & (MASK_JIG_TEST + MASK_SELF_TEST)) && (gbDipSW == gbOldDipSW))
+        else if (gbDipSW == gbOldDipSW)
         {
             PassageProcessForSwing();
         }
+        
         gbOldDipSW = gbDipSW;
     }
     /* USER CODE END SysTick_IRQn 1 */

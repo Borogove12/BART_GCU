@@ -26,7 +26,7 @@ enum {	// command code			//WMATA GCU Interface Specification_20200403.doc 참고
 	CMD_AUTHORIZE			= 0x40,
 	CMD_CLEAR_AUTH			= 0x41,
 	CMD_GET_STATUS			= 0x42,
-	CMD_GET_SENSOR_SWITCH	= 0x48,
+	CMD_GET_MEMORY_TEST	= 0x48,
 	CMD_GET_SENSOR_ALARM	= 0x49,
 	CMD_INFORM_ALARM		= 0x50,	
 	CMD_CONTROL_ALL			= 0x60,

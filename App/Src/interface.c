@@ -22,12 +22,14 @@
 
 T_PROTOCOL_FRAME GCUCommand;
 int	gnFrameLen;
+int gnMemoryIndex;
 
 T_PROTOCOL_FRAME	GCUResponse;
 T_PROTOCOL_FRAME	LastHostCMDResponse;
 
-BYTE	gbLastMainSeq;
-BYTE	gbLastHostCMD;
+BYTE gbLastMainSeq;
+BYTE gbLastHostCMD;
+BOOL gfIsMemoryCheck;
 
 BYTE gbHostBaudRate = BAUD_57600;	// default baud rate
 
@@ -35,16 +37,14 @@ int  gnParameterLength = sizeof(T_GCU_PARAMETER);
 
 //extern void UARTxConfig(UART_TypeDef *UARTx, u32 nBaudRate);			pms
 
-
-
 /*******************************************************************************
-* Name:     SetDoorControl
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     SetDoorControl
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void SetDoorControl(BYTE bCMDOption)
 {
 	if (bCMDOption == 0)
@@ -64,8 +64,8 @@ void SetDoorControl(BYTE bCMDOption)
 	{
 		gfFreeMode = TRUE;
 		Brr_OpenBarrier(BARRIER_OPEN_FOR_EX);
-		// ControlBarrier(BARRIER_OPEN_FOR_EX);	
-	}
+        // ControlBarrier(BARRIER_OPEN_FOR_EX);
+    }
 	else if (bCMDOption == 2)
 	{
 		gfFreeMode = TRUE;
@@ -86,39 +86,39 @@ void SetDoorControl(BYTE bCMDOption)
 }
 
 /*******************************************************************************
-* Name:     SendACK
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     SendACK
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void SendACK(void)
 {
 	U3_Putch(ACK);
 }
 
 /*******************************************************************************
-* Name:     SendNAK
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     SendNAK
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void SendNAK(void)
 {
 	U3_Putch(NAK);
 }
 
 /*******************************************************************************
-* Name:     IsCommandNeedResponse
-* Function: 
-* In:       bCMDCode
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     IsCommandNeedResponse
+ * Function:
+ * In:       bCMDCode
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 bool IsCommandNeedResponse(BYTE bCMDCode)
 {
 	int i;
@@ -146,14 +146,14 @@ bool IsCommandNeedResponse(BYTE bCMDCode)
 }
 
 /*******************************************************************************
-* Name:     MakeResponse
-* Function: 
-* In:       pbResOption
-*			nOptionLen
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     MakeResponse
+ * Function:
+ * In:       pbResOption
+ *			nOptionLen
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void MakeResponse(BYTE *pbResOption, int nOptionLen)
 {
 	GCUResponse.d.bMainSeq = GCUCommand.d.bMainSeq;
@@ -171,13 +171,13 @@ void MakeResponse(BYTE *pbResOption, int nOptionLen)
 }
 
 /*******************************************************************************
-* Name:     SendResponse
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     SendResponse
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void SendResponse(void)
 {
 	BYTE	bBCC;
@@ -226,13 +226,13 @@ void SendResponse(void)
 }
 
 /*******************************************************************************
-* Name:     CMDSetGCUOpMode
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDSetGCUOpMode
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDSetGCUOpMode(void)
 {
 	SetNewOpMode((T_GCU_OP_MODE *)GCUCommand.d.mbOptionData);
@@ -240,13 +240,13 @@ void CMDSetGCUOpMode(void)
 }
 
 /*******************************************************************************
-* Name:     CMDGetGCUOpMode
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetGCUOpMode
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetGCUOpMode(void)
 {
 	T_GCU_OP_MODE CurMode;
@@ -256,13 +256,13 @@ void CMDGetGCUOpMode(void)
 }
 
 /*******************************************************************************
-* Name:     CMDSetGCUParameter
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDSetGCUParameter
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDSetGCUParameter(void)
 {
 	gnParameterLength = GCUCommand.d.bDataLen-1;
@@ -272,13 +272,13 @@ void CMDSetGCUParameter(void)
 }
 
 /*******************************************************************************
-* Name:     CMDGetGCUParameter
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetGCUParameter
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetGCUParameter(void)
 {
 	T_GCU_PARAMETER	GurGCUParameter;
@@ -289,13 +289,13 @@ void CMDGetGCUParameter(void)
 }
 
 /*******************************************************************************
-* Name:     CMDGetVersion
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetVersion
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetVersion(void)
 {
 	// Brr_SetSerialComm(TRUE);
@@ -303,13 +303,13 @@ void CMDGetVersion(void)
 }
 
 /*******************************************************************************
-* Name:     CMDSetScadaOut
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDSetScadaOut
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 
 void CMDSetScadaOut(void)
 {
@@ -319,13 +319,13 @@ void CMDSetScadaOut(void)
 }
 
 /*******************************************************************************
-* Name:     CMDResetGCU
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDResetGCU
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 BYTE ResetCMD = 0;
 
 void CMDResetGCU(void)
@@ -339,26 +339,26 @@ void CMDResetGCU(void)
 }
 
 /*******************************************************************************
-* Name:     CMDAuthorizePass
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDAuthorizePass
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDAuthorizePass(void)
 {
 	T_CMD_AUTH_PASS *pcmdAuthPass = (T_CMD_AUTH_PASS*)GCUCommand.d.mbOptionData;
 	T_GCU_AUTH_COUNT resAuthCount;
 
 	if (pcmdAuthPass->bAuthCount == 0)
-	{		
-		printf(" [CMDAuthorizePass] zero count! - A:%d, D:%d \n", pcmdAuthPass->bAuthCount, pcmdAuthPass->bDirection);
+    {
+        printf(" [CMDAuthorizePass] zero count! - A:%d, D:%d \n", pcmdAuthPass->bAuthCount, pcmdAuthPass->bDirection);
 		printf(" [CMDAuthorizePass] org data. - A:%d, D:%d \n", GCUCommand.d.mbOptionData[1], GCUCommand.d.mbOptionData[0]);
 		pcmdAuthPass->bAuthCount = 1;
-	}
+    }
 
-	IncreaseAuthCount(pcmdAuthPass->bDirection);
+    IncreaseAuthCount(pcmdAuthPass->bDirection);
 
 	if (pcmdAuthPass->bDirection == FROM_ENTRY)
 	{
@@ -376,13 +376,13 @@ void CMDAuthorizePass(void)
 }
 
 /*******************************************************************************
-* Name:     CMDClearAuthorization
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDClearAuthorization
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDClearAuthorization(void)
 {
 	T_GCU_AUTH_COUNT resAuthCount;
@@ -394,52 +394,67 @@ void CMDClearAuthorization(void)
 }
 
 /*******************************************************************************
-* Name:     CMDGetStatus
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetStatus
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetStatus(void)
 {
 	T_GCU_STATUS_RES GurStatus;
     T_CMD_SAFETY_STOP *pcmdSafetyStop = (T_CMD_SAFETY_STOP *)GCUCommand.d.mbOptionData;
 	gfAIDetection = pcmdSafetyStop->bSafety;
-    
-	GetGCUStatus(&GurStatus);
+
+    GetGCUStatus(&GurStatus);
 
 	MakeResponse((BYTE*)&GurStatus, sizeof(T_GCU_STATUS_RES));
 }
 
 /*******************************************************************************
-* Name:     CMDGetSensorSwitch
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
-void CMDGetSensorSwitch(void)
+ * Name:     CMDGetMemoryTest
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
+void CMDGetMemoryTest(void)
 {
-	// not used
+    T_CMD_MEMORY_TEST *pcmdMemoryTest = (T_CMD_MEMORY_TEST *)GCUCommand.d.mbOptionData;
+    BYTE result;
+
+    // Flash Memory Read
+    Test_SpiFlash_Write(pcmdMemoryTest->bIndex);
+
+    if (Test_SpiFlash_Read(pcmdMemoryTest->bIndex) != 0)
+    {
+        result = pcmdMemoryTest->bIndex;
+    }
+    else
+    {
+        result = 0xff;
+    }
+
+    MakeResponse(&result, sizeof(result));
 }
 
 /*******************************************************************************
-* Name:     CMDControlAllLED
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDControlAllLED
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDControlAllLED(void)
 {
 	T_CMD_CONTROL_ALL_LED *pcmdControlAll = (T_CMD_CONTROL_ALL_LED *)GCUCommand.d.mbOptionData;
 
 	// printf(" CMDControlAllLED = %d/%d/%d/%d/%d/%d \n", pcmdControlAll->bLamp_EN, pcmdControlAll->bLamp_EX, pcmdControlAll->bOverhead_EN, pcmdControlAll->bOverhead_EX, pcmdControlAll->bIndicator_EN, pcmdControlAll->bIndicator_EX);
-	
-	if (pcmdControlAll->test_flag == SET)
+
+    if (pcmdControlAll->test_flag == SET)
 	{
 		ControlStatusLED(pcmdControlAll->bLamp_EN, pcmdControlAll->bLamp_EX);
 		ControlOverheadDisplay(pcmdControlAll->bOverhead_EN, pcmdControlAll->bOverhead_EX);
@@ -453,40 +468,40 @@ void CMDControlAllLED(void)
 }
 
 /*******************************************************************************
-* Name:     CMDControlBarrier
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDControlBarrier
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDControlBarrier(void)
 {
 	SetDoorControl(GCUCommand.d.mbOptionData[0]);
 }
 
 /*******************************************************************************
-* Name:     CMDControlIndicator
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDControlIndicator
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDControlIndicator(void)
 {
 	T_CMD_CONTROL_INDICATOR *pcmdIndicator = (T_CMD_CONTROL_INDICATOR *)GCUCommand.d.mbOptionData;
-	ControlIndicator4Test(pcmdIndicator->bIndicator_EN, pcmdIndicator->bIndicator_EX);	
+    ControlIndicator4Test(pcmdIndicator->bIndicator_EN, pcmdIndicator->bIndicator_EX);
 }
 
 /*******************************************************************************
-* Name:     CMDControlLamp
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDControlLamp
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDControlLamp(void)
 {
 	T_CMD_CONTROL_LAMP *pcmdLamp = (T_CMD_CONTROL_LAMP *)GCUCommand.d.mbOptionData;
@@ -494,13 +509,13 @@ void CMDControlLamp(void)
 }
 
 /*******************************************************************************
-* Name:     CMDControlBuzzer
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDControlBuzzer
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDControlBuzzer(void)
 {
 	T_CMD_CONTROL_BUZZER *pcmdBuzzer = (T_CMD_CONTROL_BUZZER *)GCUCommand.d.mbOptionData;
@@ -513,17 +528,17 @@ void CMDControlBuzzer(void)
 	else
 	{
 		ControlBuzzer(pcmdBuzzer->bBuzzerControl, pcmdBuzzer->bBuzzerDuration);
-	}	
+    }
 }
 
 /*******************************************************************************
-* Name:     CMDSafetyStop
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDSafetyStop
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDSafetyStop(void)
 {
 	T_CMD_SAFETY_STOP *pcmdSafetyStop = (T_CMD_SAFETY_STOP *)GCUCommand.d.mbOptionData;
@@ -542,17 +557,18 @@ void CMDSafetyStop(void)
 #define BIT_EX_BUZZ		BIT4
 
 /*******************************************************************************
-* Name:     CMDWriteRegister
-* Function: 
-* In:       None
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDWriteRegister
+ * Function:
+ * In:       None
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 
 void CMDWriteRegister(void)
 {
-	BYTE	*pbControl = (BYTE *)GCUCommand.d.mbOptionData;
+    int index = 0;
+    BYTE	*pbControl = (BYTE *)GCUCommand.d.mbOptionData;
 	BYTE	dwPrimaryLEDValue 		= 0;
 	BYTE	dwSecondaryLEDValue 	= 0;
 	BYTE	dwBarrierValue 			= 0;
@@ -560,17 +576,17 @@ void CMDWriteRegister(void)
 	BYTE	dwUPSCHKValue 			= 0;
 	BYTE	dwUPSSHDNKValue 		= 0;
 
-	printf("pbControl[0] = [%d] \n",pbControl[0]);      //Barrier, S_EMG = [0x80], S_DIR = [0x40], S_BRAKE = [0x20], S_OPEN = [0x10], P_EMG = [0x08], P_DIR = [0x04], P_BRAKE = [0x02], P_OPEN = [0x01]
-	printf("pbControl[1] = [%d] \n",pbControl[1]);		//SCADA OUT, NXO = [0x8], TDO = [0x4], EBO = [0x2], OOS = [0x1]
-	printf("pbControl[2] = [%d] \n",pbControl[2]);
-	printf("pbControl[3] = [%d] \n",pbControl[3]);		//jig master dir green = [0x4], red = [0x2], yellow = [0x1]
-	printf("pbControl[4] = [%d] \n",pbControl[4]);		//jig slave dir green = [0x4], red = [0x2], yellow = [0x1]
-	printf("pbControl[5] = [%d] \n",pbControl[5]);
-	printf("pbControl[6] = [%d] \n",pbControl[6]);		//jig master alm green = [0x4], blue = [0x2], red = [0x1]
-	printf("pbControl[7] = [%d] \n",pbControl[7]);		//jig slave alm green = [0x4], blue = [0x2], red = [0x1]
-	printf("pbControl[8] = [%d] \n",pbControl[8]);		//default 0x33 SHDN button 0x01 CHK 0x02 reverse
+    // printf("pbControl[0] = [%d] \n",pbControl[0]);       //Barrier, S_EMG = [0x80], S_DIR = [0x40], S_BRAKE = [0x20], S_OPEN = [0x10], P_EMG = [0x08], P_DIR = [0x04], P_BRAKE = [0x02], P_OPEN = [0x01]
+    // printf("pbControl[1] = [%d] \n",pbControl[1]);	    //SCADA OUT, NXO = [0x8], TDO = [0x4], EBO = [0x2], OOS = [0x1]
+    // printf("pbControl[2] = [%d] \n",pbControl[2]);       //Flash memory test
+    // printf("pbControl[3] = [%d] \n",pbControl[3]);		//jig master dir green = [0x4], red = [0x2], yellow = [0x1]
+    // printf("pbControl[4] = [%d] \n",pbControl[4]);		//jig slave dir green = [0x4], red = [0x2], yellow = [0x1]
+    // printf("pbControl[5] = [%d] \n",pbControl[5]);
+    // printf("pbControl[6] = [%d] \n",pbControl[6]);		//jig master alm green = [0x4], blue = [0x2], red = [0x1]
+    // printf("pbControl[7] = [%d] \n",pbControl[7]);		//jig slave alm green = [0x4], blue = [0x2], red = [0x1]
+    // printf("pbControl[8] = [%d] \n",pbControl[8]);		//default 0x33 SHDN button 0x01 CHK 0x02 reverse
 
-	// Barrier - Primary
+    // Barrier - Primary
 	dwBarrierValue =  (pbControl[0] & 0x01)? 0x01: 0x00;			// output Primary Barrier - Open/Close
 	dwBarrierValue |= (pbControl[0] & 0x02)? 0x02: 0x00;			// output Primary Barrier - Emg(Free)
 	dwBarrierValue |= (pbControl[0] & 0x04)? 0x04: 0x00;			// output Primary Barrier - Direction
@@ -581,8 +597,8 @@ void CMDWriteRegister(void)
 	dwBarrierValue |= (pbControl[0] & 0x20)? 0x20: 0x00;			// output Secondary Barrier - Emg(Free)
 	dwBarrierValue |= (pbControl[0] & 0x40)? 0x40: 0x00;			// output Secondary Barrier - Direction
 	dwBarrierValue |= (pbControl[0] & 0x80)? 0x80: 0x00;			// output Secondary Barrier - Brake(Stop)
-	
-	outb(WRITE02_ADR, dwBarrierValue);
+
+    outb(WRITE02_ADR, dwBarrierValue);
 
 	// SCADA
 	dwScadaValue =  (pbControl[1] & 0x01)? 0x01: 0x00;				// output SCADA - OOS
@@ -610,8 +626,7 @@ void CMDWriteRegister(void)
 
 	outb(WRITE00_ADR, dwPrimaryLEDValue);
 
-
-	// Indicator Light - Primary
+    // Indicator Light - Primary
 	dwSecondaryLEDValue  = (pbControl[6] & 0x01)? 0x01: 0x00;			//red
 	dwSecondaryLEDValue |= (pbControl[6] & 0x04)? 0x02: 0x00;			//green
 	dwSecondaryLEDValue |= (pbControl[6] & 0x02)? 0x04: 0x00;			//blue
@@ -621,12 +636,10 @@ void CMDWriteRegister(void)
 	dwSecondaryLEDValue |= (pbControl[7] & 0x04)? 0x20: 0x00;		//green
 	dwSecondaryLEDValue |= (pbControl[7] & 0x02)? 0x40: 0x00;		//blue
 
+    // Write Register
+    outb(WRITE01_ADR, dwSecondaryLEDValue);
 
-	// Write Register
-
-	outb(WRITE01_ADR, dwSecondaryLEDValue);	
-
-	if (pbControl[8] == 0x33)
+    if (pbControl[8] == 0x33)
 	{
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, GPIO_PIN_SET);
@@ -637,48 +650,45 @@ void CMDWriteRegister(void)
 		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_CHK_Pin, dwUPSCHKValue);
 
 		dwUPSSHDNKValue = (pbControl[8] & 0x01)? 0x00: 0x01;
-		HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
+        HAL_GPIO_WritePin(nUPS_GPIO_Port, UPS_SHDN_Pin, dwUPSSHDNKValue);
+    }
 
-	}
-
-	//pbControl[5] =  0;						// Control dummy direction display (WMATA not used)
-	//pbControl[8] => UPS Shuddown On [0x00], UPS Shuddown Off [0x01] / UPS Check On [0x02], UPS Check Off [0x00] 
-	//pbControl[8] =  0;						// UPS Command - BART도 UPS I/F 사용 (Out: 2EA) - 현재 SHDN 1EA만 구현되어 있으나 CHK신호 추가예정 -> Jig Program 에서는 UPS Write 시그널 줌. 20231002 by Joseph
-
-	if (pbControl[10])	
-		BuzzerOn();			//buzzer 한개만 사용
-	else										
-		BuzzerOff();
+    if (pbControl[10])
+        BuzzerOn(); // buzzer 한개만 사용
+    else
+        BuzzerOff();
 }
 
-#define MAX_READ_REG	11
+#define MAX_READ_REG 15
 
 /*******************************************************************************
-* Name:     CMDReadRegister
-* Function: 
-* In:       None
-* Out:      Values of current register
-* Return:   void
-* comments: 
-*******************************************************************************/
-void CMDReadRegister(void)			//pms		이 함수 모두 확인 필요
+ * Name:     CMDReadRegister
+ * Function:
+ * In:       None
+ * Out:      Values of current register
+ * Return:   void
+ * comments:
+ *******************************************************************************/
+void CMDReadRegister(void)
 {
-	BYTE	mbReadData[MAX_READ_REG];			//0 ~ 10 = Total 11 0x6400000B 까지 read
-	DWORD	dwSpareSenserValue  = 0;
+    int index = 0;
+    BYTE bUART = 0;
+    BYTE mbReadData[MAX_READ_REG]; // 0 ~ 10, 0x6400000B 까지 read, 11~14 는 UART
+    DWORD	dwSpareSenserValue  = 0;
 	DWORD	dwUPSValue = 0;
 
 	dwUPSValue = (HAL_GPIO_ReadPin(nUPS_GPIO_Port,nUPS_CONN_Pin))? 0x01: 0x00;			// Connection Failure, High active //stm32L496 적용 보드에서는 conn이 없었음
 	dwUPSValue |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port,nUPS_PWR_FAIL_Pin))? 0x02: 0x00;		// Power Failure, Low active
 	dwUPSValue |= (HAL_GPIO_ReadPin(nUPS_GPIO_Port,nUPS_LOW_BAT_Pin))? 0x04: 0x00;		// Low battery, Low active
 
-	// BART 에서는 Passenger sensor 01 ~ 16(2 bytes) 만 사용
-	dwSpareSenserValue = (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN1_Pin))? 0x01: 0x00;  	// Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기)
+    // BART 에서는 Passenger sensor 01 ~ 16(2 bytes)
+    dwSpareSenserValue = (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN1_Pin))? 0x01: 0x00;  	// Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기)
 	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN2_Pin))? 0x02: 0x00;
 
 	mbReadData[0] =  RD_SWITCH & 0x0F;			// Door/Module switch 1 - BART는 Door Switch 1~4만 사용, High - detected, Low - not detected
 	mbReadData[1] =  (RD_SWITCH >> 4) & 0x0F;	// Door/Module switch 2 - BART는 Door Switch 5~8만 사용, High - detected, Low - not detected
-	mbReadData[2] =  0;							// Token capture unit sensor - Token box 없음
-	mbReadData[3] =  (*(BYTE*)READ00_ADR);		// Passenger sensor 1 - BART는 Passenger sensor 1~8사용, High - detected, Low - not detected
+    mbReadData[2] = ReadDipSwitch();            // Dipswitch
+    mbReadData[3] =  (*(BYTE*)READ00_ADR);		// Passenger sensor 1 - BART는 Passenger sensor 1~8사용, High - detected, Low - not detected
 	mbReadData[4] =  (*(BYTE*)READ01_ADR);		// Passenger sensor 2 - BART는 Passenger sensor 9~16사용(회로상엔 11~18로 표기) -> 회로상에도 9~16으로 표기 바랍니다 20230927 by Joseph, High - detected, Low - not detected
 	mbReadData[5] =  dwSpareSenserValue;		// Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기) -> 회로상에도 스페어는 17,18 로 표기 바랍니다 20230927 by Joseph
 												// add - jig test에서는 17 18 할당 -> JIG 에서는 17,18 sensor 체크는 뺄 예정입니다. 20230927 by Joseph
@@ -686,19 +696,60 @@ void CMDReadRegister(void)			//pms		이 함수 모두 확인 필요
 	mbReadData[7] =  (*(BYTE*)READ04_ADR);		// Barrier status, High active (S_Brake:S_Abnormal:S_Fault:S_Position:P_Brake:P_Abnormal:P_Fault:P_Position)
 	mbReadData[8] =  (*(BYTE*)READ03_ADR);		// SCADA, High active
 	mbReadData[9] =  IsEMGSignalOn();			// External IRQ source  - 인터럽트 신호 BART에서 사용여부는 첨부 GCU_IO Specification 참조 -> EBO (Emergency) Signal 값으로 변경. 20231002 by Joseph
-	mbReadData[10] =  dwUPSValue;				// UPS Status - BART도 UPS I/F 사용 (In: 3EA) 
+    mbReadData[10] = dwUPSValue;                // UPS Status - BART도 UPS I/F 사용 (In: 3EA)
 
-	MakeResponse(mbReadData, sizeof(mbReadData));
+    // UART Test. UART3 does not need to test because it is for the ECU communication.
+    IUart_SendByte(COM1, 0x07);
+    if (TRUE == IUart_RecvByte_check(COM1, &bUART))
+    {
+        mbReadData[11] = bUART;
+    }
+    else
+    {
+        mbReadData[11] = 0x00;
+    }
+
+    IUart_SendByte(COM2, 0x07);
+    if (TRUE == IUart_RecvByte_check(COM2, &bUART))
+    {
+        mbReadData[12] = bUART;
+    }
+    else
+    {
+        mbReadData[12] = 0x00;
+    }
+
+    IUart_SendByte(COM4, 0x07);
+    if (TRUE == IUart_RecvByte_check(COM4, &bUART))
+    {
+        mbReadData[13] = bUART;
+    }
+    else
+    {
+        mbReadData[13] = 0x00;
+    }
+
+    IUart_SendByte(COM5, 0x07);
+    if (TRUE == IUart_RecvByte_check(COM5, &bUART))
+    {
+        mbReadData[14] = bUART;
+    }
+    else
+    {
+        mbReadData[14] = 0x00;
+    }
+
+    MakeResponse(mbReadData, sizeof(mbReadData));
 }
 
 /*******************************************************************************
-* Name:     CMDGetCPLDVersion
-* Function: 
-* In:       None
-* Out:      Current CPLD version
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetCPLDVersion
+ * Function:
+ * In:       None
+ * Out:      Current CPLD version
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetCPLDVersion(void)
 {
 	BYTE	bCPLDVersion = 0;
@@ -707,13 +758,13 @@ void CMDGetCPLDVersion(void)
 }
 
 /*******************************************************************************
-* Name:     CMDGetDipSwitch
-* Function: 
-* In:       None
-* Out:      Value of current dip switch 
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetDipSwitch
+ * Function:
+ * In:       None
+ * Out:      Value of current dip switch
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetDipSwitch(void)
 {
 	BYTE dipSwitch = ReadDipSwitch();
@@ -722,21 +773,21 @@ void CMDGetDipSwitch(void)
 }
 
 /*******************************************************************************
-* Name:     CMDSetUPSCommand
-* Function: 
-* In:       Command
-* Out:      None
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDSetUPSCommand
+ * Function:
+ * In:       Command
+ * Out:      None
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDSetUPSCommand(void)
 {
 	// Set UPS command
 	BYTE bUPSCommand = GCUCommand.d.mbOptionData[0];
 
-	printf(" [CMDSetUPSCommand] %d \n", bUPSCommand);	
+    printf(" [CMDSetUPSCommand] %d \n", bUPSCommand);
 
-	switch (bUPSCommand)
+    switch (bUPSCommand)
 	{
 	case UPS_CMD_CHECK_ON:
 		ControlUPS_CheckOn();
@@ -744,8 +795,8 @@ void CMDSetUPSCommand(void)
 		break;
 	case UPS_CMD_SHUTDOWN:
 		ControlUPS_ShutDownOn();
-		break;	
-	default:
+        break;
+    default:
 		ControlUPS_CheckOn();
 		ControlUPS_ShutDownOff();
 		break;
@@ -753,13 +804,13 @@ void CMDSetUPSCommand(void)
 }
 
 /*******************************************************************************
-* Name:     CMDGetUPSStatus
-* Function: 
-* In:       None
-* Out:      Current UPS Status
-* Return:   void
-* comments: 
-*******************************************************************************/
+ * Name:     CMDGetUPSStatus
+ * Function:
+ * In:       None
+ * Out:      Current UPS Status
+ * Return:   void
+ * comments:
+ *******************************************************************************/
 void CMDGetUPSStatus(void)
 {
 	BYTE bUPSStatus = 0;
@@ -907,10 +958,10 @@ int ProcessCommand(void)
 				return ERR_OLD_SEQUENCE;
 			}
 		}
-		// except above case, process the command from Host 
-	}
-	
-	SendACK();
+        // except above case, process the command from Host
+    }
+
+    SendACK();
 
 	gbLastHostCMD = GCUCommand.d.bCmdCode;
 
@@ -926,7 +977,7 @@ int ProcessCommand(void)
 	case CMD_AUTHORIZE:			CMDAuthorizePass();		break;
 	case CMD_CLEAR_AUTH:		CMDClearAuthorization();break;
 	case CMD_GET_STATUS:		CMDGetStatus();			break;
-	case CMD_GET_SENSOR_SWITCH:	CMDGetSensorSwitch();	break;
+	case CMD_GET_MEMORY_TEST:	CMDGetMemoryTest(); 	break;
 	case CMD_CONTROL_ALL:		CMDControlAllLED();		break;
 	case CMD_CONTROL_DOOR:		CMDControlBarrier();	break;
 	case CMD_CONTROL_LAMP:		CMDControlLamp();		break;
