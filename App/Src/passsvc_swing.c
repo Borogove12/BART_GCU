@@ -750,7 +750,7 @@ bool CheckPassOverSensor(void)
     {
         if (isPassOver_EN)
         {
-            if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
+            if (psenNewSwing.b.s09)
             {
                 printf(" [EN] Check PassOver - WIDE\n");
                 return TRUE;
@@ -758,7 +758,7 @@ bool CheckPassOverSensor(void)
         }
         else if (isPassOver_EX)
         {
-            if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
+            if (psenNewSwing.b.s01)
             {
                 printf(" [EX] Check PassOver - WIDE\n");
                 return TRUE;
@@ -769,7 +769,7 @@ bool CheckPassOverSensor(void)
     {
         if (isPassOver_EN)
         {
-            if (psenNewSwing.b.s09 && psenNewSwing.b.s10)
+            if (psenNewSwing.b.s09 || psenNewSwing.b.s10)
             {
                 printf(" [EN] Check PassOver - STANDARD\n");
                 return TRUE;
@@ -777,7 +777,7 @@ bool CheckPassOverSensor(void)
         }
         else if (isPassOver_EX)
         {
-            if (psenNewSwing.b.s01 && psenNewSwing.b.s02)
+            if (psenNewSwing.b.s01 || psenNewSwing.b.s02)
             {
                 printf(" [EX] Check PassOver - STANDARD\n");
                 return TRUE;
