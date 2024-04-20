@@ -5,6 +5,7 @@
 
 #define AT25DF_STATUS_DONE_MASK     0x01
 
+DWORD gAddress;
 DWORD g_FlashId;
 
 static BYTE s_BlockBuf[BLOCKSIZ];
@@ -543,7 +544,6 @@ void SpiFlash_WritePage(DWORD addr, BYTE* Buf, UINT nLen)
 //    }
 }
 
-
 void Test_SpiFlash(void)
 {
     BYTE    PageBuf[PAGESIZ];
@@ -558,21 +558,23 @@ void Test_SpiFlash(void)
         PageBuf[n] = 0xFF - n;
     }
 
-    for (BlockNo = 0; BlockNo < 1; BlockNo++)
+    // 4096 * 2048 = 8 Mb
+    for (BlockNo = 0; BlockNo < BLOCKS_PER_BANK; BlockNo++)
     {
-        for (PageNo = 0; PageNo < 16; PageNo++)
+        // 256 * 16 = 4 Kb
+        for (PageNo = 0; PageNo < PAGES_PER_BLOCK; PageNo++)
         {
             PageBuf[0] = BlockNo + 1;
             PageBuf[1] = PageNo + 1;
             memcpy(&wBlockBuf[PageNo*PAGESIZ], PageBuf, PAGESIZ);
         }
-        //SpiFlash_WriteBuffer(Addr, wBlockBuf, BLOCKSIZ);
+        SpiFlash_WriteBuffer(Addr, wBlockBuf, BLOCKSIZ);
         Addr += BLOCKSIZ;
     }
 
     SpiFlash_Ready(100);
     Addr = 0x00;
-    for (BlockNo = 0; BlockNo < 10; BlockNo++)
+    for (BlockNo = 0; BlockNo < BLOCKS_PER_BANK; BlockNo++)
     {
         SpiFlash_ReadBuffer(Addr, rBlockBuf, BLOCKSIZ);
         printf("Addr : %08lX\n", Addr);
@@ -585,8 +587,54 @@ void Test_SpiFlash(void)
         printf("\n");
         Addr += BLOCKSIZ;
     }
-
 }
 
+void Test_SpiFlash_Write(BYTE index)
+{
+    BYTE wBlockBuf[BLOCKSIZ];
+    DWORD BlockNo, PageNo, Addr = 0x00;
 
+    for (int n = 0; n < BLOCKSIZ; n++)
+    {
+        wBlockBuf[n] = 0x07;
+    }
 
+    // 64 * 32 = 2048
+    gAddress = index * BLOCKS_FOR_TESTING;
+
+    for (BlockNo = 0; BlockNo < BLOCKS_FOR_TESTING; BlockNo++)
+    {
+        SpiFlash_WriteBuffer(gAddress, wBlockBuf, BLOCKSIZ);
+        gAddress += BLOCKSIZ;
+    }
+
+    SpiFlash_Ready(100);
+}
+
+int Test_SpiFlash_Read(BYTE index)
+{
+    BYTE rBlockBuf[BLOCKSIZ];
+    BYTE wBlockBuf[BLOCKSIZ];
+    DWORD BlockNo, PageNo, Addr = 0x00;
+
+    for (int n = 0; n < BLOCKSIZ; n++)
+    {
+        wBlockBuf[n] = 0x07;
+    }
+
+    gAddress = index * BLOCKS_FOR_TESTING;
+
+    for (BlockNo = 0; BlockNo < BLOCKS_FOR_TESTING; BlockNo++)
+    {
+        SpiFlash_ReadBuffer(gAddress, rBlockBuf, BLOCKSIZ);
+
+        if (memcmp(&wBlockBuf, &rBlockBuf, BLOCKSIZ) != 0)
+        {
+            return index;
+        }
+
+        gAddress += BLOCKSIZ;
+    }
+
+    return 0;
+}

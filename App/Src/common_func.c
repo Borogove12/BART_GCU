@@ -107,10 +107,10 @@ void SetDefaultStatus(void)
     gGCUStatus.bAuthCount_EN = 0;
     gGCUStatus.bAuthCount_EX = 0;
     gGCUStatus.PassageAlarm.bAlarm = 0;
-    gGCUStatus.ModuleAlarm.bAlarm = 0;
-    gGCUStatus.bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR); // door mask 0xff
+    gGCUStatus.ModuleAlarm.bAlarm = 0;   
     gGCUStatus.bUPSStatus = 0x06;
     gGCUStatus.bDoorForcedOpen = OFF;
+    gGCUStatus.bMaintenanceDoorSw = RD_SWITCH;
 }
 
 void ApplyStatusMode(void)
@@ -217,16 +217,16 @@ void GetGCUStatus(T_GCU_STATUS_RES *pCurStatus)
     pCurStatus->bModuleAlarm = gGCUStatus.ModuleAlarm.bAlarm;
     pCurStatus->bBarrierSw = gGCUStatus.bBarrierSw;
 
-    // TODO: Temp logic. Should be rollbacked 20231205
-    if (dip_sw() & 0x80)
+    // Reverse door switch for irregular type.
+    if(dip_sw() & 0x80)
     {
-        // Ignore door switch #7
-        pCurStatus->bMaintenanceDoorSw = (RD_SWITCH & 0xBF) + 0x40;
+        pCurStatus->bMaintenanceDoorSw = ReverseByte(RD_SWITCH);
     }
     else
     {
-        pCurStatus->bMaintenanceDoorSw = (RD_SWITCH & MASK_SDOOR);
+        pCurStatus->bMaintenanceDoorSw = RD_SWITCH;
     }
+
     pCurStatus->bUPSStatus = gGCUStatus.bUPSStatus;
     pCurStatus->bSafetySen = gGCUStatus.bSafetyDetection;
     pCurStatus->bSCADA = gGCUStatus.bSCADA;

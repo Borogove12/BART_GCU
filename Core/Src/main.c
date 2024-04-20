@@ -165,9 +165,15 @@ void GCUInitialize(void)
 
 inline void SerialProcess(void)
 {
+    BYTE bDipSw;
 	for (;;)
-	{
-		ProcessComm_Barrier();
+	{   
+        bDipSw = dip_sw();
+
+        if (!(bDipSw & MASK_JIG_TEST)) // GCU Jig test
+        {
+    		ProcessComm_Barrier();
+        }
 		ProcessComm_ECU();
 	}
 }

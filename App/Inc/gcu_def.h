@@ -12,7 +12,7 @@
 
 #include "global.h"
 /* FW Version String ---------------------------------------------------------*/
-#define GCU_FW_VERSION "1.1.3.15"
+#define GCU_FW_VERSION "1.1.4.13"
 #define TG_TIMER 2		// 2 s
 #define GCU_BAUD		57600
 
@@ -274,12 +274,11 @@ enum
 #define ReadDipSwitch()		(BYTE)((GPIOB->IDR)^0xff) & 0xff
 
 enum {
-	MASK_NOMAL_MODE		= 0X00,					//add 		pms
-	MASK_TEST_CAPTURE	= 0xC0,
-	MASK_EMG_SIGNAL     = 0x08,				//origin
-	MASK_SWING_MODE     = 0xC0, // 1100 0000
+	MASK_NOMAL_MODE		= 0X00,
+	MASK_JIG_TEST	    = 0x01,
+	MASK_EMG_SIGNAL     = 0x08,
 	MASK_SELF_TEST      = 0x36, // 0011 0110
-	MASK_JIG_TEST	    = 0x01
+	MASK_CONSOLE_TEST   = 0x40  // 0100 0000
 };
 
 #define LED_BUZZ_ON		1
@@ -749,6 +748,10 @@ typedef struct {
 	BYTE	bDuration;		// 0 (Permanent) ~ 255 (unit: 0.1sec)
 	BYTE	bTokenPath;		// TOKEN_PATH_NONE, TOKEN_PATH_BOX1, TOKEN_PATH_BOX2, TOKEN_PATH_RETURN
 } T_CMD_DSP_ALARM;
+
+typedef struct {
+	BYTE bIndex;
+} T_CMD_MEMORY_TEST;
 
 #endif // __GCU_DEF_H
 /*****END OF FILE****/

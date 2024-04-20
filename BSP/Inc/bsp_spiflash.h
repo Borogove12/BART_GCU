@@ -18,6 +18,7 @@
 #include "bsp_types.h"
 
 #define BANKSIZ             0x800000    /* 8,388,608(8M)Bytes(BLOCKSIZ x BLOCKS_PER_BANK) */
+#define BLOCKS_FOR_TESTING  64         /* Memory Test Block No */
 #define BLOCKS_PER_BANK     2048        /* Block No */
 #define BLOCKSIZ            0x1000      /* 4096(4K)Bytes (PAGESIZ x PAGES_PER_BLOCK) Erase Unit */
 #define PAGES_PER_BLOCK     16
@@ -99,6 +100,8 @@ BOOL SpiFlash_Init(void);
 BOOL bsp_InitSpiFlash(void);
 
 void Test_SpiFlash(void);
+void Test_SpiFlash_Write(BYTE index);
+int Test_SpiFlash_Read(BYTE index);
 
 #ifdef __cplusplus
 }
