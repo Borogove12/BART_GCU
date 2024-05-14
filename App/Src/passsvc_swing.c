@@ -228,6 +228,9 @@ void OpenBarrierForSwing(BYTE bDir)
 {
     BYTE barrierBrake = (*(BYTE *)READ04_ADR) & BRR_STAT_BRAKE_MASK;
 
+    // To clear the barrier close flag
+    isSentClose = FALSE;
+
     if (barrierBrake)
     {
         StopBarrierForSwing(FALSE);
@@ -975,11 +978,12 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (!(gfAIDetection & 0x04))
                             {
+                                printf(" [EN] Safety Activation 2 [%02X] \n", gfAIDetection);
+
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
                                 CloseBarrierForSwing();
@@ -997,11 +1001,12 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (!(gfAIDetection & 0x04))
                             {
+                                printf(" [EN] Safety Activation 2 [%02X] \n", gfAIDetection);
+
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
                                 CloseBarrierForSwing();
@@ -1024,11 +1029,12 @@ void CheckSafetyTimerForSwing(void)
                             SetTimer(&timerBarrierStop);
                             isSafetyOn = TRUE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (!(gfAIDetection & 0x02))
                             {
+                                printf(" [EX] Safety Activation 2 [%02X] \n", gfAIDetection);
+
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
                                 CloseBarrierForSwing();
@@ -1047,11 +1053,12 @@ void CheckSafetyTimerForSwing(void)
                             isSafetyOn = TRUE;
                             isSentClose = FALSE;
                         }
-                        // else if (!(gfAIDetection & 0x01) && isSentClose == FALSE)
                         else if (isSentClose == FALSE)
                         {
-                            // if (gfisAuthTimeout == FALSE || !(gfAIDetection & 0x10))
+                            if (!(gfAIDetection & 0x02))
                             {
+                                printf(" [EX] Safety Activation 2 [%02X] \n", gfAIDetection);
+
                                 gGCUStatus.bSafetyDetection = FLG_OFF;
                                 isSentClose = TRUE;
                                 CloseBarrierForSwing();
