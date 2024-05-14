@@ -460,7 +460,7 @@ void CMDControlAllLED(void)
 	}
 	else
 	{
-		ControlDirectionLED(pcmdControlAll->bLamp_EN, pcmdControlAll->bLamp_EN);
+		ControlDirectionLED(pcmdControlAll->bLamp_EN, pcmdControlAll->bLamp_EX);
 		ControlIndicator(pcmdControlAll->bIndicator_EN, pcmdControlAll->bIndicator_EX, 0, FALSE);
 	}
 }
