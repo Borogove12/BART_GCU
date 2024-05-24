@@ -683,8 +683,8 @@ void CMDReadRegister(void)
     // BART 에서는 Passenger sensor 01 ~ 16(2 bytes)
     dwSpareSenserValue = (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN1_Pin))? 0x01: 0x00;  	// Passenger sensor 3 - BART는 Passenger sensor 17, 18는 Spare로 GPIO 별도 할당(회로상엔 9, 19로 표기)
 	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SEN2_Pin))? 0x02: 0x00;
-	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SW1_Pin))? 0x04: 0x00;
-	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SEN_GPIO_Port,SP_SW2_Pin))? 0x08: 0x00;
+	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SW_GPIO_Port,SP_SW1_Pin))? 0x04: 0x00;
+	dwSpareSenserValue |= (HAL_GPIO_ReadPin(SP_SW_GPIO_Port,SP_SW2_Pin))? 0x08: 0x00;
 
 	mbReadData[0] =  RD_SWITCH & 0x0F;			// Door/Module switch 1 - BART는 Door Switch 1~4만 사용, High - detected, Low - not detected
 	mbReadData[1] =  (RD_SWITCH >> 4) & 0x0F;	// Door/Module switch 2 - BART는 Door Switch 5~8만 사용, High - detected, Low - not detected
